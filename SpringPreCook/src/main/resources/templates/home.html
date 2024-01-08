@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>食材の下処理</title>
+</head>
+
+<body>
+	<div th:insert="~{common/sourceList :: sourceList}"></div>
+	<div th:replace="~{common/header :: header}"></div>
+	<h2>HOME</h2>
+	<!--	<search>-->
+	<!--		<form th:action="@{/precook}" method="post" th:object="itemCategoryForm">-->
+	<!--			<input type="search" placeholder="食材で検索" />-->
+	<!--			<button type="submit">検索</button>-->
+	<!--		</form>-->
+	<!--	</search>-->
+	<nav>
+		<ul>
+			<li><a th:href="@{/login}">ログイン</a></li>
+			<li><a th:href="@{/signup}">会員登録</a></li>
+		</ul>
+		<ul>
+			<li><a th:href="@{/posting}">投稿する</a></li>
+		</ul>
+	</nav>
+	<div th:each="item : ${itemCategoryInfos}">
+		<ul>
+			<li>
+				<a href="#">野菜</a><a th:href="@{/precook/__${item.itemName}__}">
+					<span th:text="${item.itemName}"></span>
+					<img src="#">
+					<span th:text="${item.itemGenre}"></span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</body>
+
+</html>

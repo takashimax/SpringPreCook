@@ -16,6 +16,8 @@ public class ViewNameConst {
 
 	/** メニュー画面 */
 	public static final String MENU = "menu";
+	
+	public static final String HOME = "home";
 
 	/** ユーザー一覧画面 */
 	public static final String USER_LIST = "userList";

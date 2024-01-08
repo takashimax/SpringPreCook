@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<table>
+		<tr th:object="${itemCategoryOpt}">
+			<h1 th:text="${itemName} + 'のしたごしらえ'"></h1>
+		</tr>
+	</table>
+	<section th:text="${itemId}"></section>
+	<tr th:each="item : ${itemDetailList}" th:object="${item}">
+		<td th:text="*{detailId}"></td>
+		<td th:text="*{imageUrl}"></td>
+		<td th:text="*{itineraryOrder}"></td>
+		<td th:text="*{itineraryTitle}"></td>
+		<td th:text="*{text}"></td>
+	</tr>
+	<tr th:object="${itemCategoryOpt}">
+		<a th:href="@{https://cookpad.com/search/{itemName}(itemName=${itemName})}"
+			th:text="${itemName} + 'のレシピを検索'"></a>
+	</tr>
+
+
+</body>
+
+</html>

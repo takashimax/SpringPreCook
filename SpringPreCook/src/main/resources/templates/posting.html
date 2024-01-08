@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<h2>投稿ページ</h2>
+	<form th:action="@{/posting}" method="post" th:object="${postingForm}">
+		<ul>
+			<li><a href="#">詳細</a></li>
+			<li><a href="#">編集</a></li>
+			<li><a href="#">削除</a></li>
+		</ul>
+		<div>
+			<label>userId</label>
+			<div>
+				<input type="text" th:field="*{userId}">
+			</div>
+		</div>
+		<div>
+			<label>imageUrl</label>
+			<div>
+				<input type="text" th:field="*{imageUrl}">
+			</div>
+		</div>
+		<div>
+			<label>タイトル</label>
+			<div>
+				<input type="text" th:field="*{postingTitle}">
+			</div>
+		</div>
+		<div>
+			<label>投稿内容</label>
+			<div>
+				<textarea th:field="*{postingText}" rows="10" cols="50"></textarea>
+			</div>
+		</div>
+		<span>
+			<img src="">
+		</span>
+		<div>
+			<input type="submit" value="投稿">
+		</div>
+	</form>
+	<a th:href="@{/}">ホームへ</a>
+	<table>
+		<tr th:each="posting : ${postingList}" th:object="${posting}">
+			<td th:text="*{postingTitle}"></td>
+			<td th:text="*{postingText}"></td>
+			<td th:text="*{imageUrl}"></td>
+			<td th:text="*{createTime}"></td>
+			<td th:text="*{updateTime}"></td>
+		</tr>
+	</table>
+</body>
+
+</html>

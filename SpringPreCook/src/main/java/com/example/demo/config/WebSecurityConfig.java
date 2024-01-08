@@ -57,13 +57,13 @@ public class WebSecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
 		http
-				.authorizeHttpRequests(
-						authorize -> authorize.requestMatchers(UrlConst.NO_AUTHENTICATION).permitAll()
-								.anyRequest().authenticated())
+//				.authorizeHttpRequests(
+//						authorize -> authorize.requestMatchers(UrlConst.NO_AUTHENTICATION).permitAll()
+//								.anyRequest().authenticated())
 				.formLogin(
 						login -> login.loginPage(UrlConst.LOGIN) // 自作ログイン画面(Controller)を使うための設定
 								.usernameParameter(USERNAME_PARAMETER) // ユーザ名パラメータのname属性
-								.defaultSuccessUrl(UrlConst.MENU)); // ログイン成功後のリダイレクトURL
+								.defaultSuccessUrl(UrlConst.HOME)); // ログイン成功後のリダイレクトURL
 
 		return http.build();
 	}
