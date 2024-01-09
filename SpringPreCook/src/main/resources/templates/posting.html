@@ -7,6 +7,8 @@
 </head>
 
 <body>
+	<div th:insert="~{common/sourceList :: sourceList}"></div>
+	<div th:replace="~{common/header :: header}"></div>
 	<h2>投稿ページ</h2>
 	<form th:action="@{/posting}" method="post" th:object="${postingForm}">
 		<ul>

@@ -12,5 +12,5 @@ import com.example.demo.entity.ItemDetailInfo;
 @Repository
 public interface ItemDetailRepository extends
 		JpaRepository<ItemDetailInfo, Integer> {
-	List<ItemDetailInfo> findByItemCategoryInfo(Optional<ItemCategoryInfo> itemCategoryOpt);
+	List<ItemDetailInfo> findByItemCategoryInfoOrderByItineraryOrder(Optional<ItemCategoryInfo> itemCategoryOpt);
 }

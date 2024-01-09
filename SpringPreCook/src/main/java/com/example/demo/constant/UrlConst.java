@@ -22,9 +22,13 @@ public class UrlConst {
 
 	/** ユーザー編集画面 */
 	public static final String USER_EDIT = "/userEdit";
-	
+
 	public static final String HOME = "/home";
 
+	public static final String POSTING = "/posting";
+
+	public static final String PRECOOK = "/precook";
+
 	/** 認証不要画面 */
-	public static final String[] NO_AUTHENTICATION = { LOGIN, SIGNUP, "/webjars/**", "/css/**" };
+	public static final String[] NO_AUTHENTICATION = { LOGIN, SIGNUP, MENU, HOME, PRECOOK, "/precook/**", "/webjars/**", "/css/**","/img/**" };
 }

@@ -28,7 +28,7 @@ public class ItemDetailInfo {
 	private String imageUrl;
 
 	@Column(name = "itinerary_order")
-	private String itineraryOrder;
+	private Integer itineraryOrder;
 
 	@Column(name = "itinerary_title")
 	private String itineraryTitle;

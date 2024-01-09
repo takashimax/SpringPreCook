@@ -59,7 +59,7 @@ public class SignupController {
 	 * @param form 入力情報
 	 * @param bdResult 入力内容の単項目チェック結果
 	 */
-	@PostMapping("/signup")
+	@PostMapping(UrlConst.SIGNUP)
 	public void signup(Model model, @Validated SignupForm form, BindingResult bdResult) {
 		if (bdResult.hasErrors()) {
 			editGuideMessage(model, MessageConst.FORM_ERROR, true);

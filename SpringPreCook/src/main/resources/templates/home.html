@@ -10,31 +10,27 @@
 	<div th:insert="~{common/sourceList :: sourceList}"></div>
 	<div th:replace="~{common/header :: header}"></div>
 	<h2>HOME</h2>
+	<th:block th:if="${hasUserManageAuth}">
+		<div class="py-5">
+			<a th:href="@{/menu}" class="btn btn-danger">管理画面へ</a>
+		</div>
+	</th:block>
 	<!--	<search>-->
 	<!--		<form th:action="@{/precook}" method="post" th:object="itemCategoryForm">-->
 	<!--			<input type="search" placeholder="食材で検索" />-->
 	<!--			<button type="submit">検索</button>-->
 	<!--		</form>-->
 	<!--	</search>-->
-	<nav>
-		<ul>
-			<li><a th:href="@{/login}">ログイン</a></li>
-			<li><a th:href="@{/signup}">会員登録</a></li>
-		</ul>
-		<ul>
-			<li><a th:href="@{/posting}">投稿する</a></li>
-		</ul>
-	</nav>
 	<div th:each="item : ${itemCategoryInfos}">
-		<ul>
-			<li>
-				<a href="#">野菜</a><a th:href="@{/precook/__${item.itemName}__}">
-					<span th:text="${item.itemName}"></span>
-					<img src="#">
-					<span th:text="${item.itemGenre}"></span>
-				</a>
-			</li>
-		</ul>
+		<div class="card text-bg-light mb-3" style="max-width: 12rem;">
+			<a th:href="@{/precook/__${item.itemName}__}">
+				<div class="card-header" th:text="${item.itemName}"></div>
+				<div class="card-body">
+					<h5 class="card-title" th:text="${item.itemGenre}"></h5>
+					<p class="card-text" th:text="|${item.itemName} のしたごしらえ|"></p>
+				</div>
+			</a>
+		</div>
 	</div>
 </body>
 

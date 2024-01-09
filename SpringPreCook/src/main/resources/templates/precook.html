@@ -7,24 +7,29 @@
 </head>
 
 <body>
-	<table>
-		<tr th:object="${itemCategoryOpt}">
+	<div th:insert="~{common/sourceList :: sourceList}"></div>
+	<div th:replace="~{common/header :: header}"></div>
+	<div th:object="${itemCategoryOpt}">
+		<div>
 			<h1 th:text="${itemName} + 'のしたごしらえ'"></h1>
-		</tr>
-	</table>
-	<section th:text="${itemId}"></section>
-	<tr th:each="item : ${itemDetailList}" th:object="${item}">
-		<td th:text="*{detailId}"></td>
-		<td th:text="*{imageUrl}"></td>
-		<td th:text="*{itineraryOrder}"></td>
-		<td th:text="*{itineraryTitle}"></td>
-		<td th:text="*{text}"></td>
-	</tr>
-	<tr th:object="${itemCategoryOpt}">
-		<a th:href="@{https://cookpad.com/search/{itemName}(itemName=${itemName})}"
-			th:text="${itemName} + 'のレシピを検索'"></a>
-	</tr>
-
+		</div>
+	</div>
+	<div>
+		<div th:each="item : ${itemDetailList}" th:object="${item}">
+			<h3 th:text="*{itineraryTitle}"></h3>
+			<div class="row">
+				<div class="col-md-1">
+					<img th:src="@{/img/{imageUrl}  (imageUrl = *{imageUrl})}" class="thumbnail img-fluid">
+				</div>
+			</div>
+			<p th:text="*{imageUrl}"></p>
+			<p th:text="*{text}"></p>
+		</div>
+		<div th:object="${itemCategoryOpt}">
+			<a th:href="@{https://cookpad.com/search/{itemName}(itemName=${itemName})}"
+				th:text="${itemName} + 'のレシピを検索'"></a>
+		</div>
+	</div>
 
 </body>
 

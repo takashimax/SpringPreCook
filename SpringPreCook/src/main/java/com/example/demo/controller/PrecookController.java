@@ -33,7 +33,7 @@ public class PrecookController {
 		/*
 		 * アイテムカテゴリーの品目名からdetailテーブルの情報を取得
 		 */
-		List<ItemDetailInfo> itemDetailList = itemDetailRepository.findByItemCategoryInfo(itemCategoryOpt);
+		List<ItemDetailInfo> itemDetailList = itemDetailRepository.findByItemCategoryInfoOrderByItineraryOrder(itemCategoryOpt);
 		model.addAttribute("itemDetailList", itemDetailList);
 		return "precook";
 	}
