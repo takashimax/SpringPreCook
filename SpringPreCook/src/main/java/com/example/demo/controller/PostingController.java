@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,7 @@ import com.example.demo.entity.PostingInfo;
 import com.example.demo.form.PostingForm;
 import com.example.demo.repository.PostingRepository;
 import com.example.demo.service.PostingService;
+import com.example.demo.util.AppUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,19 +28,19 @@ public class PostingController {
 
 	@GetMapping(UrlConst.POSTING)
 	public String view(PostingForm postingForm, Model model) {
-		List<PostingInfo> postingList = postingRepository.findAll();
+		String loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+		List<PostingInfo> postingList = postingRepository.findByLoginId(loginId);
 		model.addAttribute("postingList", postingList);
-		return "posting";
+		return ViewNameConst.POSTING;
 	}
 
 	@PostMapping(UrlConst.POSTING)
 	public String posting(@Validated PostingForm postingForm, BindingResult bindingResult, Model model) {
-		model.addAttribute("posting", postingService.posting(postingForm));
-		if(bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			return ViewNameConst.POSTING;
 		} else {
 			postingService.posting(postingForm);
-			return ViewNameConst.HOME;
+			return AppUtil.doRedirect(UrlConst.HOME);
 		}
 	}
 }

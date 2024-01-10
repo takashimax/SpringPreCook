@@ -22,17 +22,19 @@
 		<form th:action="@{/login}" method="post" th:object="${loginForm}">
 			<div class="form-group">
 				<div class="col-3 col-md-2 col-xxl-1">
-					<p><label for="loginId">ログインID：</label>
-						<input type="text" class="form-control" th:field="*{loginId}">
+					<p><label for="loginId"></label>
+						<input type="text" class="form-control" th:field="*{loginId}" placeholder="name@example.com">
 				</div>
 				<div class="col-3 col-md-2 col-xxl-1">
-					<p><label for="password">パスワード：</label>
-						<input type="password" class="form-control" th:field="*{password}">
+					<p><label for="password"></label>
+						<input type="password" class="form-control" th:field="*{password}" placeholder="password">
 				</div>
 				<p><input type="submit" class="btn btn-primary" value="ログイン">
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 			</div>
 		</form>
-		<a th:href="@{/signup}">▶ユーザー登録はコチラ</a>
+		<a th:href="@{/signup}">▶ユーザー登録はコチラ</a><br>
+		<a th:href="@{/}">▶ホームへ戻る</a>
 	</div>
 </body>
 

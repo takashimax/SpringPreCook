@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 	<meta charset="UTF-8">
@@ -10,28 +10,42 @@
 	<div th:insert="~{common/sourceList :: sourceList}"></div>
 	<div th:replace="~{common/header :: header}"></div>
 	<h2>HOME</h2>
-	<th:block th:if="${hasUserManageAuth}">
+	<div sec:authorize="hasAuthority('3')">
 		<div class="py-5">
 			<a th:href="@{/menu}" class="btn btn-danger">管理画面へ</a>
 		</div>
-	</th:block>
-	<!--	<search>-->
-	<!--		<form th:action="@{/precook}" method="post" th:object="itemCategoryForm">-->
-	<!--			<input type="search" placeholder="食材で検索" />-->
-	<!--			<button type="submit">検索</button>-->
-	<!--		</form>-->
-	<!--	</search>-->
-	<div th:each="item : ${itemCategoryInfos}">
+	</div>
+	<div th:each="vegetable : ${vegetables}">
 		<div class="card text-bg-light mb-3" style="max-width: 12rem;">
-			<a th:href="@{/precook/__${item.itemName}__}">
-				<div class="card-header" th:text="${item.itemName}"></div>
+			<a th:href="@{/precook/__${vegetable.itemName}__}">
+				<div class="card-header" th:text="${vegetable.itemName}"></div>
 				<div class="card-body">
-					<h5 class="card-title" th:text="${item.itemGenre}"></h5>
-					<p class="card-text" th:text="|${item.itemName} のしたごしらえ|"></p>
+					<p class="card-text" th:text="|${vegetable.itemName} のしたごしらえ|"></p>
 				</div>
 			</a>
 		</div>
 	</div>
+	<div th:each="meat : ${meats}">
+		<div class="card text-bg-light mb-3" style="max-width: 12rem;">
+			<a th:href="@{/precook/__${meat.itemName}__}">
+				<div class="card-header" th:text="${meat.itemName}"></div>
+				<div class="card-body">
+					<p class="card-text" th:text="|${meat.itemName} のしたごしらえ|"></p>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div th:each="fish : ${fishes}">
+		<div class="card text-bg-light mb-3" style="max-width: 12rem;">
+			<a th:href="@{/precook/__${fish.itemName}__}">
+				<div class="card-header" th:text="${fish.itemName}"></div>
+				<div class="card-body">
+					<p class="card-text" th:text="|${fish.itemName} のしたごしらえ|"></p>
+				</div>
+			</a>
+		</div>
+	</div>
+
 </body>
 
 </html>

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.example.demo.constant.UrlConst;
+import com.example.demo.constant.db.AuthorityKind;
 
 import lombok.RequiredArgsConstructor;
 
@@ -59,8 +60,12 @@ public class WebSecurityConfig {
 		http
 				.authorizeHttpRequests(
 						authorize -> authorize
-								.requestMatchers(UrlConst.NO_AUTHENTICATION).permitAll()
-								.requestMatchers(UrlConst.POSTING).authenticated())
+								.requestMatchers(UrlConst.NO_AUTHENTICATION)
+								.permitAll()
+								.requestMatchers(UrlConst.ADMIN_AUTHENTICATION)
+								.hasAuthority(AuthorityKind.ITEM_AND_USER_MANAGER.getCode())
+								.requestMatchers(UrlConst.POSTING)
+								.authenticated())
 				.formLogin(
 						login -> login.loginPage(UrlConst.LOGIN) // 自作ログイン画面(Controller)を使うための設定
 								.usernameParameter(USERNAME_PARAMETER) // ユーザ名パラメータのname属性

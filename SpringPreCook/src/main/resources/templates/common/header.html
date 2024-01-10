@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
 	<nav class="navbar navbar-expand-lg bg-secondary text-white" th:fragment="header">
 		<div class="container-fluid">
-			<a class="navbar-brand" th:href="@{/home}">食材したごしらえドットコム</a>
+			<a class="navbar-brand" th:href="@{/}">食材したごしらえドットコム</a>
 			<div class="d-flex">
 				<form th:action="@{/login}" class="px-2">
 					<input type="submit" class="btn btn-light" value="ログイン" />
@@ -15,10 +15,11 @@
 				<form th:action="@{/posting}" class="px-2">
 					<input type="submit" class="btn btn-light" value="レシピを投稿" />
 				</form>
-				<form th:action="@{/logout}" method="post" class="px-2">
-					<!--					<span class="text-light" th:text="|ログインID：${#authentication.principal.username}|"></span>-->
+				<div sec:authorize="authenticated">
+					<form th:action="@{/logout}" method="post" class="px-2">
 					<input type="submit" class="btn btn-light" value="ログアウト" />
 				</form>
+				</div>
 			</div>
 
 		</div>

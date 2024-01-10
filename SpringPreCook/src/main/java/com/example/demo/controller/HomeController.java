@@ -12,7 +12,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.constant.UrlConst;
 import com.example.demo.constant.ViewNameConst;
-import com.example.demo.constant.db.AuthorityKind;
 import com.example.demo.entity.ItemCategoryInfo;
 import com.example.demo.form.ItemCategoryForm;
 import com.example.demo.repository.ItemCategoryRepository;
@@ -26,15 +25,17 @@ public class HomeController {
 
 	@GetMapping(UrlConst.HOME)
 	public String view(@AuthenticationPrincipal User user, Model model) {
+		List<ItemCategoryInfo> vegetables = itemCategoryRepository.findByItemGenre(1);
+		List<ItemCategoryInfo> meats = itemCategoryRepository.findByItemGenre(2);
+		List<ItemCategoryInfo> fishes = itemCategoryRepository.findByItemGenre(3);
+		model.addAttribute("vegetables", vegetables);
+		model.addAttribute("meats", meats);
+		model.addAttribute("fishes", fishes);
 		List<ItemCategoryInfo> itemCategoryInfos = itemCategoryRepository.findAll();
 		model.addAttribute("itemCategoryInfos", itemCategoryInfos);
-		boolean hasUserManageAuth = user.getAuthorities().stream()
-				.allMatch(authority -> authority.getAuthority()
-						.equals(AuthorityKind.ITEM_AND_USER_MANAGER.getCode()));
-		model.addAttribute("hasUserManageAuth", hasUserManageAuth);
 		return ViewNameConst.HOME;
 	}
-
+//
 	@PostMapping("/")
 	public String posting(ItemCategoryForm itemCategoryform, RedirectAttributes redirectAttributes) {
 		String itemCategoryInfo = itemCategoryform.getItemName();

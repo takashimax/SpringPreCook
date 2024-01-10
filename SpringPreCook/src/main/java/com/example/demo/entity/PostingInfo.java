@@ -10,8 +10,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -26,9 +24,8 @@ public class PostingInfo {
     private Integer postingId;
     
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "login_id", referencedColumnName = "login_id")
-    private UserInfo userInfo;
+    @Column(name = "login_id")
+    private String loginId;
     
     @Column(name = "posting_title")
     private String postingTitle;
