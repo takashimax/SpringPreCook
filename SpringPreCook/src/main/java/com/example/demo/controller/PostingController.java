@@ -15,7 +15,7 @@ import com.example.demo.constant.ViewNameConst;
 import com.example.demo.entity.PostingInfo;
 import com.example.demo.form.PostingForm;
 import com.example.demo.repository.PostingRepository;
-import com.example.demo.service.PostingService;
+import com.example.demo.service.PostingServiceImpl;
 import com.example.demo.util.AppUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class PostingController {
-	private final PostingService postingService;
+	private final PostingServiceImpl postingServiceImpl;
 	private final PostingRepository postingRepository;
 
 	@GetMapping(UrlConst.POSTING)
@@ -39,7 +39,7 @@ public class PostingController {
 		if (bindingResult.hasErrors()) {
 			return ViewNameConst.POSTING;
 		} else {
-			postingService.posting(postingForm);
+			postingServiceImpl.posting(postingForm);
 			return AppUtil.doRedirect(UrlConst.HOME);
 		}
 	}

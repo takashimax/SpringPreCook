@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
@@ -15,15 +16,18 @@
 			<li><a href="#">編集</a></li>
 			<li><a href="#">削除</a></li>
 		</ul>
-		<div class="imagePreview"></div>
-		<div class="input-group">
-			<label class="input-group-btn">
-				<span class="btn btn-primary">
-					Choose File<input type="file" style="display:none" class="uploadFile">
-				</span>
-			</label>
-			<input type="text" class="form-control" readonly="" th:field="*{imageUrl}">
-		</div>
+		<input type="file" class="form-control" accept='image/*' onchange="previewImage(this)" th:field="*{imageUrl}">
+		<img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+			style="max-width:200px;">
+		<script>
+			function previewImage(obj) {
+				var fileReader = new FileReader();
+				fileReader.onload = (function () {
+					document.getElementById('preview').src = fileReader.result;
+				});
+				fileReader.readAsDataURL(obj.files[0]);
+			}
+		</script>
 		<div>
 			<label>タイトル</label>
 			<div>
@@ -48,6 +52,7 @@
 			<td th:text="*{postingTitle}"></td>
 			<td th:text="*{postingText}"></td>
 			<td th:text="*{imageUrl}"></td>
+			<img th:src="@{/img/{imageUrl}  (imageUrl = *{imageUrl})}" class="thumbnail img-fluid">
 			<td th:text="*{createTime}"></td>
 			<td th:text="*{updateTime}"></td>
 		</tr>
