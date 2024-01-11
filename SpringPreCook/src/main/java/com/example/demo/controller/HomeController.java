@@ -25,23 +25,17 @@ public class HomeController {
 
 	@GetMapping(UrlConst.HOME)
 	public String view(@AuthenticationPrincipal User user, Model model) {
-		List<ItemCategoryInfo> vegetables = itemCategoryRepository.findByItemGenre(1);
-		List<ItemCategoryInfo> meats = itemCategoryRepository.findByItemGenre(2);
-		List<ItemCategoryInfo> fishes = itemCategoryRepository.findByItemGenre(3);
-		model.addAttribute("vegetables", vegetables);
-		model.addAttribute("meats", meats);
-		model.addAttribute("fishes", fishes);
 		List<ItemCategoryInfo> itemCategoryInfos = itemCategoryRepository.findAll();
 		model.addAttribute("itemCategoryInfos", itemCategoryInfos);
 		return ViewNameConst.HOME;
 	}
 //
-	@PostMapping("/")
+	@PostMapping(UrlConst.HOME)
 	public String posting(ItemCategoryForm itemCategoryform, RedirectAttributes redirectAttributes) {
 		String itemCategoryInfo = itemCategoryform.getItemName();
 		redirectAttributes.addFlashAttribute("itemCategoryInfo",
 				itemCategoryRepository.findByItemName(itemCategoryInfo));
-		return "precook";
+		return ViewNameConst.POSTING;
 	}
 
 }

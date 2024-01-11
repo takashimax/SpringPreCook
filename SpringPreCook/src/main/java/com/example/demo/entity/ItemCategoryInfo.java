@@ -25,5 +25,8 @@ public class ItemCategoryInfo {
 	
 	@Column(name = "item_genre")
 	private Integer itemGenre;
+	
+	@Column(name = "image_url")
+	private String imageUrl;
 
 }

@@ -15,37 +15,32 @@
 			<a th:href="@{/menu}" class="btn btn-danger">管理画面へ</a>
 		</div>
 	</div>
-	<div th:each="vegetable : ${vegetables}">
-		<div class="card text-bg-light mb-3" style="max-width: 12rem;">
-			<a th:href="@{/precook/__${vegetable.itemName}__}">
-				<div class="card-header" th:text="${vegetable.itemName}"></div>
-				<div class="card-body">
-					<p class="card-text" th:text="|${vegetable.itemName} のしたごしらえ|"></p>
-				</div>
-			</a>
+	<div th:each="item : ${itemCategoryInfos}">
+		<div th:if="${item.itemGenre}==1">
+			<div class="card text-bg-light mb-3" style="max-width: 12rem;">
+				<a th:href="@{/precook/__${item.itemName}__}">
+					<div class="card-header" th:text="${item.itemName}"></div>
+					<img th:src="@{/img/{imageUrl}  (imageUrl = *{item.imageUrl})}" class="thumbnail img-fluid">
+				</a>
+			</div>
+		</div>
+		<div th:if="${item.itemGenre}==2">
+			<div class="card text-bg-light mb-3" style="max-width: 12rem;">
+				<a th:href="@{/precook/__${item.itemName}__}">
+					<div class="card-header" th:text="${item.itemName}"></div>
+					<img th:src="@{/img/{imageUrl}  (imageUrl = *{item.imageUrl})}" class="thumbnail img-fluid">
+				</a>
+			</div>
+		</div>
+		<div th:if="${item.itemGenre}==3">
+			<div class="card text-bg-light mb-3" style="max-width: 12rem;">
+				<a th:href="@{/precook/__${item.itemName}__}">
+					<div class="card-header" th:text="${item.itemName}"></div>
+					<img th:src="@{/img/{imageUrl}  (imageUrl = *{item.imageUrl})}" class="thumbnail img-fluid">
+				</a>
+			</div>
 		</div>
 	</div>
-	<div th:each="meat : ${meats}">
-		<div class="card text-bg-light mb-3" style="max-width: 12rem;">
-			<a th:href="@{/precook/__${meat.itemName}__}">
-				<div class="card-header" th:text="${meat.itemName}"></div>
-				<div class="card-body">
-					<p class="card-text" th:text="|${meat.itemName} のしたごしらえ|"></p>
-				</div>
-			</a>
-		</div>
-	</div>
-	<div th:each="fish : ${fishes}">
-		<div class="card text-bg-light mb-3" style="max-width: 12rem;">
-			<a th:href="@{/precook/__${fish.itemName}__}">
-				<div class="card-header" th:text="${fish.itemName}"></div>
-				<div class="card-body">
-					<p class="card-text" th:text="|${fish.itemName} のしたごしらえ|"></p>
-				</div>
-			</a>
-		</div>
-	</div>
-
 </body>
 
 </html>

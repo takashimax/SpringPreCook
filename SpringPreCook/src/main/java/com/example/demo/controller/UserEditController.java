@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.Optional;
+
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -16,6 +18,7 @@ import com.example.demo.constant.ViewNameConst;
 import com.example.demo.constant.db.AuthorityKind;
 import com.example.demo.constant.db.UserStatusKind;
 import com.example.demo.dto.UserEditInfo;
+import com.example.demo.dto.UserEditResult;
 import com.example.demo.dto.UserUpdateInfo;
 import com.example.demo.entity.UserInfo;
 import com.example.demo.form.UserEditForm;
@@ -57,8 +60,8 @@ public class UserEditController {
 	 */
 	@GetMapping(UrlConst.USER_EDIT)
 	public String view(Model model, UserEditForm form) throws Exception {
-		var loginId = (String) session.getAttribute(SessionKeyConst.SELECETED_LOGIN_ID);
-		var userInfoOpt = service.searchUserInfo(loginId);
+		String loginId = (String) session.getAttribute(SessionKeyConst.SELECETED_LOGIN_ID);
+		Optional<UserInfo> userInfoOpt = service.searchUserInfo(loginId);
 		if (userInfoOpt.isEmpty()) {
 			model.addAttribute("message",
 					AppUtil.getMessage(messageSource, MessageConst.USEREDIT_NON_EXISTED_LOGIN_ID));
@@ -78,12 +81,12 @@ public class UserEditController {
 	 */
 	@PostMapping(value = UrlConst.USER_EDIT, params = "update")
 	public String updateUser(Model model, UserEditForm form, @AuthenticationPrincipal User user) {
-		var updateDto = mapper.map(form, UserUpdateInfo.class);
+		UserUpdateInfo updateDto = mapper.map(form, UserUpdateInfo.class);
 		updateDto.setLoginId((String) session.getAttribute(SessionKeyConst.SELECETED_LOGIN_ID));
 		updateDto.setUpdateUserId(user.getUsername());
 
-		var updateResult = service.updateUserInfo(updateDto);
-		var updateMessage = updateResult.getUpdateMessage();
+		UserEditResult updateResult = service.updateUserInfo(updateDto);
+		UserEditMessage updateMessage = updateResult.getUpdateMessage();
 		if (updateMessage == UserEditMessage.FAILED) {
 			model.addAttribute("message", AppUtil.getMessage(messageSource, updateMessage.getMessageId()));
 			return ViewNameConst.USER_EDIT_ERROR;

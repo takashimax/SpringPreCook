@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.constant.UrlConst;
 import com.example.demo.entity.ItemCategoryInfo;
 import com.example.demo.entity.ItemDetailInfo;
 import com.example.demo.repository.ItemCategoryRepository;
@@ -23,7 +24,7 @@ public class PrecookController {
 	private final ItemCategoryRepository itemCategoryRepository;
 	private final ItemDetailRepository itemDetailRepository;
 
-	@GetMapping("/precook/{itemName}")
+	@GetMapping(UrlConst.PRECOOK + "/{itemName}")
 	public String view(@PathVariable(name = "itemName") String itemName, Model model) {
 		/*
 		 * アイテムカテゴリーの品目名の取得
@@ -39,7 +40,7 @@ public class PrecookController {
 		return "precook";
 	}
 
-	@PostMapping("/precook")
+	@PostMapping(UrlConst.PRECOOK)
 	public void serchPrecook() {
 
 	}

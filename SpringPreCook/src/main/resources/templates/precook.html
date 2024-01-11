@@ -16,14 +16,15 @@
 	</div>
 	<div>
 		<div th:each="item : ${itemDetailList}" th:object="${item}">
-			<h3 th:text="*{itineraryTitle}"></h3>
-			<div class="row">
-				<div class="col-md-1">
-					<img th:src="@{/img/{imageUrl}  (imageUrl = *{imageUrl})}" class="thumbnail img-fluid">
+			<div  class="d-flex">
+				<div class="row">
+					<h5 th:text="*{itineraryTitle}"></h5>
+					<div class="col-md-1">
+						<img th:src="@{/img/{imageUrl}  (imageUrl = *{imageUrl})}" style="max-width: 5rem;">
+					</div>
 				</div>
+				<p th:text="*{text}"></p>
 			</div>
-			<p th:text="*{imageUrl}"></p>
-			<p th:text="*{text}"></p>
 		</div>
 		<div th:object="${itemCategoryOpt}">
 			<a th:href="@{https://cookpad.com/search/{itemName}(itemName=${itemName})}"

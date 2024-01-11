@@ -39,13 +39,13 @@ public class SignupServiceImpl implements SignupService {
 	 */
 	@Override
 	public Optional<UserInfo> resistUserInfo(SignupForm form) {
-		var userInfoExistedOpt = repository.findById(form.getLoginId());
+		Optional<UserInfo> userInfoExistedOpt = repository.findById(form.getLoginId());
 		if (userInfoExistedOpt.isPresent()) {
 			return Optional.empty();
 		}
 
-		var userInfo = mapper.map(form, UserInfo.class);
-		var encodedPassword = passwordEncoder.encode(form.getPassword());
+		UserInfo userInfo = mapper.map(form, UserInfo.class);
+		String encodedPassword = passwordEncoder.encode(form.getPassword());
 		((UserInfo) userInfo).setPassword(encodedPassword);
 		((UserInfo) userInfo).setUserStatusKind(UserStatusKind.ENABLED);
 		((UserInfo) userInfo).setAuthorityKind(AuthorityKind.ITEM_WATCHER);
