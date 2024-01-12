@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class PostingForm {
+	private String itemName;
 	private String userId;
 	private String postingTitle;
 	private String postingText;

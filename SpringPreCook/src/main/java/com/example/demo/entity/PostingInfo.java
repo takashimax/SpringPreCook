@@ -43,5 +43,8 @@ public class PostingInfo {
     @UpdateTimestamp
     @Column(name = "update_at")
     private LocalDateTime updateTime;
+    
+    @Column(name = "item_id")
+    private Integer itemId;
 
 }

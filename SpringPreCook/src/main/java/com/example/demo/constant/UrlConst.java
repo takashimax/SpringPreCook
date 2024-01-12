@@ -28,11 +28,13 @@ public class UrlConst {
 	public static final String POSTING = "/posting";
 
 	public static final String PRECOOK = "/precook";
+	
+	public static final String PECOOKEDIT = "/precookEdit";
 
 	/** 認証不要画面 */
 	public static final String[] NO_AUTHENTICATION = { LOGIN, SIGNUP, HOME, PRECOOK, "/precook/**", "/webjars/**",
 			"/css/**", "/img/**", "/js/**" };
 
 	/** 認証必要画面 */
-	public static final String[] ADMIN_AUTHENTICATION = { USER_LIST, USER_EDIT, MENU };
+	public static final String[] ADMIN_AUTHENTICATION = { USER_LIST, USER_EDIT, MENU ,PECOOKEDIT};
 }

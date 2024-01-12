@@ -14,4 +14,5 @@ public interface ItemCategoryRepository extends
 	public List<ItemCategoryInfo> findByItemGenre(Integer itemGenre);
 
 	public Optional<ItemCategoryInfo> findByItemName(String itemCategoryInfo);
+
 }

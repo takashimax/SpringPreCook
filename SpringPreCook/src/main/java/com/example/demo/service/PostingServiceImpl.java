@@ -41,7 +41,7 @@ public class PostingServiceImpl implements PostingService {
 	}
 	
 	@Override
-	public void posting(PostingForm postingForm) {
+	public void posting(PostingForm postingForm, Integer itemId) {
 		UUID uuid = UUID.randomUUID();
 		
 		String saveImageUrl = uuid + imgExtract;
@@ -56,6 +56,7 @@ public class PostingServiceImpl implements PostingService {
 			postingInfo.setPostingText(postingForm.getPostingText());
 			postingInfo.setCreateTime(LocalDateTime.now());
 			postingInfo.setUpdateTime(LocalDateTime.now());
+			postingInfo.setItemId(itemId);
 			postingRepository.save(postingInfo);
 		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック

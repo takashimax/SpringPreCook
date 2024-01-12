@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -40,11 +41,12 @@ public class PostingController {
 	}
 
 	@PostMapping(UrlConst.POSTING)
-	public String posting(@Validated PostingForm postingForm, BindingResult bindingResult, Model model) {
+	public String postingCon(@Validated PostingForm postingForm, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			return ViewNameConst.POSTING;
 		} else {
-			postingServiceImpl.posting(postingForm);
+			Optional<ItemCategoryInfo> itemCategoryInfos = itemCategoryRepository.findByItemName(postingForm.getItemName());
+			postingServiceImpl.posting(postingForm,itemCategoryInfos.get().getItemId());
 			return AppUtil.doRedirect(UrlConst.HOME);
 		}
 	}

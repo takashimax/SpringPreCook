@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<div th:insert="~{common/sourceList :: sourceList}"></div>
+	<div th:replace="~{common/header :: header}"></div>
+	<div th:replace="~{common/messageIcon :: messageIcon}"></div>
+	<div class="alert d-flex align-items-center mt-3" th:classappend="|${isError ? 'alert-danger' : 'alert-primary'}|"
+		role="alert" th:if="${message != null}">
+		<svg class="bi flex-shrink-0 me-2" width="24" height="24">
+			<use xlink:href="#exclamation-triangle-fill" th:if="${isError}" />
+			<use xlink:href="#info-fill" th:unless="${isError}" />
+		</svg>
+		<span th:text="${message}"></span>
+	</div>
+	<h2 class="mt-3">食材管理</h2>
+	<form th:action="@{/precookEdit}" method="post" th:object="${precookEditForm}">
+		<!--		<input type="hidden" th:field="itemId">-->
+		<!--		<select th:field="{itemGenre}">-->
+		<!--			<option value="1">野菜</option>-->
+		<!--			<option value="2">肉類</option>-->
+		<!--			<option value="3">魚介類</option>-->
+		<!--		</select>-->
+		<!--		<select>-->
+		<!--			<option th:each=""></option> アイテムカテゴリー名のループ-->
+		<!--		</select>-->
+		<!--		<input type="file" class="form-control" accept='image/*' onchange="previewImage(this)"-->
+		<!--			th:field="*{itemCategoryImageUrl}">-->
+		<!--		<img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="-->
+		<!--			style="max-width:200px;">-->
+
+		<!--		<input type="number" th:field="*{itineraryOrder}">-->
+		<!--		<input type="text" th:field="*{itineraryTitle}">-->
+		<!--		<input type="file" class="form-control" accept='image/*' onchange="previewImage(this)"-->
+		<!--			th:field="*{itemDetailImageUrl}">-->
+		<!--		<img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="-->
+		<!--			style="max-width:200px;">-->
+<!--		<input type="text" th:field="*{itemDetailText}">-->
+	</form>
+	<div class="mt-3">
+		<a th:href="@{/menu}">▶ホームへ戻る</a>
+	</div>
+	<!--	<script>-->
+	<!--		function previewImage(obj) {-->
+	<!--			var fileReader = new FileReader();-->
+	<!--			fileReader.onload = (function () {-->
+	<!--				document.getElementById('preview').src = fileReader.result;-->
+	<!--			});-->
+	<!--			fileReader.readAsDataURL(obj.files[0]);-->
+	<!--		}-->
+	<!--	</script>-->
+</body>
+
+</html>

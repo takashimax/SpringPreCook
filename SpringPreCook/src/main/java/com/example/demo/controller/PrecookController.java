@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.constant.UrlConst;
+import com.example.demo.constant.ViewNameConst;
 import com.example.demo.entity.ItemCategoryInfo;
 import com.example.demo.entity.ItemDetailInfo;
 import com.example.demo.repository.ItemCategoryRepository;
@@ -37,7 +38,7 @@ public class PrecookController {
 		List<ItemDetailInfo> itemDetailList = itemDetailRepository
 				.findByItemCategoryInfoOrderByItineraryOrder(itemCategoryOpt);
 		model.addAttribute("itemDetailList", itemDetailList);
-		return "precook";
+		return ViewNameConst.PRECOOK;
 	}
 
 	@PostMapping(UrlConst.PRECOOK)

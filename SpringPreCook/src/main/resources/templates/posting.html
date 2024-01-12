@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>投稿ページ</title>
 </head>
 
 <body>
@@ -26,11 +26,11 @@
 				<br>
 			</div>
 			<div id="smword">
-				<!-- 北海道 -->
 				<select>
-					<option>選択してください</option>
-					<option th:each="item : ${itemCategoryInfos}" th:if="${item.itemGenre}==1"
-						th:text="${item.itemName}"></option>
+					<option value="">選択してください</option>
+					<th:block th:each="item : ${itemCategoryInfos}"  th:field="*{itemName}">
+						<option th:if="${item.itemGenre}==1" th:value="${itemName}" th:text="${item.itemName}"></option>
+					</th:block>
 				</select>
 				<br>
 				<select>
@@ -72,26 +72,25 @@
 				<textarea th:field="*{postingText}" rows="10" cols="50"></textarea>
 			</div>
 		</div>
-		<span>
-			<img src="">
-		</span>
 		<div>
 			<input type="submit" value="投稿">
 		</div>
 	</form>
-	<th:block th:each="posting : ${postingList}" th:object="${posting}">
-		<div class="row row-cols-1 row-cols-md-3 g-4">
-			<div class="col">
-				<div class="card"  style="max-width: 10rem;">
-					<img th:src="@{/img/{imageUrl}  (imageUrl = *{imageUrl})}" class="card-img-top">
-					<div class="card-body">
-						<h5 class="card-title" th:text="*{postingTitle}"></h5>
-						<p class="card-text" th:text="*{#temporals.format(updateTime, 'yyyy/MM/dd')}"></p>
+	<div class="d-flex">
+		<th:block th:each="posting : ${postingList}" th:object="${posting}">
+			<div class="px-2 py-2">
+				<div class="col">
+					<div class="card" style="max-width: 10rem;">
+						<img th:src="@{/img/{imageUrl}  (imageUrl = *{imageUrl})}" class="card-img-top">
+						<div class="card-body">
+							<h5 class="card-title" th:text="*{postingTitle}"></h5>
+							<p class="card-text" th:text="*{#temporals.format(updateTime, 'yyyy/MM/dd')}"></p>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</th:block>
+		</th:block>
+	</div>
 	<ul>
 		<li><a href="#">詳細</a></li>
 		<li><a href="#">編集</a></li>

@@ -11,5 +11,5 @@ public interface PostingService {
 	 * @param form フォーム情報
 	 * @throws IOException
 	 */
-	public void posting(PostingForm form) throws IOException;
+	public void posting(PostingForm form,Integer itemId) throws IOException;
 }

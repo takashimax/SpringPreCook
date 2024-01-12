@@ -29,7 +29,7 @@ public class HomeController {
 		model.addAttribute("itemCategoryInfos", itemCategoryInfos);
 		return ViewNameConst.HOME;
 	}
-//
+	
 	@PostMapping(UrlConst.HOME)
 	public String posting(ItemCategoryForm itemCategoryform, RedirectAttributes redirectAttributes) {
 		String itemCategoryInfo = itemCategoryform.getItemName();
