@@ -15,7 +15,7 @@
 			<a th:href="@{/menu}" class="btn btn-danger">管理画面へ</a>
 		</div>
 	</div>
-	<div th:each="item : ${itemCategoryInfos}">
+	<div th:each="item : ${itemCategories}">
 		<div th:if="${item.itemGenre}==1">
 			<div class="card text-bg-light mb-3" style="max-width: 12rem;">
 				<a th:href="@{/precook/__${item.itemName}__}">

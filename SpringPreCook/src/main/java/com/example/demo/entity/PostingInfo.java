@@ -10,22 +10,25 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "posting")
+@Table(name = "posting_info")
 public class PostingInfo {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer postingId;
+    private Integer id;
     
 
-    @Column(name = "login_id")
-    private String loginId;
+	@ManyToOne
+	@JoinColumn(name = "login_id" ,referencedColumnName = "login_id")
+    private UserInfo userInfo;
     
     @Column(name = "posting_title")
     private String postingTitle;
@@ -37,14 +40,17 @@ public class PostingInfo {
     private String imageUrl;
 
     @CreationTimestamp
-    @Column(name = "create_at")
+    @Column(name = "create_time")
     private LocalDateTime createTime;
 
     @UpdateTimestamp
-    @Column(name = "update_at")
+    @Column(name = "update_time")
     private LocalDateTime updateTime;
+
+	public void setUserInfo(String name) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
     
-    @Column(name = "item_id")
-    private Integer itemId;
 
 }

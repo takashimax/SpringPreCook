@@ -39,7 +39,7 @@ public class SignupServiceImpl implements SignupService {
 	 */
 	@Override
 	public Optional<UserInfo> resistUserInfo(SignupForm form) {
-		Optional<UserInfo> userInfoExistedOpt = repository.findById(form.getLoginId());
+		Optional<UserInfo> userInfoExistedOpt = repository.findByLoginId(form.getLoginId());
 		if (userInfoExistedOpt.isPresent()) {
 			return Optional.empty();
 		}

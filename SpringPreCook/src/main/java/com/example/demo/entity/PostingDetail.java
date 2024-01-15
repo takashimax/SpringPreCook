@@ -11,27 +11,24 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
+@Table(name = "posting_detail")
 @Data
-@Table(name = "items_detail")
-public class ItemDetailInfo {
-
+public class PostingDetail {
+	
 	@Id
-	@Column(name = "detail_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer detailId;
-
-	@ManyToOne(optional = true)
-	@JoinColumn(name = "item_id", referencedColumnName = "item_id", insertable = false, updatable = false)
-	private ItemCategoryInfo itemCategoryInfo;
-
+	private Integer id;
+	
+	@ManyToOne
+	@JoinColumn(name = "posting_id" ,referencedColumnName = "id")
+	private PostingInfo postingInfo; 
+	
+	@Column(name = "detail_order")
+	private Integer detailOrder;
+	
 	@Column(name = "image_url")
 	private String imageUrl;
-
-	@Column(name = "itinerary_order")
-	private Integer itineraryOrder;
-
-	@Column(name = "itinerary_title")
-	private String itineraryTitle;
-
-	private String text;
+	
+	@Column(name = "posting_detail_text")
+	private String postingDetailText;
 }

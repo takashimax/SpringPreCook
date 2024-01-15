@@ -51,12 +51,12 @@ public class UserListServiceImpl implements UserListService {
 	 */
 	@Override
 	public UserDeleteResult deleteUserInfoById(String loginId) {
-		var userInfo = repository.findById(loginId);
+		var userInfo = repository.findByLoginId(loginId);
 		if (userInfo.isEmpty()) {
 			return UserDeleteResult.ERROR;
 		}
 
-		repository.deleteById(loginId);
+		repository.deleteByLoginId(loginId);
 
 		return UserDeleteResult.SUCCEED;
 	}

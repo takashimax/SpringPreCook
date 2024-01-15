@@ -10,6 +10,8 @@ import com.example.demo.entity.converter.UserStatusConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -29,6 +31,10 @@ public class UserInfo {
 
 	/** ログインID */
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Integer id;
+	
 	@Column(name = "login_id")
 	private String loginId;
 
@@ -77,7 +83,8 @@ public class UserInfo {
 	 * @return ログイン失敗回数がインクリメントされた、自身のインスタンス
 	 */
 	public UserInfo incrementLoginFailureCount() {
-		return new UserInfo(loginId, password, ++loginFailureCount, accountLockedTime, userStatusKind, authorityKind,
+		return new UserInfo( id, loginId, password, ++loginFailureCount, accountLockedTime, userStatusKind,
+				authorityKind,
 				createTime, updateTime, updateUser);
 	}
 
@@ -87,7 +94,7 @@ public class UserInfo {
 	 * @return ログイン失敗情報がリセットされた、自身のインスタンス
 	 */
 	public UserInfo resetLoginFailureInfo() {
-		return new UserInfo(loginId, password, 0, null, userStatusKind, authorityKind, createTime, updateTime,
+		return new UserInfo(id, loginId, password, 0, null, userStatusKind, authorityKind, createTime, updateTime,
 				updateUser);
 	}
 
@@ -97,7 +104,7 @@ public class UserInfo {
 	 * @return ログイン失敗回数、アカウントロック日時が更新された、自身のインスタンス
 	 */
 	public UserInfo updateAccountLocked() {
-		return new UserInfo(loginId, password, 0, LocalDateTime.now(), userStatusKind, authorityKind, createTime,
+		return new UserInfo( id, loginId, password, 0, LocalDateTime.now(), userStatusKind, authorityKind, createTime,
 				updateTime, updateUser);
 	}
 

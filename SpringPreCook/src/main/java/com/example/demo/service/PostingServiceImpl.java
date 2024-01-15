@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.PostingInfo;
 import com.example.demo.form.PostingForm;
-import com.example.demo.repository.PostingRepository;
+import com.example.demo.repository.PostingInfoRepository;
 import com.github.dozermapper.core.Mapper;
 
 import lombok.RequiredArgsConstructor;
@@ -33,11 +33,11 @@ public class PostingServiceImpl implements PostingService {
 	@Value("${image.extract}")
 	private String imgExtract;
 
-	private final PostingRepository postingRepository;
+	private final PostingInfoRepository postingInfoRepository;
 	private final Mapper mapper;
 	
 	public List<PostingInfo> findAll() {
-		return postingRepository.findAll();
+		return postingInfoRepository.findAll();
 	}
 	
 	@Override
@@ -50,14 +50,13 @@ public class PostingServiceImpl implements PostingService {
 			Files.copy(postingForm.getImageUrl().getInputStream(), imageUrlPath);
 
 			PostingInfo postingInfo = mapper.map(postingForm, PostingInfo.class);
-			postingInfo.setLoginId(SecurityContextHolder.getContext().getAuthentication().getName());
+			postingInfo.setUserInfo(SecurityContextHolder.getContext().getAuthentication().getName());
 			postingInfo.setImageUrl(saveImageUrl);
 			postingInfo.setPostingTitle(postingForm.getPostingTitle());
 			postingInfo.setPostingText(postingForm.getPostingText());
 			postingInfo.setCreateTime(LocalDateTime.now());
 			postingInfo.setUpdateTime(LocalDateTime.now());
-			postingInfo.setItemId(itemId);
-			postingRepository.save(postingInfo);
+			postingInfoRepository.save(postingInfo);
 		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

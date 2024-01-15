@@ -6,11 +6,11 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.entity.ItemCategoryInfo;
-import com.example.demo.entity.ItemDetailInfo;
+import com.example.demo.entity.ItemCategory;
+import com.example.demo.entity.ItemDetail;
 
 @Repository
 public interface ItemDetailRepository extends
-		JpaRepository<ItemDetailInfo, Integer> {
-	List<ItemDetailInfo> findByItemCategoryInfoOrderByItineraryOrder(Optional<ItemCategoryInfo> itemCategoryOpt);
+		JpaRepository<ItemDetail, Integer> {
+	List<ItemDetail> findByItemCategoryOrderByItineraryOrder(Optional<ItemCategory> itemCategoryOpt);
 }

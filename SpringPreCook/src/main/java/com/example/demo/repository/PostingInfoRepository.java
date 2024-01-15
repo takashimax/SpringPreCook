@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 import com.example.demo.entity.PostingInfo;
 
 @Repository
-public interface PostingRepository extends JpaRepository<PostingInfo, Integer> {
+public interface PostingInfoRepository extends JpaRepository<PostingInfo, Integer> {
+
+	List<PostingInfo> findByUserInfo(String loginId);
 	
-	List<PostingInfo> findByLoginId(String loginId);
 
 }

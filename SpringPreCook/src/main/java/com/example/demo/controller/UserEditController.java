@@ -59,7 +59,7 @@ public class UserEditController {
 	 * @throws Exception 
 	 */
 	@GetMapping(UrlConst.USER_EDIT)
-	public String view(Model model, UserEditForm form) throws Exception {
+	public String view(Model model) throws Exception {
 		String loginId = (String) session.getAttribute(SessionKeyConst.SELECETED_LOGIN_ID);
 		Optional<UserInfo> userInfoOpt = service.searchUserInfo(loginId);
 		if (userInfoOpt.isEmpty()) {

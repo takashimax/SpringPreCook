@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>食材のしたごしらえの詳細</title>
 </head>
 
 <body>
@@ -23,7 +23,7 @@
 						<img th:src="@{/img/{imageUrl}  (imageUrl = *{imageUrl})}" style="max-width: 5rem;">
 					</div>
 				</div>
-				<p th:text="*{text}"></p>
+				<p th:text="*{itemDetailText}"></p>
 			</div>
 		</div>
 		<div th:object="${itemCategoryOpt}">

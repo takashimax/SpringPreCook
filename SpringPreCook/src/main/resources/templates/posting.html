@@ -28,7 +28,7 @@
 			<div id="smword">
 				<select>
 					<option value="">選択してください</option>
-					<th:block th:each="item : ${itemCategoryInfos}"  th:field="*{itemName}">
+					<th:block th:each="item : ${itemCategoryInfos}">
 						<option th:if="${item.itemGenre}==1" th:value="${itemName}" th:text="${item.itemName}"></option>
 					</th:block>
 				</select>

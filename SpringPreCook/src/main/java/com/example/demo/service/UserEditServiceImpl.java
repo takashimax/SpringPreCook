@@ -31,7 +31,7 @@ public class UserEditServiceImpl implements UserEditService {
 	 */
 	@Override
 	public Optional<UserInfo> searchUserInfo(String loginId) {
-		return repository.findById(loginId);
+		return repository.findByLoginId(loginId);
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class UserEditServiceImpl implements UserEditService {
 		var userUpdateResult = new UserEditResult();
 
 		// 現在の登録情報を取得
-		var updateInfoOpt = repository.findById(userUpdateInfo.getLoginId());
+		var updateInfoOpt = repository.findByLoginId(userUpdateInfo.getLoginId());
 		if (updateInfoOpt.isEmpty()) {
 			userUpdateResult.setUpdateMessage(UserEditMessage.FAILED);
 			return userUpdateResult;

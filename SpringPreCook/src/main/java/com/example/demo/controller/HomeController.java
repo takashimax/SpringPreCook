@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.constant.UrlConst;
 import com.example.demo.constant.ViewNameConst;
-import com.example.demo.entity.ItemCategoryInfo;
+import com.example.demo.entity.ItemCategory;
 import com.example.demo.form.ItemCategoryForm;
 import com.example.demo.repository.ItemCategoryRepository;
 
@@ -25,8 +25,8 @@ public class HomeController {
 
 	@GetMapping(UrlConst.HOME)
 	public String view(@AuthenticationPrincipal User user, Model model) {
-		List<ItemCategoryInfo> itemCategoryInfos = itemCategoryRepository.findAll();
-		model.addAttribute("itemCategoryInfos", itemCategoryInfos);
+		List<ItemCategory> itemCategories = itemCategoryRepository.findAll();
+		model.addAttribute("itemCategories", itemCategories);
 		return ViewNameConst.HOME;
 	}
 	
