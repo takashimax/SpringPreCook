@@ -14,17 +14,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum AuthorityKind {
 
-	/* 登録内容が不正 */
 	UNKNOWN("", "登録内容が不正"),
 
-	/* 商品情報の確認が可能 */
-	ITEM_WATCHER("1", "商品情報の確認が可能"),
+	ADMIN("1", "管理者権限"),
 
-	/* 商品情報の確認、更新が可能 */
-	ITEM_MANAGER("2", "商品情報の確認、更新が可能"),
-
-	/* 商品情報の確認、更新、全ユーザー情報の管理が可能 */
-	ITEM_AND_USER_MANAGER("3", "商品情報の確認、更新、全ユーザー情報の管理が可能");
+	USER("2", "ユーザー権限");
 
 	/** コード値 */
 	private String code;

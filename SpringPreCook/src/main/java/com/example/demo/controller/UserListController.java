@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import com.example.demo.constant.UserDeleteResult;
 import com.example.demo.constant.ViewNameConst;
 import com.example.demo.constant.db.AuthorityKind;
 import com.example.demo.constant.db.UserStatusKind;
+import com.example.demo.dto.UserListInfo;
 import com.example.demo.dto.UserSearchInfo;
 import com.example.demo.form.UserListForm;
 import com.example.demo.service.UserListService;
@@ -64,7 +67,7 @@ public class UserListController {
 	public String view(Model model, UserListForm form) {
 		session.removeAttribute(SessionKeyConst.SELECETED_LOGIN_ID);
 
-		var userInfos = service.editUserList();
+		List<UserListInfo> userInfos = service.editUserList();
 		model.addAttribute(KEY_USERLIST, userInfos);
 
 		model.addAttribute(KEY_USER_STATUS_KIND_OPTIONS, UserStatusKind.values());
@@ -81,8 +84,8 @@ public class UserListController {
 	 */
 	@PostMapping(value = UrlConst.USER_LIST, params = "search")
 	public String searchUser(Model model, UserListForm form) {
-		var searchDto = mapper.map(form, UserSearchInfo.class);
-		var userInfos = service.editUserListByParam(searchDto);
+		UserSearchInfo searchDto = mapper.map(form, UserSearchInfo.class);
+		List<UserListInfo> userInfos = service.editUserListByParam(searchDto);
 		model.addAttribute(KEY_USERLIST, userInfos);
 
 		model.addAttribute(KEY_USER_STATUS_KIND_OPTIONS, UserStatusKind.values());
@@ -100,7 +103,7 @@ public class UserListController {
 	 */
 	@PostMapping(value = UrlConst.USER_LIST, params = "edit")
 	public String updateUser(UserListForm form) {
-		session.setAttribute(SessionKeyConst.SELECETED_LOGIN_ID, form.getSelectedLoginId());
+		session.setAttribute(SessionKeyConst.SELECETED_LOGIN_ID, form.getSelectedId());
 		return AppUtil.doRedirect(UrlConst.USER_EDIT);
 	}
 
@@ -113,12 +116,12 @@ public class UserListController {
 	 */
 	@PostMapping(value = UrlConst.USER_LIST, params = "delete")
 	public String deleteUser(Model model, UserListForm form) {
-		var executeResult = service.deleteUserInfoById(form.getSelectedLoginId());
+		var executeResult = service.deleteUserInfoById(form.getSelectedId());
 		model.addAttribute("isError", executeResult == UserDeleteResult.ERROR);
 		model.addAttribute("message", AppUtil.getMessage(messageSource, executeResult.getMessageId()));
 
 		// 削除後、フォーム情報の「選択されたログインID」は不要になるため、クリアします。
-		return searchUser(model, form.clearSelectedLoginId());
+		return searchUser(model, form.clearSelectedId());
 	}
 
 }

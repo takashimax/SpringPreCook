@@ -48,7 +48,7 @@ public class SignupServiceImpl implements SignupService {
 		String encodedPassword = passwordEncoder.encode(form.getPassword());
 		((UserInfo) userInfo).setPassword(encodedPassword);
 		((UserInfo) userInfo).setUserStatusKind(UserStatusKind.ENABLED);
-		((UserInfo) userInfo).setAuthorityKind(AuthorityKind.ITEM_WATCHER);
+		((UserInfo) userInfo).setAuthorityKind(AuthorityKind.USER);
 		((UserInfo) userInfo).setCreateTime(LocalDateTime.now());
 		((UserInfo) userInfo).setUpdateTime(LocalDateTime.now());
 		((UserInfo) userInfo).setUpdateUser(form.getLoginId());

@@ -27,15 +27,15 @@ public class UserListForm {
 	private AuthorityKind authorityKind;
 
 	/** ユーザー一覧情報から選択されたログインID */
-	private String selectedLoginId;
+	private String selectedId;
 
 	/**
 	 * ユーザー一覧情報から選択されたログインIDをクリアします。
 	 * 
 	 * @return ユーザー一覧情報から選択されたログインIDクリア後のインスタンス
 	 */
-	public UserListForm clearSelectedLoginId() {
-		this.selectedLoginId = null;
+	public UserListForm clearSelectedId() {
+		this.selectedId = null;
 
 		return this;
 	}

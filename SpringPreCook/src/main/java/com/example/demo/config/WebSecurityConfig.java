@@ -63,7 +63,7 @@ public class WebSecurityConfig {
 								.requestMatchers(UrlConst.NO_AUTHENTICATION)
 								.permitAll()
 								.requestMatchers(UrlConst.ADMIN_AUTHENTICATION)
-								.hasAuthority(AuthorityKind.ITEM_AND_USER_MANAGER.getCode())
+								.hasAuthority(AuthorityKind.ADMIN.getCode())
 								.requestMatchers(UrlConst.POSTING)
 								.authenticated())
 				.formLogin(

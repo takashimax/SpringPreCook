@@ -2,16 +2,15 @@ package com.example.demo.entity;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import com.example.demo.constant.db.ItemCategoryKind;
+import com.example.demo.entity.converter.ItemCategoryConverter;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
@@ -30,21 +29,19 @@ public class ItemCategory {
 	private String itemName;
 
 	@Column(name = "item_genre")
-	private Integer itemGenre;
+	@Convert(converter = ItemCategoryConverter.class)
+	private ItemCategoryKind itemCategoryKind;
 
 	@Column(name = "image_url")
 	private String imageUrl;
 
-	@CreationTimestamp
 	@Column(name = "create_time")
 	private LocalDateTime createTime;
 
-	@UpdateTimestamp
 	@Column(name = "update_time")
 	private LocalDateTime updateTime;
 	
-	@ManyToOne
-	@JoinColumn(name = "update_user" ,referencedColumnName = "login_id")
-	private UserInfo userInfo; 
+	@Column(name = "update_user")
+	private String updateUser; 
 	
 }

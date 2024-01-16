@@ -16,14 +16,16 @@ public class ViewNameConst {
 
 	/** メニュー画面 */
 	public static final String MENU = "menu";
-	
+
 	public static final String HOME = "home";
-	
+
 	public static final String POSTING = "posting";
-	
+
 	public static final String PRECOOK = "precook";
-	
-	public static final String PRECOOKEDIT = "precookEdit";
+
+	public static final String ITEM_LIST = "itemList";
+
+	public static final String ITEM_EDIT = "itemEdit";
 
 	/** ユーザー一覧画面 */
 	public static final String USER_LIST = "userList";

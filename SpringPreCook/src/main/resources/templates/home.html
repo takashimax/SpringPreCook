@@ -10,13 +10,13 @@
 	<div th:insert="~{common/sourceList :: sourceList}"></div>
 	<div th:replace="~{common/header :: header}"></div>
 	<h2>HOME</h2>
-	<div sec:authorize="hasAuthority('3')">
+	<div sec:authorize="hasAuthority('1')">
 		<div class="py-5">
 			<a th:href="@{/menu}" class="btn btn-danger">管理画面へ</a>
 		</div>
 	</div>
 	<div th:each="item : ${itemCategories}">
-		<div th:if="${item.itemGenre}==1">
+		<div th:if="${item.itemCategoryKind}==1">
 			<div class="card text-bg-light mb-3" style="max-width: 12rem;">
 				<a th:href="@{/precook/__${item.itemName}__}">
 					<div class="card-header" th:text="${item.itemName}"></div>
@@ -24,7 +24,7 @@
 				</a>
 			</div>
 		</div>
-		<div th:if="${item.itemGenre}==2">
+		<div th:if="${item.itemCategoryKind}==2">
 			<div class="card text-bg-light mb-3" style="max-width: 12rem;">
 				<a th:href="@{/precook/__${item.itemName}__}">
 					<div class="card-header" th:text="${item.itemName}"></div>
@@ -32,7 +32,7 @@
 				</a>
 			</div>
 		</div>
-		<div th:if="${item.itemGenre}==3">
+		<div th:if="${item.itemCategoryKind}==3">
 			<div class="card text-bg-light mb-3" style="max-width: 12rem;">
 				<a th:href="@{/precook/__${item.itemName}__}">
 					<div class="card-header" th:text="${item.itemName}"></div>
