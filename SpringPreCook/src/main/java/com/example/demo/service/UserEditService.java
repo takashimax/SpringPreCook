@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.Optional;
 
 import com.example.demo.dto.UserEditResult;
+import com.example.demo.dto.UserUpdateInfo;
 import com.example.demo.entity.UserInfo;
 
 /**
@@ -27,6 +28,6 @@ public interface UserEditService {
 	 * @param updateDto ユーザー更新情報
 	 * @return 更新結果
 	 */
-	public UserEditResult updateUserInfo(Object updateDto);
+	public UserEditResult updateUserInfo(UserUpdateInfo updateDto);
 
 }

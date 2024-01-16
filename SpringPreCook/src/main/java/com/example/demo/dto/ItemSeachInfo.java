@@ -6,8 +6,10 @@ import lombok.Data;
 
 @Data
 public class ItemSeachInfo {
-	
+
 	private String itemName;
-	
+
 	private ItemCategoryKind itemCategoryKind;
+
+
 }

@@ -12,8 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.constant.UrlConst;
 import com.example.demo.constant.ViewNameConst;
+import com.example.demo.constant.db.ItemCategoryKind;
 import com.example.demo.entity.ItemCategory;
-import com.example.demo.form.ItemCategoryForm;
 import com.example.demo.repository.ItemCategoryRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -27,14 +27,12 @@ public class HomeController {
 	public String view(@AuthenticationPrincipal User user, Model model) {
 		List<ItemCategory> itemCategories = itemCategoryRepository.findAll();
 		model.addAttribute("itemCategories", itemCategories);
+		model.addAttribute("ItemCategoryKinds", ItemCategoryKind.values());
 		return ViewNameConst.HOME;
 	}
 	
 	@PostMapping(UrlConst.HOME)
-	public String posting(ItemCategoryForm itemCategoryform, RedirectAttributes redirectAttributes) {
-		String itemCategoryInfo = itemCategoryform.getItemName();
-		redirectAttributes.addFlashAttribute("itemCategoryInfo",
-				itemCategoryRepository.findByItemName(itemCategoryInfo));
+	public String posting( RedirectAttributes redirectAttributes) {
 		return ViewNameConst.POSTING;
 	}
 

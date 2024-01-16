@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.demo.constant.UserDeleteResult;
 import com.example.demo.dto.UserListInfo;
+import com.example.demo.dto.UserSearchInfo;
 
 /**
  * ユーザー一覧画面Serviceクラス
@@ -26,7 +27,7 @@ public interface UserListService {
 	 * @param searchDto 検索に使用するパラメーター
 	 * @return 検索結果
 	 */
-	public List<UserListInfo> editUserListByParam(Object searchDto);
+	public List<UserListInfo> editUserListByParam(UserSearchInfo searchDto);
 
 	/**
 	 * 指定されたIDのユーザー情報を削除します。

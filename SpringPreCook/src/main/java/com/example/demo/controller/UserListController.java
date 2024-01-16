@@ -65,7 +65,7 @@ public class UserListController {
 	 */
 	@GetMapping(UrlConst.USER_LIST)
 	public String view(Model model, UserListForm form) {
-		session.removeAttribute(SessionKeyConst.SELECETED_LOGIN_ID);
+		session.removeAttribute(SessionKeyConst.SELECETED_ID);
 
 		List<UserListInfo> userInfos = service.editUserList();
 		model.addAttribute(KEY_USERLIST, userInfos);
@@ -90,7 +90,7 @@ public class UserListController {
 
 		model.addAttribute(KEY_USER_STATUS_KIND_OPTIONS, UserStatusKind.values());
 		model.addAttribute(KEY_AUTHORITY_KIND_OPTIONS, AuthorityKind.values());
-
+		
 		return ViewNameConst.USER_LIST;
 	}
 
@@ -103,7 +103,7 @@ public class UserListController {
 	 */
 	@PostMapping(value = UrlConst.USER_LIST, params = "edit")
 	public String updateUser(UserListForm form) {
-		session.setAttribute(SessionKeyConst.SELECETED_LOGIN_ID, form.getSelectedId());
+		session.setAttribute(SessionKeyConst.SELECETED_ID, form.getSelectedId());
 		return AppUtil.doRedirect(UrlConst.USER_EDIT);
 	}
 

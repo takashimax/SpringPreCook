@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -42,6 +43,7 @@ public class UserListServiceImpl implements UserListService {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public List<UserListInfo> editUserListByParam(UserSearchInfo dto) {
 		return toUserListInfos(findUserInfoByParam(dto));
 	}
@@ -51,13 +53,12 @@ public class UserListServiceImpl implements UserListService {
 	 */
 	@Override
 	public UserDeleteResult deleteUserInfoById(String loginId) {
-		var userInfo = repository.findByLoginId(loginId);
+		Optional<UserInfo> userInfo = repository.findByLoginId(loginId);
 		if (userInfo.isEmpty()) {
 			return UserDeleteResult.ERROR;
 		}
 
 		repository.deleteByLoginId(loginId);
-
 		return UserDeleteResult.SUCCEED;
 	}
 
@@ -68,7 +69,7 @@ public class UserListServiceImpl implements UserListService {
 	 * @return 検索結果
 	 */
 	private List<UserInfo> findUserInfoByParam(UserSearchInfo dto) {
-		var loginIdParam = AppUtil.addWildcard(dto.getLoginId());
+		String loginIdParam = AppUtil.addWildcard(dto.getLoginId());
 
 		if (dto.getUserStatusKind() != null && dto.getAuthorityKind() != null) {
 			return repository.findByLoginIdLikeAndUserStatusKindAndAuthorityKind(loginIdParam,
@@ -89,9 +90,10 @@ public class UserListServiceImpl implements UserListService {
 	 * @return ユーザ一覧情報DTOのList
 	 */
 	private List<UserListInfo> toUserListInfos(List<UserInfo> userInfos) {
+		System.out.println("OK");
 		var userListInfos = new ArrayList<UserListInfo>();
 		for (UserInfo userInfo : userInfos) {
-			var userListInfo = mapper.map(userInfo, UserListInfo.class);
+			UserListInfo userListInfo = mapper.map(userInfo, UserListInfo.class);
 			((UserListInfo) userListInfo).setStatus(userInfo.getUserStatusKind().getDisplayValue());
 			((UserListInfo) userListInfo).setAuthority(userInfo.getAuthorityKind().getDisplayValue());
 			userListInfos.add((UserListInfo) userListInfo);
@@ -101,10 +103,6 @@ public class UserListServiceImpl implements UserListService {
 
 	}
 
-	@Override
-	public List<UserListInfo> editUserListByParam(Object searchDto) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
+	
 
 }

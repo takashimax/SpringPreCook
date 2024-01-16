@@ -70,20 +70,21 @@
 						</thead>
 						<tbody>
 							<tr th:each="item, stat : ${itemCategories}" scope="row">
-								<td th:id="|id_${stat.count}|"><span th:text="${item.id}"></span></td>
-								<td th:id="|itemName_${stat.count}|"><span th:text="${item.itemName}"></span></td>
+								<td th:id="|itemName_${stat.count}|"><span th:text="${item.id}"></span></td>
+								<td th:id="|id_${stat.count}|"><span th:text="${item.itemName}"></span></td>
 								<td th:id="|itemCategory_${stat.count}|"><span th:text="${item.itemCategory}"></span>
 								</td>
-								<td th:id="|imageUrl_${stat.count}|"><span th:text="${item.imageUrl}"></span></td>
+								<td th:id="|imageUrl_${stat.count}|"><span th:text="${item.imageUrl} != null ? ${item.imageUrl} : '-'"></span></td>
 								<td th:id="|createTime_${stat.count}|"><span
 										th:text="${#temporals.format(item.createTime, 'yyyy-MM-dd HH:mm')}"></span></td>
 								<td th:id="|updateTime_${stat.count}|"><span
-										th:text="${#temporals.format(item.updateTime, 'yyyy-MM-dd HH:mm')}"></span></td>
+										th:text="${item.updateTime} != null ? ${#temporals.format(item.updateTime, 'yyyy-MM-dd HH:mm')} : '-'"></span></td>
 								<td th:id="|updateUser_${stat.count}|"><span th:text="${item.updateUser}"></span></td>
 							</tr>
 						</tbody>
 					</table>
 					<input type="text" th:field="*{selectedId}" hidden>
+					<a th:href="@{/itemListCreate}" class="btn btn-secondary">新規登録</a>
 					<input type="submit" class="btn btn-secondary" id="editBtn" name="edit" value="編集" disabled>
 					<input type="button" class="btn btn-danger" id="deleteDummyBtn" data-bs-toggle="modal"
 						data-bs-target="#deleteConfirm" value="削除" disabled>

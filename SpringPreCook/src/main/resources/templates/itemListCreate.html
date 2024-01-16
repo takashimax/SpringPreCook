@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>アイテム新規登録フォーム</title>
+</head>
+
+<body>
+	<div th:insert="~{common/sourceList :: sourceList}"></div>
+	<div th:replace="~{common/header :: header}"></div>
+	<script type="text/javascript" th:src="@{/js/posting.js}"></script>
+	<h2>アイテム新規登録</h2>
+
+
+	<form th:action="@{/itemListCreate}" method="post" enctype="multipart/form-data" th:object="${itemListCreateForm}">
+		<div class="mb-5 d-flex">
+			<table>
+
+
+				<tr>
+					<td><span>アイテム名：</span></td>
+					<td>
+						<div class="row g-3 align-items-center">
+							<div class="col-auto">
+								<input type="text" class="form-control" th:field="*{itemName}">
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td><span>カテゴリー名：</span></td>
+					<td>
+						<select class="form-select" th:field="*{itemCategoryKind}">
+							<option value="">指定なし</option>
+							<option th:each="ItemCategoryKind : ${ItemCategoryKinds}" th:value="${ItemCategoryKind}"
+								th:text="${ItemCategoryKind.displayValue}">
+							</option>
+						</select>
+					</td>
+				</tr>
+
+			</table>
+		</div>
+		<input type="file" class="form-control" accept='image/*' onchange="previewImage(this)" th:field="*{imageUrl}">
+		<img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+			style="max-width:200px;">
+		<script>
+			function previewImage(obj) {
+				var fileReader = new FileReader();
+				fileReader.onload = (function () {
+					document.getElementById('preview').src = fileReader.result;
+				});
+				fileReader.readAsDataURL(obj.files[0]);
+			}
+		</script>
+		<div>
+			<input type="submit" class="btn btn-primary" value="登録">
+		</div>
+
+
+	</form>
+	<a th:href="@{/menu}">▶トップメニューに戻る</a>
+</body>
+
+</html>

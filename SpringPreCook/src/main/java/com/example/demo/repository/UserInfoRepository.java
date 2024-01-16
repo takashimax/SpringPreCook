@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.constant.db.AuthorityKind;
 import com.example.demo.constant.db.UserStatusKind;
@@ -78,6 +79,7 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
 	List<UserInfo> findByLoginIdLikeAndUserStatusKindAndAuthorityKind(String loginId, UserStatusKind userStatusKind,
 			AuthorityKind authorityKind);
 
-	void deleteByLoginId(String loginId);
+	@Transactional
+	List<UserInfo> deleteByLoginId(String loginId);
 
 }

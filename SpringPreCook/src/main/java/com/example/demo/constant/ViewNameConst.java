@@ -26,6 +26,10 @@ public class ViewNameConst {
 	public static final String ITEM_LIST = "itemList";
 
 	public static final String ITEM_EDIT = "itemEdit";
+	
+	public static final String ITEM_LIST_CREATE = "itemListCreate";
+	
+	public static final String ITEM_LIST_EDIT = "itemListEdit";
 
 	/** ユーザー一覧画面 */
 	public static final String USER_LIST = "userList";

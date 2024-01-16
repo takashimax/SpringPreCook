@@ -37,6 +37,7 @@ public class UserEditServiceImpl implements UserEditService {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public UserEditResult updateUserInfo(UserUpdateInfo userUpdateInfo) {
 		var userUpdateResult = new UserEditResult();
 
@@ -57,7 +58,7 @@ public class UserEditServiceImpl implements UserEditService {
 		}
 		updateInfo.setUpdateTime(LocalDateTime.now());
 		updateInfo.setUpdateUser(userUpdateInfo.getUpdateUserId());
-
+		
 		try {
 			repository.save(updateInfo);
 		} catch (Exception e) {
@@ -70,10 +71,6 @@ public class UserEditServiceImpl implements UserEditService {
 		return userUpdateResult;
 	}
 
-	@Override
-	public UserEditResult updateUserInfo(Object updateDto) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
+	
 
 }
