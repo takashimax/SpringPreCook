@@ -15,16 +15,42 @@ $(document).on('change', ':file', function() {
 	}
 });
 
-$(function(){
-    $('#bigword').bind('change',function(){
-      var bigwordindex = $(this).prop('selectedIndex') - 1; 
-      console.log(bigwordindex );
-      if(bigwordindex<0){
-         $('#smword select').removeClass('on');
-      }else{
-         $('#smword select:not(:eq(bigwordindex)) option').attr('selected', false);
-         $('#smword select:not(:eq(bigwordindex))').removeClass('on');
-         $('#smword select').eq(bigwordindex).addClass('on');    
-	  }
-    });
+$(function() {
+	$('#bigword').bind('change', function() {
+		var bigwordindex = $(this).prop('selectedIndex') - 1;
+		console.log(bigwordindex);
+		if (bigwordindex < 0) {
+			$('#smword select').removeClass('on');
+		} else {
+			$('#smword select:not(:eq(bigwordindex)) option').attr('selected', false);
+			$('#smword select:not(:eq(bigwordindex))').removeClass('on');
+			$('#smword select').eq(bigwordindex).addClass('on');
+		}
+	});
+});
+
+$(function() {
+
+	$('button#add').click(function() {
+
+		var tr_form = '' +
+			'<tr>' +
+			'<td><input type="text" name="text_1[]" th: field="*{materialName}" class="form-control"></td>' +
+			'<td><input type="text" name="text_2[]" th: field="*{materialQuantity}" class="form-control"></td>' +
+			'</tr>';
+		$(tr_form).appendTo($('table > tbody'));
+
+	});
+
+
+});
+
+$(document).on("click", ".add", function() {
+	$(this).parent().clone(true).insertAfter($(this).parent());
+});
+$(document).on("click", ".del", function() {
+	var target = $(this).parent();
+	if (target.parent().children().length > 1) {
+		target.remove();
+	}
 });

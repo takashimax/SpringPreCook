@@ -44,7 +44,9 @@ public class PostingController {
 		if (bindingResult.hasErrors()) {
 			return ViewNameConst.POSTING;
 		} else {
-			postingService.createPost(postingForm);
+			String loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+			Optional<UserInfo> userInfo = userInfoRepository.findByLoginId(loginId);
+			postingService.createPostingResult(postingForm,userInfo.get());
 			return AppUtil.doRedirect(UrlConst.HOME);
 		}
 	}

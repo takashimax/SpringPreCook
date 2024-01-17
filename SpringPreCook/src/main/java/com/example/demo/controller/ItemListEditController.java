@@ -54,7 +54,6 @@ public class ItemListEditController {
 			model.addAttribute("itemList", mapper.map(itemCategoryOpt.get(), ItemList.class));
 			model.addAttribute("itemDetailList", itemDetailList);
 			model.addAttribute("itemCategoryKinds", ItemCategoryKind.values());
-			System.out.println("ok");
 			return ViewNameConst.ITEM_LIST_EDIT;
 		}
 	}

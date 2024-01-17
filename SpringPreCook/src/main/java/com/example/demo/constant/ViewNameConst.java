@@ -20,6 +20,8 @@ public class ViewNameConst {
 	public static final String HOME = "home";
 
 	public static final String POSTING = "posting";
+	
+	public static final String POSTING_EDIT = "postingEdit";
 
 	public static final String PRECOOK = "precook";
 
@@ -30,7 +32,10 @@ public class ViewNameConst {
 	public static final String ITEM_LIST_CREATE = "itemListCreate";
 	
 	public static final String ITEM_LIST_EDIT = "itemListEdit";
+	
+	public static final String ITEM_DETAIL_LIST_EDIT = "itemDetailListEdit";
 
+	public static final String ITEM_DETAIL_LIST_CREATE = "itemDetailListCreate";
 	/** ユーザー一覧画面 */
 	public static final String USER_LIST = "userList";
 
