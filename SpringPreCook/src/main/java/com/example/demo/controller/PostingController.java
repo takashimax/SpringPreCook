@@ -3,7 +3,9 @@ package com.example.demo.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,12 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.constant.UrlConst;
 import com.example.demo.constant.ViewNameConst;
-import com.example.demo.entity.ItemCategory;
 import com.example.demo.entity.PostingInfo;
+import com.example.demo.entity.UserInfo;
 import com.example.demo.form.PostingForm;
-import com.example.demo.repository.ItemCategoryRepository;
-import com.example.demo.repository.PostingInfoRepository;
-import com.example.demo.service.PostingServiceImpl;
+import com.example.demo.repository.UserInfoRepository;
+import com.example.demo.service.PostingService;
 import com.example.demo.util.AppUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -26,17 +27,15 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class PostingController {
-	private final PostingServiceImpl postingServiceImpl;
-	private final PostingInfoRepository postingInfoRepository;
-	private final ItemCategoryRepository itemCategoryRepository;
+	private final PostingService postingService;
+	private final UserInfoRepository userInfoRepository;
 
 	@GetMapping(UrlConst.POSTING)
-	public String view(PostingForm postingForm, Model model) {
+	public String view(PostingForm postingForm, Model model,@AuthenticationPrincipal User user) {
 		String loginId = SecurityContextHolder.getContext().getAuthentication().getName();
-		List<PostingInfo> postingList = postingInfoRepository.findByUserInfo(loginId);
+		Optional<UserInfo> userInfo = userInfoRepository.findByLoginId(loginId);
+		List<PostingInfo> postingList = postingService.findPost(userInfo.get());
 		model.addAttribute("postingList", postingList);
-		List<ItemCategory> itemCategories = itemCategoryRepository.findAll();
-		model.addAttribute("itemCategoryInfos", itemCategories);
 		return ViewNameConst.POSTING;
 	}
 
@@ -45,8 +44,7 @@ public class PostingController {
 		if (bindingResult.hasErrors()) {
 			return ViewNameConst.POSTING;
 		} else {
-			Optional<ItemCategory> itemCategories = itemCategoryRepository.findByItemName(postingForm.getItemName());
-			postingServiceImpl.posting(postingForm,itemCategories.get().getId());
+			postingService.createPost(postingForm);
 			return AppUtil.doRedirect(UrlConst.HOME);
 		}
 	}

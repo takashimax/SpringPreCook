@@ -11,44 +11,9 @@
 	<div th:replace="~{common/header :: header}"></div>
 	<script type="text/javascript" th:src="@{/js/posting.js}"></script>
 	<h2>投稿ページ</h2>
-
-
 	<form th:action="@{/posting}" method="post" enctype="multipart/form-data" th:object="${postingForm}">
-		<div class="mb-5 d-flex">
-			<div>
-				<select id="bigword">
-					<option>選択してください</option>
-					<option>野菜</option>
-					<option>肉類</option>
-					<option>魚介類</option>
-					<option>その他</option>
-				</select>
-				<br>
-			</div>
-			<div id="smword">
-				<select>
-					<option value="">選択してください</option>
-					<th:block th:each="item : ${itemCategoryInfos}">
-						<option th:if="${item.itemGenre}==1" th:value="${itemName}" th:text="${item.itemName}"></option>
-					</th:block>
-				</select>
-				<br>
-				<select>
-					<option>選択してください</option>
-					<option th:each="item : ${itemCategoryInfos}" th:if="${item.itemGenre}==2"
-						th:text="${item.itemName}"></option>
-				</select>
-				<br>
-				<select>
-					<option>選択してください</option>
-					<option th:each="item : ${itemCategoryInfos}" th:if="${item.itemGenre}==3"
-						th:text="${item.itemName}"></option>
-				</select>
-				<br>
-			</div>
-		</div>
 		<div class="mt-3">
-			<label>タイトル</label>
+			<label>件名</label>
 			<div>
 				<input type="text" th:field="*{postingTitle}">
 			</div>
@@ -56,6 +21,47 @@
 		<input type="file" class="form-control" accept='image/*' onchange="previewImage(this)" th:field="*{imageUrl}">
 		<img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
 			style="max-width:200px;">
+		<div>
+			<label>本文</label>
+			<div>
+				<textarea th:field="*{postingText}" rows="5" cols="50"></textarea>
+			</div>
+		</div>
+		<div>
+			<input type="submit" value="投稿">
+		</div>
+		<div>
+			<div>
+				<label>材料順</label>
+				<input type="text" th:field="*{materialOrder}">
+			</div>
+			<div>
+				<label>材料名</label>
+				<input type="text" th:field="*{materialName}">
+			</div>
+			<div>
+				<label>分量</label>
+				<input type="text" th:field="*{materialQuantity}">
+			</div>
+		</div>
+		<div>
+			<label>調理手順</label>
+			<div>
+				<textarea th:field="*{detailOrder}" rows="5" cols="50"></textarea>
+			</div>
+			<div>
+				<input type="file" class="form-control" accept='image/*' onchange="previewImage(this)"
+					th:field="*{imageUrl}">
+				<img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+					style="max-width:200px;">
+			</div>
+			<div>
+				<label>調理詳細</label>
+				<div>
+					<input type="text" th:field="*{postingDetailText}">
+				</div>
+			</div>
+		</div>
 		<script>
 			function previewImage(obj) {
 				var fileReader = new FileReader();
@@ -65,34 +71,18 @@
 				fileReader.readAsDataURL(obj.files[0]);
 			}
 		</script>
-
-		<div>
-			<label>投稿内容</label>
-			<div>
-				<textarea th:field="*{postingText}" rows="10" cols="50"></textarea>
-			</div>
-		</div>
-		<div>
-			<input type="submit" value="投稿">
-		</div>
 	</form>
 	<div class="d-flex">
-		<th:block th:each="posting : ${postingList}" th:object="${posting}">
-			<div class="px-2 py-2">
-				<div class="col">
-					<div class="card" style="max-width: 10rem;">
-						<img th:src="@{/img/{imageUrl}  (imageUrl = *{imageUrl})}" class="card-img-top">
-						<div class="card-body">
-							<h5 class="card-title" th:text="*{postingTitle}"></h5>
-							<p class="card-text" th:text="*{#temporals.format(updateTime, 'yyyy/MM/dd')}"></p>
-						</div>
-					</div>
-				</div>
+		<div th:each="posting : ${postingList}">
+			<div class="card text-bg-light mb-3" style="max-width: 12rem;">
+				<!--				<a th:href="@{/precook/__${item.itemName}__}">-->
+				<div class="card-header" th:text="${posting.postingTitle}"></div>
+				<img th:src="@{/img/{imageUrl}  (imageUrl = *{posting.imageUrl})}" class="thumbnail img-fluid">
+				</a>
 			</div>
-		</th:block>
+		</div>
 	</div>
 	<ul>
-		<li><a href="#">詳細</a></li>
 		<li><a href="#">編集</a></li>
 		<li><a href="#">削除</a></li>
 	</ul>

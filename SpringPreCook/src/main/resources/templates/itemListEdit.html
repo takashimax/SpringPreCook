@@ -50,21 +50,13 @@
 						<td>
 							<input type="file" class="form-control" accept='image/*' onchange="previewImage(this)"
 								th:field="*{imageUrl}">
+						</td>
 						<td>
 							<img id="preview"
 								src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
 								style="width: 100px; height: 100px;">
-							<script>
-								function previewImage(obj) {
-									var fileReader = new FileReader();
-									fileReader.onload = (function () {
-										document.getElementById('preview').src = fileReader.result;
-									});
-									fileReader.readAsDataURL(obj.files[0]);
-								}
-							</script>
 						</td>
-						</td>
+
 						</td>
 					</tr>
 					<tr>
@@ -82,8 +74,69 @@
 					<input type="submit" class="btn btn-primary" name="update" value="更新">
 					<a class="btn btn-secondary" th:href="@{/itemList}">戻る</a>
 				</div>
+				<div class="mt-3">
+					<th:block th:unless="${#lists.isEmpty(itemDetailList)}">
+						<table class="table table-striped" id="colunmnList">
+							<thead>
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">アイテムID</th>
+									<th scope="col">画像URL</th>
+									<th scope="col">行程番号</th>
+									<th scope="col">件名</th>
+									<th scope="col">詳細</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="item, stat : ${itemDetailList}" scope="row">
+									<td th:id="|detailId_${stat.count}|"><span th:text="${item.detailId}"></span></td>
+									<td th:id="|id_${stat.count}|"><span th:text="${item.itemCategory.id}"></span></td>
+									<td th:id="|imageUrl_${stat.count}|"><span
+											th:text="${item.imageUrl} != null ? ${item.imageUrl} : '-'"></span></td>
+									<td th:id="|itineraryTitle_${stat.count}|"><span
+											th:text="${item.itineraryTitle}"></span></td>
+									<td th:id="|itineraryOrder_${stat.count}|"><span
+											th:text="${item.itineraryOrder}"></span></td>
+									<td th:id="|itemDetailText_${stat.count}|"><span
+											th:text="${item.itemDetailText}"></span></td>
+									<!--									<td th:id="|createTime_${stat.count}|"><span-->
+									<!--											th:text="${#temporals.format(item.createTime, 'yyyy-MM-dd HH:mm')}"></span>-->
+									<!--									</td>-->
+									<!--									<td th:id="|updateTime_${stat.count}|"><span-->
+									<!--											th:text="${item.updateTime} != null ? ${#temporals.format(item.updateTime, 'yyyy-MM-dd HH:mm')} : '-'"></span>-->
+									<!--									</td>-->
+									<!--									<td th:id="|updateUser_${stat.count}|"><span th:text="${item.updateUser}"></span>-->
+									<!--									</td>-->
+								</tr>
+							</tbody>
+						</table>
+						<input type="text" th:field="*{selectedId}" hidden>
+						<a th:href="@{/itemListCreate}" class="btn btn-secondary">新規登録</a>
+						<input type="submit" class="btn btn-secondary" id="editBtn" name="edit" value="編集" disabled>
+						<input type="button" class="btn btn-danger" id="deleteDummyBtn" data-bs-toggle="modal"
+							data-bs-target="#deleteConfirm" value="削除" disabled>
+						<input type="submit" id="deleteBtn" name="delete" hidden>
+					</th:block>
+					<th:block th:if="${#lists.isEmpty(itemDetailList)}">
+						<div class="text-center">
+							<span>※対象のカテゴリーは存在しません。</span>
+						</div>
+					</th:block>
+					<div class="mt-3">
+						<a th:href="@{/menu}">▶トップメニューへ戻る</a>
+					</div>
+				</div>
 			</div>
 		</form>
+		<script>
+			function previewImage(obj) {
+				var fileReader = new FileReader();
+				fileReader.onload = (function () {
+					document.getElementById('preview').src = fileReader.result;
+				});
+				fileReader.readAsDataURL(obj.files[0]);
+			}
+		</script>
 </body>
 
 </html>

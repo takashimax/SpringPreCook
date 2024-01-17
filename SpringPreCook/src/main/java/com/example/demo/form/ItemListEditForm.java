@@ -14,4 +14,12 @@ public class ItemListEditForm {
 	private ItemCategoryKind itemCategoryKind;
 	
 	private MultipartFile imageUrl;
+	
+	private String selectedId;
+
+	public ItemListEditForm clearSelectedId() {
+		this.selectedId = null;
+
+		return this;
+	}
 }

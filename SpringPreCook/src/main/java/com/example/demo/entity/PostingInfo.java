@@ -2,9 +2,6 @@ package com.example.demo.entity;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,37 +17,28 @@ import lombok.Data;
 @Table(name = "posting_info")
 public class PostingInfo {
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
 	@ManyToOne
-	@JoinColumn(name = "login_id" ,referencedColumnName = "login_id")
-    private UserInfo userInfo;
-    
-    @Column(name = "posting_title")
-    private String postingTitle;
-    
-    @Column(name = "posting_text")
-    private String postingText;
+	@JoinColumn(name = "login_id", referencedColumnName = "id")
+	private UserInfo userInfo;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+	@Column(name = "posting_title")
+	private String postingTitle;
 
-    @CreationTimestamp
-    @Column(name = "create_time")
-    private LocalDateTime createTime;
+	@Column(name = "posting_text")
+	private String postingText;
 
-    @UpdateTimestamp
-    @Column(name = "update_time")
-    private LocalDateTime updateTime;
+	@Column(name = "image_url")
+	private String imageUrl;
 
-	public void setUserInfo(String name) {
-		// TODO 自動生成されたメソッド・スタブ
-		
-	}
-    
+	@Column(name = "create_time")
+	private LocalDateTime createTime;
+
+	@Column(name = "update_time")
+	private LocalDateTime updateTime;
 
 }

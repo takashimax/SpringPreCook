@@ -14,7 +14,7 @@ import lombok.Data;
 @Table(name = "posting_material")
 @Data
 public class PostingMaterial {
-	
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +23,13 @@ public class PostingMaterial {
 	@ManyToOne
 	@JoinColumn(name = "posting_id", referencedColumnName = "id")
 	private PostingInfo postingInfo;
-	
+
 	@Column(name = "material_order")
 	private Integer materialOrder;
-	
+
+	@Column(name = "material_name")
+	private String materialName;
+
 	@Column(name = "material_quantity")
 	private String materialQuantity;
 }

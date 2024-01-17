@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.context.MessageSource;
@@ -17,7 +18,9 @@ import com.example.demo.dto.ItemEditResult;
 import com.example.demo.dto.ItemList;
 import com.example.demo.dto.ItemUpdateInfo;
 import com.example.demo.entity.ItemCategory;
+import com.example.demo.entity.ItemDetail;
 import com.example.demo.form.ItemListEditForm;
+import com.example.demo.repository.ItemDetailRepository;
 import com.example.demo.service.ItemListService;
 import com.example.demo.util.AppUtil;
 import com.github.dozermapper.core.Mapper;
@@ -32,6 +35,8 @@ public class ItemListEditController {
 	private final HttpSession session;
 	
 	private final ItemListService itemListService;
+	
+	private final ItemDetailRepository itemDetailRepository;
 	 
 	private final Mapper mapper;
 	
@@ -41,10 +46,13 @@ public class ItemListEditController {
 	public String view(Model model, ItemListEditForm itemListEditForm) {
 		String itemName = (String) session.getAttribute(SessionKeyConst.SELECETED_ID);
 		Optional<ItemCategory> itemCategoryOpt = itemListService.searchItemCategory(itemName);
+		List<ItemDetail> itemDetailList = itemDetailRepository
+				.findByItemCategoryOrderByItineraryOrder(itemCategoryOpt);
 		if(itemCategoryOpt.isEmpty()) {
 			return AppUtil.doRedirect(UrlConst.ITEM_LIST);
 		}else {
 			model.addAttribute("itemList", mapper.map(itemCategoryOpt.get(), ItemList.class));
+			model.addAttribute("itemDetailList", itemDetailList);
 			model.addAttribute("itemCategoryKinds", ItemCategoryKind.values());
 			System.out.println("ok");
 			return ViewNameConst.ITEM_LIST_EDIT;

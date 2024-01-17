@@ -90,7 +90,6 @@ public class UserListServiceImpl implements UserListService {
 	 * @return ユーザ一覧情報DTOのList
 	 */
 	private List<UserListInfo> toUserListInfos(List<UserInfo> userInfos) {
-		System.out.println("OK");
 		var userListInfos = new ArrayList<UserListInfo>();
 		for (UserInfo userInfo : userInfos) {
 			UserListInfo userListInfo = mapper.map(userInfo, UserListInfo.class);

@@ -11,8 +11,8 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Data
 @Table(name = "item_detail")
+@Data
 public class ItemDetail {
 
 	@Id
