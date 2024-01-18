@@ -21,7 +21,6 @@ public class ItemCategory {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	@OneToMany(cascade = CascadeType.REMOVE)
 	private Integer id;
 	
 	@Column(name = "item_name")

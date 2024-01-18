@@ -20,4 +20,5 @@ public interface ItemDetailRepository extends
 	boolean existsByItemCategory(ItemCategory itemCategory);
 	
 	List<ItemDetail> deleteByItemCategory(ItemCategory itemCategory);
+	
 }

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -18,8 +19,10 @@ import com.example.demo.constant.ViewNameConst;
 import com.example.demo.constant.db.ItemCategoryKind;
 import com.example.demo.dto.ItemList;
 import com.example.demo.dto.ItemSeachInfo;
+import com.example.demo.entity.ItemCategory;
 import com.example.demo.form.ItemListCreateForm;
 import com.example.demo.form.ItemListForm;
+import com.example.demo.repository.ItemCategoryRepository;
 import com.example.demo.service.ItemListService;
 import com.example.demo.util.AppUtil;
 import com.github.dozermapper.core.Mapper;
@@ -30,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class ItemListController {
+	private final ItemCategoryRepository itemCategoryRepository;
 
 	private final ItemListService itemListService;
 
@@ -85,7 +89,8 @@ public class ItemListController {
 	@PostMapping(value = UrlConst.ITEM_LIST, params = "delete")
 	@Transactional
 	public String deleteCategory(Model model, ItemListForm itemListForm) {
-		UserDeleteResult executeResult = itemListService.deleteCategoryByItemName(itemListForm.getSelectedId());
+		Optional<ItemCategory> itemCategoryOpt = itemCategoryRepository.findByItemName(itemListForm.getSelectedId());
+		UserDeleteResult executeResult = itemListService.deleteDetailByItemCategory(itemCategoryOpt.get());
 		System.out.println(executeResult);
 		model.addAttribute("isError", executeResult == UserDeleteResult.ERROR);
 		model.addAttribute("message", AppUtil.getMessage(messageSource, executeResult.getMessageId()));
