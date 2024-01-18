@@ -1,10 +1,7 @@
 package com.example.demo.dto;
 
-import java.time.LocalDateTime;
-
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.constant.UserEditMessage;
 import com.example.demo.constant.db.ItemCategoryKind;
 
 import lombok.Data;
@@ -17,10 +14,6 @@ public class ItemUpdateInfo {
 	private MultipartFile imageUrl;
 
 	private ItemCategoryKind itemCategoryKind;
-
-	private UserEditMessage updateMessage;
-
-	private LocalDateTime updateTime;
-
-	private String updateUser;
+	
+	private String updateUserId;
 }

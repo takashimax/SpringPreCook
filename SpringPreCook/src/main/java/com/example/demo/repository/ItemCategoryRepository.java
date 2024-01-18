@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.constant.db.ItemCategoryKind;
 import com.example.demo.entity.ItemCategory;
 
+@Repository
 public interface ItemCategoryRepository extends
 		JpaRepository<ItemCategory, Integer> {
 

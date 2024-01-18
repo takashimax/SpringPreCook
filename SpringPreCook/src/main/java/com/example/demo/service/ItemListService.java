@@ -18,6 +18,8 @@ public interface ItemListService {
 	public List<ItemList> editCategoryByPram(ItemSeachInfo itemSeachInfo);
 
 	public UserDeleteResult deleteCategoryByItemName(String itemName);
+	
+	public UserDeleteResult deleteDetailByItemCategory(ItemCategory itemCategory);
 
 	public Optional<ItemCategory> createItemList(ItemListCreateForm itemListCreateForm);
 

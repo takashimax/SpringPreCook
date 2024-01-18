@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -82,8 +83,10 @@ public class ItemListController {
 	}
 
 	@PostMapping(value = UrlConst.ITEM_LIST, params = "delete")
+	@Transactional
 	public String deleteCategory(Model model, ItemListForm itemListForm) {
-		var executeResult = itemListService.deleteCategoryByItemName(itemListForm.getSelectedId());
+		UserDeleteResult executeResult = itemListService.deleteCategoryByItemName(itemListForm.getSelectedId());
+		System.out.println(executeResult);
 		model.addAttribute("isError", executeResult == UserDeleteResult.ERROR);
 		model.addAttribute("message", AppUtil.getMessage(messageSource, executeResult.getMessageId()));
 

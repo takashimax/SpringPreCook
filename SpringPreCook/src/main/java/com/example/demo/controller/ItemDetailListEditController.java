@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,13 +20,24 @@ import com.example.demo.dto.ItemSeachInfo;
 import com.example.demo.form.ItemDetailListEditForm;
 import com.example.demo.form.ItemListCreateForm;
 import com.example.demo.form.ItemListForm;
+import com.example.demo.service.ItemListService;
 import com.example.demo.util.AppUtil;
+import com.github.dozermapper.core.Mapper;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
 public class ItemDetailListEditController {
+	
+	private final ItemListService itemListService;
+	
+	private final Mapper mapper;
+	
+	private final HttpSession session;
+	
+	private final MessageSource messageSource;
 
 	@GetMapping(UrlConst.ITEM_DETAIL_LIST_EDIT)
 	public String view(Model model, ItemDetailListEditForm itemDetailListEditForm) {
@@ -38,7 +50,7 @@ public class ItemDetailListEditController {
 		return ViewNameConst.ITEM_DETAIL_LIST_CREATE;
 	}
 
-	@PostMapping(UrlConst.ITEM_LIST_CREATE)
+	@PostMapping(UrlConst.ITEM_DETAIL_LIST_CREATE)
 	public String create(@Validated ItemListCreateForm itemListCreateForm, Model model, BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) {
@@ -50,22 +62,22 @@ public class ItemDetailListEditController {
 
 	}
 
-	@PostMapping(value = UrlConst.ITEM_LIST, params = "search")
+	@PostMapping(value = UrlConst.ITEM_DETAIL_LIST_EDIT, params = "search")
 	public String searchCategory(Model model, ItemListForm itemListForm) {
 		ItemSeachInfo itemSeachInfo = mapper.map(itemListForm, ItemSeachInfo.class);
 		List<ItemList> itemCategories = itemListService.editCategoryByPram(itemSeachInfo);
 		model.addAttribute("itemCategories", itemCategories);
 		model.addAttribute("ItemCategoryKinds", ItemCategoryKind.values());
-		return ViewNameConst.ITEM_LIST;
+		return ViewNameConst.ITEM_LIST_EDIT;
 	}
 
-	@PostMapping(value = UrlConst.ITEM_LIST, params = "edit")
+	@PostMapping(value = UrlConst.ITEM_DETAIL_LIST_EDIT, params = "edit")
 	public String updateCategory(ItemListForm itemListForm) {
 		session.setAttribute(SessionKeyConst.SELECETED_ID, itemListForm.getSelectedId());
 		return AppUtil.doRedirect(UrlConst.ITEM_LIST_EDIT);
 	}
 
-	@PostMapping(value = UrlConst.ITEM_LIST, params = "delete")
+	@PostMapping(value = UrlConst.ITEM_DETAIL_LIST_EDIT, params = "delete")
 	public String deleteCategory(Model model, ItemListForm itemListForm) {
 		var executeResult = itemListService.deleteCategoryByItemName(itemListForm.getSelectedId());
 		model.addAttribute("isError", executeResult == UserDeleteResult.ERROR);

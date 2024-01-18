@@ -20,8 +20,10 @@ import com.example.demo.dto.ItemList;
 import com.example.demo.dto.ItemSeachInfo;
 import com.example.demo.dto.ItemUpdateInfo;
 import com.example.demo.entity.ItemCategory;
+import com.example.demo.entity.ItemDetail;
 import com.example.demo.form.ItemListCreateForm;
 import com.example.demo.repository.ItemCategoryRepository;
+import com.example.demo.repository.ItemDetailRepository;
 import com.example.demo.util.AppUtil;
 import com.github.dozermapper.core.Mapper;
 
@@ -41,6 +43,8 @@ public class ItemListServiceImpl implements ItemListService {
 
 	private final ItemCategoryRepository itemCategoryRepository;
 
+	private final ItemDetailRepository itemDetailRepository;
+
 	private final Mapper mapper;
 
 	@Override
@@ -59,14 +63,22 @@ public class ItemListServiceImpl implements ItemListService {
 
 	@Override
 	public UserDeleteResult deleteCategoryByItemName(String itemName) {
-		Optional<ItemCategory> userInfo = itemCategoryRepository.findByItemName(itemName);
-		if (userInfo.isEmpty()) {
+		Optional<ItemCategory> itemCategoryOpt = itemCategoryRepository.findByItemName(itemName);
+		if (itemCategoryOpt.isEmpty()) {
 			return UserDeleteResult.ERROR;
 		}
-
 		itemCategoryRepository.deleteByItemName(itemName);
 		return UserDeleteResult.SUCCEED;
+	}
 
+	@Override
+	public UserDeleteResult deleteDetailByItemCategory(ItemCategory itemCategory) {
+		Optional<ItemDetail> itemDetailOpt = itemDetailRepository.findByItemCategory(itemCategory);
+		if (itemDetailOpt.isEmpty()) {
+			return UserDeleteResult.ERROR;
+		}
+		itemDetailRepository.deleteByItemCategory(itemCategory);
+		return UserDeleteResult.SUCCEED;
 	}
 
 	@Override
@@ -132,22 +144,22 @@ public class ItemListServiceImpl implements ItemListService {
 	public ItemEditResult updateCategoryInfo(ItemUpdateInfo itemUpdateInfo) {
 		// 現在の登録情報を取得
 		var itemUpdateResult = new ItemEditResult();
-		
+
 		Optional<ItemCategory> itemCategoryOpt = itemCategoryRepository.findByItemName(itemUpdateInfo.getItemName());
 		if (itemCategoryOpt.isEmpty()) {
 			itemUpdateResult.setUpdateMessage(UserEditMessage.FAILED);
 			return itemUpdateResult;
 		}
-		
+
 		UUID uuid = UUID.randomUUID();
 		String saveImageUrl = uuid + imgExtract;
 		Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
-			try {
-				Files.copy(itemUpdateInfo.getImageUrl().getInputStream(), imageUrlPath);
-				Files.delete(Path.of(itemCategoryOpt.get().getImageUrl()));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		try {
+			Files.copy(itemUpdateInfo.getImageUrl().getInputStream(), imageUrlPath);
+			Files.delete(Path.of(itemCategoryOpt.get().getImageUrl()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		// 画面の入力情報等をセット
 		var itemCategory = itemCategoryOpt.get();
@@ -164,7 +176,7 @@ public class ItemListServiceImpl implements ItemListService {
 
 		itemUpdateResult.setUpdateItemCategory(itemCategory);
 		itemUpdateResult.setUpdateMessage(UserEditMessage.SUCCEED);
-		
+
 		return itemUpdateResult;
 	}
 

@@ -21,7 +21,7 @@
 			<span th:text="${message}"></span>
 		</div>
 		<h2 class="mt-3">アイテム更新</h2>
-		<form th:action="@{/itemListEdit}" method="post" th:object="${itemListEditForm}">
+		<form th:action="@{/itemListEdit}" method="post" enctype="multipart/form-data" th:object="${itemListEditForm}">
 			<div class="mt-3">
 				<table>
 					<tr>
@@ -30,8 +30,6 @@
 							<div class="row g-3 align-items-center">
 								<div class="col-auto">
 									<span th:text="${itemList.itemName}"></span>
-									⇒
-									<input type="text" th:field="*{itemName}">
 								</div>
 							</div>
 						</td>
@@ -99,14 +97,6 @@
 											th:text="${item.itineraryOrder}"></span></td>
 									<td th:id="|itemDetailText_${stat.count}|"><span
 											th:text="${item.itemDetailText}"></span></td>
-									<!--									<td th:id="|createTime_${stat.count}|"><span-->
-									<!--											th:text="${#temporals.format(item.createTime, 'yyyy-MM-dd HH:mm')}"></span>-->
-									<!--									</td>-->
-									<!--									<td th:id="|updateTime_${stat.count}|"><span-->
-									<!--											th:text="${item.updateTime} != null ? ${#temporals.format(item.updateTime, 'yyyy-MM-dd HH:mm')} : '-'"></span>-->
-									<!--									</td>-->
-									<!--									<td th:id="|updateUser_${stat.count}|"><span th:text="${item.updateUser}"></span>-->
-									<!--									</td>-->
 								</tr>
 							</tbody>
 						</table>

@@ -12,19 +12,18 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
 
 @Entity
-@Table(name = "item_category", uniqueConstraints = {
-		@UniqueConstraint(columnNames = "item_name") })
+@Table(name = "item_category")
 @Data
 public class ItemCategory {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@OneToMany(cascade = CascadeType.REMOVE)
 	private Integer id;
-
+	
 	@Column(name = "item_name")
 	private String itemName;
 
@@ -40,8 +39,8 @@ public class ItemCategory {
 
 	@Column(name = "update_time")
 	private LocalDateTime updateTime;
-	
+
 	@Column(name = "update_user")
-	private String updateUser; 
-	
+	private String updateUser;
+
 }
