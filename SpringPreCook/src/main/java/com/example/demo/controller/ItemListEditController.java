@@ -7,10 +7,12 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.constant.DeleteResult;
 import com.example.demo.constant.SessionKeyConst;
 import com.example.demo.constant.UrlConst;
 import com.example.demo.constant.UserEditMessage;
@@ -81,4 +83,35 @@ public class ItemListEditController {
 		model.addAttribute("message", AppUtil.getMessage(messageSource, updateMessage.getMessageId()));
 		return AppUtil.doRedirect(UrlConst.ITEM_LIST);
 	}
+
+	@PostMapping(value = UrlConst.ITEM_LIST_EDIT, params = "edit")
+	public String editDetail(Model model, ItemListEditForm itemListEditForm) {
+		session.setAttribute(SessionKeyConst.SELECETED_DETAIL_ID, itemListEditForm.getSelectedDetailId());
+		return AppUtil.doRedirect(UrlConst.ITEM_DETAIL_LIST_EDIT);
+	}
+
+//	@PostMapping(value = UrlConst.ITEM_LIST_EDIT, params = "search")
+//	public String searchDetail(Model model, ItemListEditForm itemListEditForm) {
+//		System.out.println("search");
+////		ItemDetailSearchInfo itemSeachInfo = mapper.map(itemListEditForm, ItemDetailSearchInfo.class);
+////		List<ItemDetailList> itemDetailList = itemListService.editDetailByPram(itemSeachInfo);
+////		model.addAttribute("itemDetailList", itemDetailList);
+////		model.addAttribute("ItemCategoryKinds", ItemCategoryKind.values());
+//		return AppUtil.doRedirect(UrlConst.ITEM_LIST);
+//	}
+
+	@PostMapping(value = UrlConst.ITEM_LIST_EDIT, params = "delete")
+	@Transactional
+	public String deleteDetail(Model model, ItemListEditForm itemListEditForm) {
+		System.out.println("delete");
+		DeleteResult executeResult = itemListService.deleteDetailByItemCategory(itemListEditForm);
+		System.out.println(executeResult);
+		model.addAttribute("isError", executeResult == DeleteResult.ITEM_ERROR);
+		model.addAttribute("message", AppUtil.getMessage(messageSource, executeResult.getMessageId()));
+		// 削除後、フォーム情報の「選択されたログインID」は不要になるため、クリアします。
+		itemListEditForm.clearSelectedDetalId();
+		
+		return AppUtil.doRedirect(UrlConst.ITEM_LIST_EDIT);
+	}
+
 }

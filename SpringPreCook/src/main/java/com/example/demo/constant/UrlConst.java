@@ -33,12 +33,10 @@ public class UrlConst {
 	public static final String ITEM_LIST_CREATE = "/itemListCreate";
 
 	public static final String ITEM_LIST_EDIT = "/itemListEdit";
-	
+
 	public static final String ITEM_DETAIL_LIST_EDIT = "/itemDetailListEdit";
-	
+
 	public static final String ITEM_DETAIL_LIST_CREATE = "/itemDetailListCreate";
-	
-	
 
 	/** 認証不要画面 */
 	public static final String[] NO_AUTHENTICATION = { LOGIN, SIGNUP, HOME, PRECOOK + "/**", "/webjars/**",
@@ -46,5 +44,5 @@ public class UrlConst {
 
 	/** 認証必要画面 */
 	public static final String[] ADMIN_AUTHENTICATION = { USER_LIST, USER_EDIT, MENU, ITEM_LIST, ITEM_LIST_CREATE,
-			ITEM_LIST_EDIT, POSTING_EDIT + "/**",ITEM_DETAIL_LIST_EDIT,ITEM_DETAIL_LIST_CREATE};
+			ITEM_LIST_EDIT, POSTING_EDIT + "/**", ITEM_DETAIL_LIST_EDIT, ITEM_DETAIL_LIST_CREATE + "/**" };
 }

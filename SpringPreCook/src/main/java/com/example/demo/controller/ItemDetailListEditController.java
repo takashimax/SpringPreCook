@@ -1,25 +1,28 @@
 package com.example.demo.controller;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.constant.SessionKeyConst;
 import com.example.demo.constant.UrlConst;
-import com.example.demo.constant.UserDeleteResult;
+import com.example.demo.constant.UserEditMessage;
 import com.example.demo.constant.ViewNameConst;
-import com.example.demo.constant.db.ItemCategoryKind;
+import com.example.demo.dto.DetailEditResult;
+import com.example.demo.dto.ItemDetailUpdateInfo;
 import com.example.demo.dto.ItemList;
-import com.example.demo.dto.ItemSeachInfo;
+import com.example.demo.entity.ItemDetail;
+import com.example.demo.form.ItemDetailListCreateForm;
 import com.example.demo.form.ItemDetailListEditForm;
-import com.example.demo.form.ItemListCreateForm;
-import com.example.demo.form.ItemListForm;
 import com.example.demo.service.ItemListService;
 import com.example.demo.util.AppUtil;
 import com.github.dozermapper.core.Mapper;
@@ -41,49 +44,50 @@ public class ItemDetailListEditController {
 
 	@GetMapping(UrlConst.ITEM_DETAIL_LIST_EDIT)
 	public String view(Model model, ItemDetailListEditForm itemDetailListEditForm) {
-		return null;
+		Integer detailId = (Integer) session.getAttribute(SessionKeyConst.SELECETED_DETAIL_ID);
+		Optional<ItemDetail> itemDetailOpt = itemListService.searchItemDetail(detailId);
+		model.addAttribute("itemDetailOpt", itemDetailOpt.get());
+		return ViewNameConst.ITEM_DETAIL_LIST_EDIT;
 	}
 
-	@GetMapping(UrlConst.ITEM_DETAIL_LIST_CREATE)
-	public String viewCreate(Model model, ItemListCreateForm itemListCreateForm) {
-		model.addAttribute("ItemCategoryKinds", ItemCategoryKind.values());
+	@GetMapping(UrlConst.ITEM_DETAIL_LIST_CREATE + "/{id}")
+	public String viewCreate(@PathVariable(name = "id") Integer id,Model model, ItemDetailListCreateForm itemDetailListCreateForm) {
+		model.addAttribute("id", id);
 		return ViewNameConst.ITEM_DETAIL_LIST_CREATE;
 	}
 
 	@PostMapping(UrlConst.ITEM_DETAIL_LIST_CREATE)
-	public String create(@Validated ItemListCreateForm itemListCreateForm, Model model, BindingResult bindingResult) {
-
+	public String create(@Validated ItemDetailListCreateForm itemDetailListCreateForm, Model model, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return ViewNameConst.ITEM_LIST_CREATE;
 		} else {
-			itemListService.createItemList(itemListCreateForm);
-			return AppUtil.doRedirect(UrlConst.ITEM_LIST);
+			itemListService.createItemDetailList(itemDetailListCreateForm);
+			return AppUtil.doRedirect(UrlConst.ITEM_LIST_EDIT);
 		}
 
 	}
+	
+	@PostMapping(value = UrlConst.ITEM_DETAIL_LIST_EDIT, params = "update")
+	public String updateDetail(Model model, ItemDetailListEditForm itemDetailListEditForm, @AuthenticationPrincipal User user) {
+		ItemDetailUpdateInfo updateDto = new ItemDetailUpdateInfo();
+		updateDto.setDetailId((Integer) session.getAttribute(SessionKeyConst.SELECETED_DETAIL_ID));
+		updateDto.setItineraryOrder(itemDetailListEditForm.getItineraryOrder());
+		updateDto.setImageUrl(itemDetailListEditForm.getImageUrl());
+		updateDto.setItineraryTitle(itemDetailListEditForm.getItineraryTitle());
+		updateDto.setItemDetailText(itemDetailListEditForm.getItemDetailText());
+		DetailEditResult updateResult = itemListService.updateDetailInfo(updateDto);
+		UserEditMessage updateMessage = updateResult.getUpdateMessage();
 
-	@PostMapping(value = UrlConst.ITEM_DETAIL_LIST_EDIT, params = "search")
-	public String searchCategory(Model model, ItemListForm itemListForm) {
-		ItemSeachInfo itemSeachInfo = mapper.map(itemListForm, ItemSeachInfo.class);
-		List<ItemList> itemCategories = itemListService.editCategoryByPram(itemSeachInfo);
-		model.addAttribute("itemCategories", itemCategories);
-		model.addAttribute("ItemCategoryKinds", ItemCategoryKind.values());
-		return ViewNameConst.ITEM_LIST_EDIT;
-	}
+		if (updateMessage == UserEditMessage.FAILED) {
+			model.addAttribute("message", AppUtil.getMessage(messageSource, updateMessage.getMessageId()));
+			return ViewNameConst.USER_EDIT_ERROR;
+		}
 
-	@PostMapping(value = UrlConst.ITEM_DETAIL_LIST_EDIT, params = "edit")
-	public String updateCategory(ItemListForm itemListForm) {
-		session.setAttribute(SessionKeyConst.SELECETED_ID, itemListForm.getSelectedId());
+		model.addAttribute("itemList", mapper.map(updateResult.getUpdateItemDetail(), ItemList.class));
+
+		model.addAttribute("isError", false);
+		model.addAttribute("message", AppUtil.getMessage(messageSource, updateMessage.getMessageId()));
 		return AppUtil.doRedirect(UrlConst.ITEM_LIST_EDIT);
 	}
 
-	@PostMapping(value = UrlConst.ITEM_DETAIL_LIST_EDIT, params = "delete")
-	public String deleteCategory(Model model, ItemListForm itemListForm) {
-		var executeResult = itemListService.deleteCategoryByItemName(itemListForm.getSelectedId());
-		model.addAttribute("isError", executeResult == UserDeleteResult.ERROR);
-		model.addAttribute("message", AppUtil.getMessage(messageSource, executeResult.getMessageId()));
-
-		// 削除後、フォーム情報の「選択されたログインID」は不要になるため、クリアします。
-		return searchCategory(model, itemListForm.clearSelectedId());
-	}
 }

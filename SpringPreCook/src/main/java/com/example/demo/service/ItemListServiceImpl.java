@@ -13,15 +13,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.constant.UserDeleteResult;
+import com.example.demo.constant.DeleteResult;
 import com.example.demo.constant.UserEditMessage;
+import com.example.demo.dto.DetailEditResult;
+import com.example.demo.dto.ItemDetailList;
+import com.example.demo.dto.ItemDetailSearchInfo;
+import com.example.demo.dto.ItemDetailUpdateInfo;
 import com.example.demo.dto.ItemEditResult;
 import com.example.demo.dto.ItemList;
 import com.example.demo.dto.ItemSeachInfo;
 import com.example.demo.dto.ItemUpdateInfo;
 import com.example.demo.entity.ItemCategory;
 import com.example.demo.entity.ItemDetail;
+import com.example.demo.form.ItemDetailListCreateForm;
 import com.example.demo.form.ItemListCreateForm;
+import com.example.demo.form.ItemListEditForm;
+import com.example.demo.form.ItemListForm;
 import com.example.demo.repository.ItemCategoryRepository;
 import com.example.demo.repository.ItemDetailRepository;
 import com.example.demo.util.AppUtil;
@@ -52,6 +59,12 @@ public class ItemListServiceImpl implements ItemListService {
 		return toItemCategories(itemCategoryRepository.findAll());
 	}
 
+	@Override
+	public List<ItemDetailList> editDetail() {
+		return toItemDetails(itemDetailRepository.findAll());
+	}
+
+	@Override
 	public List<ItemList> editItemListByParam(ItemSeachInfo itemSeachInfo) {
 		return toItemCategories(findItemInfoByParam(itemSeachInfo));
 	}
@@ -62,28 +75,49 @@ public class ItemListServiceImpl implements ItemListService {
 	}
 
 	@Override
-	public UserDeleteResult deleteCategoryByItemName(String itemName) {
-		Optional<ItemCategory> itemCategoryOpt = itemCategoryRepository.findByItemName(itemName);
-		if (itemCategoryOpt.isEmpty()) {
-			return UserDeleteResult.ERROR;
-		}
-		itemCategoryRepository.deleteByItemName(itemName);
-		return UserDeleteResult.SUCCEED;
+	public List<ItemDetailList> editDetailByPram(ItemDetailSearchInfo itemDetailSearchInfo) {
+		return toItemDetails(findDetailInfoByParam(itemDetailSearchInfo));
 	}
 
 	@Override
-	public UserDeleteResult deleteDetailByItemCategory(ItemCategory itemCategory) {
-		Optional<ItemDetail> itemDetailOpt = itemDetailRepository.findByItemCategory(itemCategory);
-		if (itemDetailOpt.isEmpty()) {
-			return UserDeleteResult.ERROR;
+	public DeleteResult deleteCategoryByItemName(ItemListForm itemListForm) {
+		Optional<ItemCategory> itemCategoryOpt = itemCategoryRepository.findByItemName(itemListForm.getSelectedId());
+		if (itemCategoryOpt.isEmpty()) {
+			return DeleteResult.ITEM_ERROR;
 		}
-		itemDetailRepository.deleteByItemCategory(itemCategory);
-		return UserDeleteResult.SUCCEED;
+		List<ItemDetail> itemDetailOpt = itemDetailRepository.findByItemCategory(itemCategoryOpt.get());
+		System.out.println(itemDetailOpt);
+		if (itemDetailOpt.isEmpty()) {
+			itemCategoryRepository.deleteByItemName(itemCategoryOpt.get().getItemName());
+		} else {
+			for (ItemDetail item : itemDetailOpt) {
+				itemDetailRepository.deleteByItemCategory(item.getItemCategory());
+			}
+		}
+
+		return DeleteResult.ITEM_SUCCEED;
+	}
+
+	@Override
+	public DeleteResult deleteDetailByItemCategory(ItemListEditForm itemListEditForm) {
+		Optional<ItemDetail> itemDetailOpt = itemDetailRepository.findById(itemListEditForm.getSelectedDetailId());
+		if (itemDetailOpt.isEmpty()) {
+			return DeleteResult.ITEM_ERROR;
+		}
+
+		itemDetailRepository.deleteById(itemDetailOpt.get().getDetailId());
+		return DeleteResult.ITEM_SUCCEED;
 	}
 
 	@Override
 	public Optional<ItemCategory> searchItemCategory(String itemName) {
 		return itemCategoryRepository.findByItemName(itemName);
+
+	}
+
+	@Override
+	public Optional<ItemDetail> searchItemDetail(Integer detailId) {
+		return itemDetailRepository.findById(detailId);
 
 	}
 
@@ -115,6 +149,31 @@ public class ItemListServiceImpl implements ItemListService {
 
 	}
 
+	@Override
+	public Optional<ItemDetail> createItemDetailList(ItemDetailListCreateForm itemDetailListCreateForm) {
+		UUID uuid = UUID.randomUUID();
+
+		String saveImageUrl = uuid + imgExtract;
+		Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
+		try {
+			Files.copy(itemDetailListCreateForm.getImageUrl().getInputStream(), imageUrlPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		;
+
+		ItemDetail itemDetail = mapper.map(itemDetailListCreateForm, ItemDetail.class);
+		((ItemDetail) itemDetail).setDetailId(null);
+		((ItemDetail) itemDetail).setItemCategory(itemDetailListCreateForm.getId());
+		((ItemDetail) itemDetail).setImageUrl(saveImageUrl);
+		((ItemDetail) itemDetail).setItineraryOrder(itemDetailListCreateForm.getItineraryOrder());
+		((ItemDetail) itemDetail).setItineraryTitle(itemDetailListCreateForm.getItineraryTitle());
+		((ItemDetail) itemDetail).setItemDetailText(itemDetailListCreateForm.getItemDetailText());
+
+		return Optional.of(itemDetailRepository.save(itemDetail));
+
+	}
+
 	private List<ItemCategory> findItemInfoByParam(ItemSeachInfo itemSeachInfo) {
 		String itemNameParam = AppUtil.addWildcard(itemSeachInfo.getItemName());
 
@@ -128,12 +187,38 @@ public class ItemListServiceImpl implements ItemListService {
 		}
 	}
 
+	private List<ItemDetail> findDetailInfoByParam(ItemDetailSearchInfo itemDetailSearchInfo) {
+		String itemTitleParam = AppUtil.addWildcard(itemDetailSearchInfo.getItineraryTitle());
+
+		if (itemDetailSearchInfo.getItineraryTitle() != null && itemDetailSearchInfo.getItineraryOrder() != null) {
+			return itemDetailRepository.findByItineraryTitleLikeAndItineraryOrder(itemTitleParam,
+					itemDetailSearchInfo.getItineraryOrder());
+		} else if (itemDetailSearchInfo.getItineraryTitle() != null) {
+			return itemDetailRepository.findByItineraryTitleLike(itemTitleParam);
+		} else {
+			return itemDetailRepository
+					.findByItineraryOrderOrderByItineraryOrder(itemDetailSearchInfo.getItineraryOrder());
+		}
+	}
+
 	private List<ItemList> toItemCategories(List<ItemCategory> itemCategories) {
 		var itemList = new ArrayList<ItemList>();
 		for (ItemCategory itemCategory : itemCategories) {
 			ItemList itemCategoryList = mapper.map(itemCategory, ItemList.class);
 			((ItemList) itemCategoryList).setItemCategory(itemCategory.getItemCategoryKind().getDisplayValue());
 			itemList.add((ItemList) itemCategoryList);
+		}
+
+		return itemList;
+
+	}
+
+	private List<ItemDetailList> toItemDetails(List<ItemDetail> itemDetails) {
+		var itemList = new ArrayList<ItemDetailList>();
+		for (ItemDetail itemDetail : itemDetails) {
+			ItemDetailList itemDetailList = mapper.map(itemDetail, ItemDetailList.class);
+			((ItemDetailList) itemDetailList).setItineraryTitle(itemDetail.getItineraryTitle());
+			itemList.add((ItemDetailList) itemDetailList);
 		}
 
 		return itemList;
@@ -178,6 +263,47 @@ public class ItemListServiceImpl implements ItemListService {
 		itemUpdateResult.setUpdateMessage(UserEditMessage.SUCCEED);
 
 		return itemUpdateResult;
+	}
+	
+	@Override
+	public DetailEditResult updateDetailInfo(ItemDetailUpdateInfo itemDetailUpdateInfo) {
+		// 現在の登録情報を取得
+		var detailUpdateResult = new DetailEditResult();
+
+		Optional<ItemDetail> itemDetailOpt = itemDetailRepository.findById(itemDetailUpdateInfo.getDetailId());
+		if (itemDetailOpt.isEmpty()) {
+			detailUpdateResult.setUpdateMessage(UserEditMessage.FAILED);
+			return detailUpdateResult;
+		}
+
+		UUID uuid = UUID.randomUUID();
+		String saveImageUrl = uuid + imgExtract;
+		Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
+		try {
+			Files.copy(itemDetailUpdateInfo.getImageUrl().getInputStream(), imageUrlPath);
+			Files.delete(Path.of(itemDetailOpt.get().getImageUrl()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// 画面の入力情報等をセット
+		var itemDetail = itemDetailOpt.get();
+		itemDetail.setItineraryOrder(itemDetailUpdateInfo.getItineraryOrder());
+		itemDetail.setItineraryTitle(itemDetailUpdateInfo.getItineraryTitle());
+		itemDetail.setItemDetailText(itemDetailUpdateInfo.getItemDetailText());;
+		itemDetail.setImageUrl(saveImageUrl);
+		System.out.println(itemDetailOpt);
+		try {
+			itemDetailRepository.save(itemDetail);
+		} catch (Exception e) {
+			detailUpdateResult.setUpdateMessage(UserEditMessage.FAILED);
+			return detailUpdateResult;
+		}
+
+		detailUpdateResult.setUpdateItemDetail(itemDetail);
+		detailUpdateResult.setUpdateMessage(UserEditMessage.SUCCEED);
+
+		return detailUpdateResult;
 	}
 
 }

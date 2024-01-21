@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.ItemCategory;
 import com.example.demo.entity.ItemDetail;
@@ -15,10 +16,20 @@ public interface ItemDetailRepository extends
 
 	List<ItemDetail> findByItemCategoryOrderByItineraryOrder(Optional<ItemCategory> itemCategoryOpt);
 	
-	Optional<ItemDetail> findByItemCategory(ItemCategory itemCategory);
+	List<ItemDetail> findByItemCategory(ItemCategory itemCategory);
+	
+	List<ItemDetail> findByItineraryTitleLikeAndItineraryOrder(String itineraryTitle, Integer itineraryOrder);
+	
+	List<ItemDetail> findByItineraryTitleLike(String itineraryTitle);
+	
+	
+	List<ItemDetail> findByItineraryOrderOrderByItineraryOrder(Integer itineraryOrder);
 	
 	boolean existsByItemCategory(ItemCategory itemCategory);
 	
-	List<ItemDetail> deleteByItemCategory(ItemCategory itemCategory);
+	@Transactional
+	void deleteByItemCategory(ItemCategory itemCategory);
+
+	Optional<ItemCategory> findByItineraryTitle(String itineraryTitle);
 	
 }

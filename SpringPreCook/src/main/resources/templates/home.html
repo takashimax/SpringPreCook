@@ -25,7 +25,7 @@
 		</button>
 	</p>
 	<div class="row" th:each="item : ${itemCategories}">
-		<div class="col">
+		<div>
 			<div class="collapse multi-collapse" id="multiCollapseExample1">
 				<div th:if="${item.itemCategoryKind.code}=='1'">
 					<div class="card text-bg-light mb-3" style="width: 12rem;">
@@ -37,7 +37,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col">
+		<div>
 			<div class="collapse multi-collapse" id="multiCollapseExample2">
 				<div th:if="${item.itemCategoryKind.code}=='2'">
 					<div class="card text-bg-light mb-3" style="width: 12rem;">
@@ -49,7 +49,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col">
+		<div>
 			<div class="collapse multi-collapse" id="multiCollapseExample3">
 				<div th:if="${item.itemCategoryKind.code}=='3'">
 					<div class="card text-bg-light mb-3" style="width: 12rem;">

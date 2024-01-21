@@ -19,10 +19,10 @@ public class PostingMaterial {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer detailId;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "posting_id", referencedColumnName = "id")
-	private PostingInfo postingInfo;
+    @JoinColumn(name = "posting_id")
+    private PostingInfo postingInfo;
 
 	@Column(name = "material_order")
 	private Integer materialOrder;

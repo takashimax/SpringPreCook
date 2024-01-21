@@ -19,15 +19,15 @@ public interface PostingService {
 	 */
 	public Optional<PostingInfo> findPostingInfos(Integer id);
 	
-	public List<PostingDetail> findPostingDetail(PostingInfo postingInfo);
+	public Optional<PostingDetail> findPostingDetail(PostingInfo postingInfo);
 	
-	public List<PostingMaterial> findPostingMaterial(PostingInfo postingInfo);
+	public Optional<PostingMaterial> findPostingMaterial(PostingInfo postingInfo);
 
 	public List<PostingInfo> findPost(UserInfo userInfo);
 
 	public Optional<PostingInfo> createPostInfo(PostingForm postingForm,UserInfo userInfo);
 
-	public Optional<PostingMaterial> createPostMaterial(PostingForm postingForm, PostingInfo postingInfo);
+	public void createPostMaterial(PostingForm postingForm, PostingInfo postingInfo);
 
 	public Optional<PostingDetail> createPostDetail(PostingForm postingForm, PostingInfo postingInfo);
 	

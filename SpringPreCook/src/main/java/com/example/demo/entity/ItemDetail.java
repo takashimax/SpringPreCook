@@ -1,6 +1,5 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +20,7 @@ public class ItemDetail {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer detailId;
 
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	@ManyToOne
 	@JoinColumn(name = "item_category_id", referencedColumnName = "id")
 	private ItemCategory itemCategory;
 

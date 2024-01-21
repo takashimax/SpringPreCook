@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -12,17 +11,15 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.constant.DeleteResult;
 import com.example.demo.constant.SessionKeyConst;
 import com.example.demo.constant.UrlConst;
-import com.example.demo.constant.UserDeleteResult;
 import com.example.demo.constant.ViewNameConst;
 import com.example.demo.constant.db.ItemCategoryKind;
 import com.example.demo.dto.ItemList;
 import com.example.demo.dto.ItemSeachInfo;
-import com.example.demo.entity.ItemCategory;
 import com.example.demo.form.ItemListCreateForm;
 import com.example.demo.form.ItemListForm;
-import com.example.demo.repository.ItemCategoryRepository;
 import com.example.demo.service.ItemListService;
 import com.example.demo.util.AppUtil;
 import com.github.dozermapper.core.Mapper;
@@ -33,20 +30,18 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class ItemListController {
-	private final ItemCategoryRepository itemCategoryRepository;
 
 	private final ItemListService itemListService;
 
 	private final HttpSession session;
 
 	private final MessageSource messageSource;
-	
+
 	private final Mapper mapper;
 
 	@GetMapping(UrlConst.ITEM_LIST)
 	public String view(Model model, ItemListForm itemListForm) {
 		session.removeAttribute(SessionKeyConst.SELECETED_ID);
-
 		List<ItemList> itemCategories = itemListService.editCategory();
 		model.addAttribute("itemCategories", itemCategories);
 		model.addAttribute("ItemCategoryKinds", ItemCategoryKind.values());
@@ -89,10 +84,8 @@ public class ItemListController {
 	@PostMapping(value = UrlConst.ITEM_LIST, params = "delete")
 	@Transactional
 	public String deleteCategory(Model model, ItemListForm itemListForm) {
-		Optional<ItemCategory> itemCategoryOpt = itemCategoryRepository.findByItemName(itemListForm.getSelectedId());
-		UserDeleteResult executeResult = itemListService.deleteDetailByItemCategory(itemCategoryOpt.get());
-		System.out.println(executeResult);
-		model.addAttribute("isError", executeResult == UserDeleteResult.ERROR);
+		DeleteResult executeResult = itemListService.deleteCategoryByItemName(itemListForm);
+		model.addAttribute("isError", executeResult == DeleteResult.ITEM_ERROR);
 		model.addAttribute("message", AppUtil.getMessage(messageSource, executeResult.getMessageId()));
 
 		// 削除後、フォーム情報の「選択されたログインID」は不要になるため、クリアします。

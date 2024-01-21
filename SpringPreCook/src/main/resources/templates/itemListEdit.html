@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
@@ -24,6 +24,9 @@
 		<form th:action="@{/itemListEdit}" method="post" enctype="multipart/form-data" th:object="${itemListEditForm}">
 			<div class="mt-3">
 				<table>
+					<tr>
+						<input th:value="${itemList.id}" type="hidden" th:field="*{id}">
+					</tr>
 					<tr>
 						<td><label>アイテムID：</label></td>
 						<td>
@@ -72,6 +75,36 @@
 					<input type="submit" class="btn btn-primary" name="update" value="更新">
 					<a class="btn btn-secondary" th:href="@{/itemList}">戻る</a>
 				</div>
+				<!--				<div class="mt-1">-->
+				<!--				<table>-->
+				<!--					<tr>-->
+				<!--						<td><span>件名：</span></td>-->
+				<!--						<td>-->
+				<!--							<div class="row g-3 align-items-center">-->
+				<!--								<div class="col-auto">-->
+				<!--									<input type="text" class="form-control" th:field="*{itineraryTitle}">-->
+				<!--								</div>-->
+				<!--								<div class="col-auto">-->
+				<!--									<span class="form-text">※部分一致</span>-->
+				<!--								</div>-->
+				<!--							</div>-->
+				<!--						</td>-->
+				<!--					</tr>-->
+				<!--					<tr>-->
+				<!--						<td><span>工程番号：</span></td>-->
+				<!--						<td>-->
+				<!--							<select class="form-select" th:field="*{itineraryOrder}">-->
+				<!--								<option value="">指定なし</option>-->
+				<!--								<option th:each="itemDetail : ${itemDetailList}" th:value="${itemDetail}"-->
+				<!--									th:text="${itemDetail.itineraryOrder}">-->
+				<!--								</option>-->
+				<!--							</select>-->
+				<!--						</td>-->
+				<!--					</tr>-->
+				<!--				</table>-->
+				<input type="hidden" class="btn btn-primary mt-3" name="search" value="検索">
+				<!--			</div>-->
+				<h2 class="mt-3">アイテム詳細</h2>
 				<div class="mt-3">
 					<th:block th:unless="${#lists.isEmpty(itemDetailList)}">
 						<table class="table table-striped" id="colunmnList">
@@ -80,15 +113,16 @@
 									<th scope="col">ID</th>
 									<th scope="col">アイテムID</th>
 									<th scope="col">画像URL</th>
-									<th scope="col">行程番号</th>
 									<th scope="col">件名</th>
+									<th scope="col">工程番号</th>
 									<th scope="col">詳細</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="item, stat : ${itemDetailList}" scope="row">
-									<td th:id="|detailId_${stat.count}|"><span th:text="${item.detailId}"></span></td>
-									<td th:id="|id_${stat.count}|"><span th:text="${item.itemCategory.id}"></span></td>
+									<td th:id="|id_${stat.count}|"><span th:text="${item.detailId}"></span></td>
+									<td th:id="|itemCategory_${stat.count}|"><span
+											th:text="${item.itemCategory.id}"></span></td>
 									<td th:id="|imageUrl_${stat.count}|"><span
 											th:text="${item.imageUrl} != null ? ${item.imageUrl} : '-'"></span></td>
 									<td th:id="|itineraryTitle_${stat.count}|"><span
@@ -100,13 +134,13 @@
 								</tr>
 							</tbody>
 						</table>
-						<input type="text" th:field="*{selectedId}" hidden>
-						<a th:href="@{/itemDetailListCreate}" class="btn btn-secondary">新規登録</a>
+						<input type="text" th:field="*{selectedDetailId}" hidden>
 						<input type="submit" class="btn btn-secondary" id="editBtn" name="edit" value="編集" disabled>
 						<input type="button" class="btn btn-danger" id="deleteDummyBtn" data-bs-toggle="modal"
 							data-bs-target="#deleteConfirm" value="削除" disabled>
 						<input type="submit" id="deleteBtn" name="delete" hidden>
 					</th:block>
+					<a th:href="@{/itemDetailListCreate/__${itemList.id}__}" class="btn btn-secondary">新規登録</a>
 					<th:block th:if="${#lists.isEmpty(itemDetailList)}">
 						<div class="text-center">
 							<span>※対象のカテゴリーは存在しません。</span>
@@ -118,6 +152,25 @@
 				</div>
 			</div>
 		</form>
+		<!-- 削除確認モーダルの設定 -->
+		<div class="modal fade" id="deleteConfirm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="staticBackdropLabel">削除前確認</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						本当に削除してもよろしいですか？
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+						<button type="button" class="btn btn-primary" id="deleteOkBtn">削除する</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		<script>
 			function previewImage(obj) {
 				var fileReader = new FileReader();
@@ -128,5 +181,6 @@
 			}
 		</script>
 </body>
+
 
 </html>

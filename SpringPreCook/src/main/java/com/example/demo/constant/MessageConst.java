@@ -34,4 +34,8 @@ public class MessageConst {
 
 	/** ユーザー情報編集画面：ユーザー更新完了 */
 	public static final String USEREDIT_UPDATE_SUCCEED = "userEdit.updateSucceed";
+	
+	public static final String ITEMLIST_DELETE_SUCCEED = "itemList.deleteSucceed";
+	
+	public static final String ITEMLIST_NON_EXISTED_ITEM_NAME = "itemList.nonExistedItemName";
 }

@@ -11,11 +11,13 @@ $(function() {
 		// 更新ボタン、削除ボタンを活性化
 		$('#editBtn').removeAttr('disabled');
 		$('#deleteDummyBtn').removeAttr('disabled');
-		
+
 		// ログインID一時保管
 		editSelectedId($(this));
+
+		editSelectedDetailId($(this));
 	});
-	
+
 	$('#deleteOkBtn').click(function() {
 		$('#deleteBtn').trigger('click');
 	});
@@ -35,4 +37,15 @@ function editSelectedId(row) {
 		}
 	});
 }
+
+function editSelectedDetailId(row) {
+	row.find('td').each(function() {
+		var columnId = $(this).attr('id');
+		if (columnId.startsWith('id_')) {
+			$('#selectedDetailId').val($(this).text());
+			return false;
+		}
+	});
+}
+
 

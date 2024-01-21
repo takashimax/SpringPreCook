@@ -35,22 +35,12 @@ $(function() {
 
 		var tr_form = '' +
 			'<tr>' +
-			'<td><input type="text" name="text_1[]" th: field="*{materialName}" class="form-control"></td>' +
-			'<td><input type="text" name="text_2[]" th: field="*{materialQuantity}" class="form-control"></td>' +
+			'<td><input type="text" th:field="*{materialList[].materialName}" class="form-control"></td>' +
+			'<td><input type="text" th:field="*{materialList[].materialQuantity}" class="form-control"></td>' +
 			'</tr>';
 		$(tr_form).appendTo($('table > tbody'));
 
 	});
 
 
-});
-
-$(document).on("click", ".add", function() {
-	$(this).parent().clone(true).insertAfter($(this).parent());
-});
-$(document).on("click", ".del", function() {
-	var target = $(this).parent();
-	if (target.parent().children().length > 1) {
-		target.remove();
-	}
 });

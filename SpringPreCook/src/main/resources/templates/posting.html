@@ -36,27 +36,32 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">使用食材</label>
-						<div class="col-sm-10 d-flex px-2">
-							<div id="input_pluralBox">
-								<div id="input_plural" class="d-flex px-2">
-									<label class="col-sm-2 control-label">材料</label>
-									<input th:field="*{materialName}" type="text" class="form-control"
-										placeholder="例）：砂糖">
-									<input type="button" value="＋" class="add pluralBtn">
-									<input type="button" value="－" class="del pluralBtn">
-								</div>
-							</div>
-							<div id="input_pluralBox">
-								<div id="input_plural" class="d-flex px-2">
-									<label class="col-sm-2 control-label">分量</label>
-									<input th:field="*{materialQuantity}" type="text" class="form-control"
-										placeholder="例）：小さじ１">
-									<input type="button" value="＋" class="add pluralBtn">
-									<input type="button" value="－" class="del pluralBtn">
-								</div>
-							</div>
-						</div>
+						<table>
+							<thead>
+								<tr>
+									<th>材料</th>
+									<th>分量</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr id="testNo_input">
+									<td>
+										<div>
+											<input class="materialName form-control" type="text"
+												th:field="*{materialList[0].materialName}" />
+										</div>
+										<div id="materialName"></div>
+									</td>
+<!--									<td>-->
+<!--										<div>-->
+<!--											<input class="materialQuantity form-control" type="text"-->
+<!--												th:field="*{materialList[0].materialQuantity}" />-->
+<!--										</div>-->
+<!--										<div id="materialQuantity"></div>-->
+<!--									</td>-->
+									<td><button class="btn btn-primary rounded-pill" id="addInput" type="button"  tabIndex="-1">＋</button></td>
+								</tr>
+						</table>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">調理手順</label>
@@ -87,31 +92,16 @@
 			</div>
 		</div>
 	</div>
-	<!--	<div>-->
-	<!--		<h2 class="mb-4 text-center">投稿記事一覧</h2>-->
-	<!--		<div class="images" th:each="posting : ${postingList}">-->
-	<!--			<div class="dish_image text-center mb-4">-->
-	<!--				<div class="img">-->
-	<!--					<a th:href="@{/postingEdit/__${posting.id}__}">-->
-	<!--						<img th:src="@{/img/{imageUrl}  (imageUrl = *{posting.imageUrl})}"-->
-	<!--							style="width: 150px; height: 150px;">-->
-	<!--					</a>-->
-	<!--				</div>-->
-	<!--				<span th:text="${#temporals.format(posting.createTime, 'yyyy/MM/dd')}"></span>-->
-	<!--				<br>-->
-	<!--				<span th:text="${posting.postingTitle}"></span><br>-->
-	<!--			</div>-->
-	<!--		</div>-->
-	<!--	</div>-->
 	<div class="container" id="works">
 		<h2>投稿一覧</h2>
 		<div class="card-deck">
-			<div class="card"  th:each="posting : ${postingList}">
+			<div class="card" th:each="posting : ${postingList}">
 				<div class="card-header">
 					<h5 class="card-title" th:text="${posting.postingTitle}"></h5>
 				</div>
 				<a th:href="@{/postingEdit/__${posting.id}__}">
-					<img th:src="@{/img/{imageUrl}  (imageUrl = *{posting.imageUrl})}" class="card-img-top" alt="..." style="max-width: 12em;">
+					<img th:src="@{/img/{imageUrl}  (imageUrl = *{posting.imageUrl})}" class="card-img-top" alt="..."
+						style="max-width: 12em;">
 					<div class="card-body">
 
 						<p class="card-text" th:text="${posting.postingText}"></p>
@@ -131,6 +121,40 @@
 			});
 			fileReader.readAsDataURL(obj.files[0]);
 		}
+	</script>
+	<script type="text/javascript">
+		function addmaterialName() {
+			var inputCount = document.getElementsByClassName("materialName form-control").length;
+			var input = document.createElement("input");
+			input.setAttribute("type", "text");
+			input.setAttribute("id", "materialList" + inputCount + ".materialName");
+			input.setAttribute("class", "materialName form-control");
+			input.setAttribute("name", "materialList[" + inputCount + "].materialName")
+			input.setAttribute("value", "");
+			var ele = document.createElement("div");
+			ele.appendChild(input);
+			document.getElementById("materialName").appendChild(ele);
+		};
+		function addMaterilQuantity() {
+			var inputCount = document.getElementsByClassName("materialQuantity form-control").length;
+			var input = document.createElement("input");
+			input.setAttribute("type", "text");
+			input.setAttribute("id", "materialList" + inputCount + ".materialQuantity");
+			input.setAttribute("class", "materialQuantity form-control");
+			input.setAttribute("name", "materialList[" + inputCount + "].materialQuantity")
+			input.setAttribute("value", "");
+			var ele = document.createElement("div");
+			ele.appendChild(input);
+			document.getElementById("materialQuantity").appendChild(ele);
+		};
+
+		document.getElementById("addInput").addEventListener("click", function (e) {
+			addmaterialName();
+		}, false);
+		document.getElementById("addInput").addEventListener("click", function (e) {
+			addMaterilQuantity();
+		}, false);
+
 	</script>
 </body>
 

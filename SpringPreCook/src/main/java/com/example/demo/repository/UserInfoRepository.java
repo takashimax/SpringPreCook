@@ -80,6 +80,6 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
 			AuthorityKind authorityKind);
 
 	@Transactional
-	List<UserInfo> deleteByLoginId(String loginId);
+	void deleteByLoginId(String loginId);
 
 }

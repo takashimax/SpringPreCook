@@ -28,8 +28,6 @@ public class HomeController {
 		List<ItemCategory> itemCategories = itemCategoryRepository.findAll();
 		model.addAttribute("itemCategories", itemCategories);
 		model.addAttribute("ItemCategoryKinds", ItemCategoryKind.values());
-		System.out.println(itemCategories);
-		
 		return ViewNameConst.HOME;
 	}
 	

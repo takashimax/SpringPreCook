@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
@@ -33,15 +32,13 @@ public class PostingEditController {
 		if (postingInfoOpt.isEmpty()) {
 			AppUtil.doRedirect(UrlConst.POSTING_EDIT);
 		} else {
-			List<PostingMaterial> postingMaterilOpt = postingService.findPostingMaterial(postingInfoOpt.get());
-			List<PostingDetail> postingDetailOpt = postingService.findPostingDetail(postingInfoOpt.get());
-			System.out.println(postingInfoOpt);
-			System.out.println(postingDetailOpt);
+			Optional<PostingMaterial> postingMaterilOpt = postingService.findPostingMaterial(postingInfoOpt.get());
 			System.out.println(postingMaterilOpt);
+			Optional<PostingDetail> postingDetailOpt = postingService.findPostingDetail(postingInfoOpt.get());
 
 			model.addAttribute("postingInfoOpt", postingInfoOpt.get());
-			model.addAttribute("postingMaterilOpt", postingMaterilOpt);
-			model.addAttribute("postingDetailOpt", postingDetailOpt);
+			model.addAttribute("postingMaterilOpt", postingMaterilOpt.get());
+			model.addAttribute("postingDetailOpt", postingDetailOpt.get());
 		}
 		return ViewNameConst.POSTING_EDIT;
 	}

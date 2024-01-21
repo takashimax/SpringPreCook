@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.constant.UserDeleteResult;
+import com.example.demo.constant.DeleteResult;
 import com.example.demo.dto.UserListInfo;
 import com.example.demo.dto.UserSearchInfo;
 import com.example.demo.entity.UserInfo;
@@ -52,14 +52,14 @@ public class UserListServiceImpl implements UserListService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public UserDeleteResult deleteUserInfoById(String loginId) {
+	public DeleteResult deleteUserInfoById(String loginId) {
 		Optional<UserInfo> userInfo = repository.findByLoginId(loginId);
 		if (userInfo.isEmpty()) {
-			return UserDeleteResult.ERROR;
+			return DeleteResult.USER_ERROR;
 		}
 
 		repository.deleteByLoginId(loginId);
-		return UserDeleteResult.SUCCEED;
+		return DeleteResult.USER_SUCCEED;
 	}
 
 	/**

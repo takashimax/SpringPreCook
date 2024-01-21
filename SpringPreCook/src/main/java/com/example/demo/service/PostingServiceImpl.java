@@ -22,6 +22,8 @@ import com.example.demo.repository.PostingInfoRepository;
 import com.example.demo.repository.PostingMaterialRepository;
 import com.github.dozermapper.core.Mapper;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -46,26 +48,24 @@ public class PostingServiceImpl implements PostingService {
 	public List<PostingInfo> findPost(UserInfo userInfo) {
 		return postingInfoRepository.findByUserInfo(userInfo);
 	}
-	
+
 	@Override
 	public Optional<PostingInfo> findPostingInfos(Integer id) {
 		return postingInfoRepository.findById(id);
 	}
-	
 
 	@Override
-	public List<PostingDetail> findPostingDetail(PostingInfo postingInfo) {
+	public Optional<PostingDetail> findPostingDetail(PostingInfo postingInfo) {
 		return postingDetailRepository.findByPostingInfo(postingInfo);
 	}
 
 	@Override
-	public List<PostingMaterial> findPostingMaterial(PostingInfo postingInfo) {
+	public Optional<PostingMaterial> findPostingMaterial(PostingInfo postingInfo) {
 		return postingMaterialRepository.findByPostingInfo(postingInfo);
 	}
 
-
 	@Override
-	public Optional<PostingInfo> createPostInfo(PostingForm postingForm,UserInfo userInfo) {
+	public Optional<PostingInfo> createPostInfo(PostingForm postingForm, UserInfo userInfo) {
 		UUID uuid = UUID.randomUUID();
 		String saveImageUrl = uuid + imgExtract;
 		Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
@@ -87,16 +87,21 @@ public class PostingServiceImpl implements PostingService {
 
 	}
 
+	@PersistenceContext
+	private EntityManager em;
+
 	@Override
-	public Optional<PostingMaterial> createPostMaterial(PostingForm postingForm, PostingInfo postingInfo) {
+	public void createPostMaterial(PostingForm postingForm, PostingInfo postingInfo) {
 
 		PostingMaterial postingMaterial = mapper.map(postingForm, PostingMaterial.class);
-		postingMaterial.setDetailId(null);
-		postingMaterial.setPostingInfo(postingInfo);
-		postingMaterial.setMaterialName(postingForm.getMaterialName());
-		postingMaterial.setMaterialOrder(postingForm.getMaterialOrder());
-		postingMaterial.setMaterialQuantity(postingForm.getMaterialQuantity());
-		return Optional.of(postingMaterialRepository.save(postingMaterial));
+		for (int n = 0; n <= postingForm.getMaterialList().size() - 1; n++) {
+			postingMaterial.setPostingInfo(postingInfo);
+			postingMaterial.setMaterialName(postingForm.getMaterialList().get(n).getMaterialName());
+			postingMaterial.setMaterialOrder(n + 1);
+			this.em.persist(postingMaterial);
+			System.out.println(postingMaterial);
+		}
+
 	}
 
 	@Override
@@ -123,9 +128,7 @@ public class PostingServiceImpl implements PostingService {
 
 	@Override
 	@Transactional
-	public void createPostingResult(PostingForm postingForm,UserInfo userInfo) {
-		System.out.println("ok");
-		System.out.println(userInfo);
+	public void createPostingResult(PostingForm postingForm, UserInfo userInfo) {
 		Optional<PostingInfo> postingInfo = createPostInfo(postingForm, userInfo);
 		createPostMaterial(postingForm, postingInfo.get());
 		createPostDetail(postingForm, postingInfo.get());

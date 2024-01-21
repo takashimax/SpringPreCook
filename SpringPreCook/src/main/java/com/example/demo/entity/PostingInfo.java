@@ -40,6 +40,5 @@ public class PostingInfo {
 
 	@Column(name = "update_time")
 	private LocalDateTime updateTime;
-
-
+	
 }

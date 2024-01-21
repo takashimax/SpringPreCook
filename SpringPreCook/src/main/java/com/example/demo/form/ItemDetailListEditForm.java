@@ -1,5 +1,25 @@
 package com.example.demo.form;
 
-public class ItemDetailListEditForm {
+import org.springframework.web.multipart.MultipartFile;
 
+import lombok.Data;
+
+@Data
+public class ItemDetailListEditForm {
+	
+	private String itineraryTitle;
+	
+	private Integer itineraryOrder;
+	
+	private String itemDetailText;
+	
+	private MultipartFile imageUrl;
+	
+	private Integer selectedDetailId;
+
+	public ItemDetailListEditForm clearSelectedDetailId() {
+		this.selectedDetailId = null;
+
+		return this;
+	}
 }
