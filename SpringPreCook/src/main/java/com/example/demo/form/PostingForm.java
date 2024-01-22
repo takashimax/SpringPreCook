@@ -25,10 +25,20 @@ public class PostingForm {
 
 	private List<MaterialList> materialList;
 
+	private List<DetailList> detailLists;
+
 	@Data
 	public static class MaterialList {
 		private String materialName;
 
 		private String materialQuantity;
+	}
+
+	@Data
+	public static class DetailList {
+
+		private MultipartFile detailImageUrl;
+
+		private String postingDetailText;
 	}
 }

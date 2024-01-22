@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,19 +20,17 @@ import com.example.demo.repository.ItemCategoryRepository;
 import com.example.demo.repository.ItemDetailRepository;
 import com.example.demo.repository.PostingInfoRepository;
 import com.example.demo.service.PostingService;
-import com.github.dozermapper.core.Mapper;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
 public class PrecookController {
-	
+
 	private final PostingService postingService;
 	private final ItemCategoryRepository itemCategoryRepository;
 	private final ItemDetailRepository itemDetailRepository;
 	private final PostingInfoRepository postingInfoRepository;
-	private final Mapper mapper;
 
 	@GetMapping(UrlConst.PRECOOK + "/{itemName}")
 	public String view(@PathVariable(name = "itemName") String itemName, Model model) {
@@ -46,12 +45,17 @@ public class PrecookController {
 		List<ItemDetail> itemDetailList = itemDetailRepository
 				.findByItemCategoryOrderByItineraryOrder(itemCategoryOpt);
 		model.addAttribute("itemDetailList", itemDetailList);
-		
+
 		List<PostingMaterial> postingMaterials = postingService.findPostingMaterialLike(itemName);
-		System.out.println(postingMaterials);
-		PostingMaterial postingOptional = mapper.map(postingMaterials, PostingMaterial.class);
-		Optional<PostingInfo> postingInfos = postingInfoRepository.findById(postingOptional.getPostingInfo().getId());
-		System.out.println(postingInfos);
+		if (!postingMaterials.isEmpty()) {
+			List<PostingInfo> postingInfos = new ArrayList<PostingInfo>();
+			for (int i = 0; i < postingMaterials.size(); i++) {
+				Optional<PostingInfo> postingInfo = postingInfoRepository
+						.findById(postingMaterials.get(i).getPostingInfo().getId());
+				postingInfos.add(postingInfo.get());
+			}
+			model.addAttribute("postingInfos", postingInfos);
+		}
 		return ViewNameConst.PRECOOK;
 	}
 

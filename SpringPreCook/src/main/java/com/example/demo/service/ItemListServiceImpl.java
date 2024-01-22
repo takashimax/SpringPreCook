@@ -127,14 +127,17 @@ public class ItemListServiceImpl implements ItemListService {
 		if (itemOptional.isPresent()) {
 			return Optional.empty();
 		}
-		UUID uuid = UUID.randomUUID();
-
-		String saveImageUrl = uuid + imgExtract;
-		Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
-		try {
-			Files.copy(itemListCreateForm.getImageUrl().getInputStream(), imageUrlPath);
-		} catch (IOException e) {
-			e.printStackTrace();
+		String saveImageUrl = null;
+		if (!itemListCreateForm.getImageUrl().isEmpty()) {
+			UUID uuid = UUID.randomUUID();
+			saveImageUrl = uuid + imgExtract;
+			Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
+			try {
+				Files.copy(itemListCreateForm.getImageUrl().getInputStream(), imageUrlPath);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			;
 		}
 
 		ItemCategory itemCategory = mapper.map(itemListCreateForm, ItemCategory.class);
@@ -151,16 +154,19 @@ public class ItemListServiceImpl implements ItemListService {
 
 	@Override
 	public Optional<ItemDetail> createItemDetailList(ItemDetailListCreateForm itemDetailListCreateForm) {
-		UUID uuid = UUID.randomUUID();
 
-		String saveImageUrl = uuid + imgExtract;
-		Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
-		try {
-			Files.copy(itemDetailListCreateForm.getImageUrl().getInputStream(), imageUrlPath);
-		} catch (IOException e) {
-			e.printStackTrace();
+		String saveImageUrl = null;
+		if (!itemDetailListCreateForm.getImageUrl().isEmpty()) {
+			UUID uuid = UUID.randomUUID();
+			saveImageUrl = uuid + imgExtract;
+			Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
+			try {
+				Files.copy(itemDetailListCreateForm.getImageUrl().getInputStream(), imageUrlPath);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			;
 		}
-		;
 
 		ItemDetail itemDetail = mapper.map(itemDetailListCreateForm, ItemDetail.class);
 		((ItemDetail) itemDetail).setDetailId(null);
@@ -236,22 +242,25 @@ public class ItemListServiceImpl implements ItemListService {
 			return itemUpdateResult;
 		}
 
-		UUID uuid = UUID.randomUUID();
-		String saveImageUrl = uuid + imgExtract;
-		Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
-		try {
-			Files.copy(itemUpdateInfo.getImageUrl().getInputStream(), imageUrlPath);
-			Files.delete(Path.of(itemCategoryOpt.get().getImageUrl()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		// 画面の入力情報等をセット
 		var itemCategory = itemCategoryOpt.get();
 		itemCategory.setItemName(itemUpdateInfo.getItemName());
 		itemCategory.setItemCategoryKind(itemUpdateInfo.getItemCategoryKind());
 		itemCategory.setUpdateTime(LocalDateTime.now());
-		itemCategory.setImageUrl(saveImageUrl);
+		String saveImageUrl = null;
+		if (!itemUpdateInfo.getImageUrl().isEmpty()) {
+			UUID uuid = UUID.randomUUID();
+			saveImageUrl = uuid + imgExtract;
+			Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
+			try {
+				Files.copy(itemUpdateInfo.getImageUrl().getInputStream(), imageUrlPath);
+				itemCategory.setImageUrl(saveImageUrl);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			;
+		}
+
 		try {
 			itemCategoryRepository.save(itemCategory);
 		} catch (Exception e) {
@@ -264,7 +273,7 @@ public class ItemListServiceImpl implements ItemListService {
 
 		return itemUpdateResult;
 	}
-	
+
 	@Override
 	public DetailEditResult updateDetailInfo(ItemDetailUpdateInfo itemDetailUpdateInfo) {
 		// 現在の登録情報を取得
@@ -276,23 +285,26 @@ public class ItemListServiceImpl implements ItemListService {
 			return detailUpdateResult;
 		}
 
-		UUID uuid = UUID.randomUUID();
-		String saveImageUrl = uuid + imgExtract;
-		Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
-		try {
-			Files.copy(itemDetailUpdateInfo.getImageUrl().getInputStream(), imageUrlPath);
-			Files.delete(Path.of(itemDetailOpt.get().getImageUrl()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
 		// 画面の入力情報等をセット
 		var itemDetail = itemDetailOpt.get();
 		itemDetail.setItineraryOrder(itemDetailUpdateInfo.getItineraryOrder());
 		itemDetail.setItineraryTitle(itemDetailUpdateInfo.getItineraryTitle());
-		itemDetail.setItemDetailText(itemDetailUpdateInfo.getItemDetailText());;
-		itemDetail.setImageUrl(saveImageUrl);
-		System.out.println(itemDetailOpt);
+		itemDetail.setItemDetailText(itemDetailUpdateInfo.getItemDetailText());
+		;
+		String saveImageUrl = null;
+		if (!itemDetailUpdateInfo.getImageUrl().isEmpty()) {
+			UUID uuid = UUID.randomUUID();
+			saveImageUrl = uuid + imgExtract;
+			Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
+			try {
+				Files.copy(itemDetailUpdateInfo.getImageUrl().getInputStream(), imageUrlPath);
+				itemDetail.setImageUrl(saveImageUrl);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			;
+		}
 		try {
 			itemDetailRepository.save(itemDetail);
 		} catch (Exception e) {

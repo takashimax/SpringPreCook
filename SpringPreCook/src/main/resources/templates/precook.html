@@ -27,27 +27,30 @@
 			</div>
 		</div>
 	</div>
-<!--	<div class="container" id="works">-->
-<!--		<h2>投稿一覧</h2>-->
-<!--		<th:block>-->
-<!--			<div class="card-deck">-->
-<!--				<div class="card">-->
-<!--					<div class="card-header">-->
-<!--						<h5 class="card-title" th:text="${postingOpt.postingTitle}"></h5>-->
-<!--					</div>-->
-<!--					<div class="card-body">-->
-<!--						<a th:href="@{/postingEdit/__${postingOpt.id}__}">-->
-<!--							<img th:src="@{/img/{imageUrl}  (imageUrl = *{postingOpt.imageUrl})}" class="card-img-top"-->
-<!--								alt="..." style="max-width: 12em;">-->
-<!--							<p class="card-text" th:text="${postingOpt.postingText}"></p>-->
-<!--							<p class="card-text"><small class="text-muted"-->
-<!--									th:text="|投稿日：${#temporals.format(postingOpt.createTime, 'yyyy/MM/dd')}|"></small></p>-->
-<!--						</a>-->
-<!--					</div>-->
-<!--				</div>-->
-<!--			</div>-->
-<!--		</th:block>-->
-<!--	</div>-->
+	<div class="container" id="works">
+		<h2>投稿一覧</h2>
+		<th:block th:if="${postingInfos} != null">
+			<div class="card-deck" th:each="info : ${postingInfos}">
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title" th:text="${info.postingTitle}"></h5>
+					</div>
+					<div class="card-body">
+						<a th:href="@{/postingEdit/__${info.id}__}">
+							<img th:src="@{/img/{imageUrl}  (imageUrl = *{info.imageUrl})}" class="card-img-top"
+								alt="..." style="max-width: 12em;">
+							<p class="card-text" th:text="${info.postingText}"></p>
+							<p class="card-text"><small class="text-muted"
+									th:text="|投稿日：${#temporals.format(info.createTime, 'yyyy/MM/dd')}|"></small></p>
+						</a>
+					</div>
+				</div>
+			</div>
+		</th:block>
+		<th:block th:if="${postingInfos} == null">
+			<h5>※投稿はありません</h5>
+		</th:block>
+	</div>
 
 	<div th:object="${itemCategoryOpt}">
 		<a th:href="@{https://cookpad.com/search/{itemName}(itemName=${itemName})}"

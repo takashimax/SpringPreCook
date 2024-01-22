@@ -65,24 +65,52 @@
 						</table>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">調理手順</label>
-						<div class="col-sm-10">
-							<input type="number" th:field="*{detailOrder}" class="form-control" max="5" min="1"></input>
-						</div>
+						<table>
+							<thead>
+								<tr>
+									<th>調理工程イメージ</th>
+									<th>調理詳細</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr id="testNo_input">
+									<td>
+										<div>
+											<input type="file" class="detailImageUrl form-control" accept='image/*'
+												onchange="previewImage(this)"
+												th:field="*{detailLists[0].detailImageUrl}">
+										</div>
+										<div id="detailImageUrl"></div>
+									</td>
+									<td>
+										<div>
+											<textarea type="text" th:field="*{detailLists[0].postingDetailText}"
+												　class="postingDetailText form-control" rows="10" cols="50"></textarea>
+										</div>
+										<div id="postingDetailText"></div>
+									</td>
+									<td><button class="btn btn-primary rounded-pill" id="addDetail" type="button"
+											tabIndex="-1">＋</button></td>
+								</tr>
+						</table>
 					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">調理過程イメージ</label>
-						<div class="col-sm-10 checkbox">
-							<input type="file" class="form-control" accept='image/*' onchange="previewImage(this)"
-								th:field="*{detailImageUrl}">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">調理詳細</label>
-						<div class="col-sm-10">
-							<textarea type="text" th:field="*{postingDetailText}" 　class="form-control"></textarea>
-						</div>
-					</div>
+					<!--					<label class="col-sm-2 control-label">調理手順</label>-->
+					<!--					<div class="col-sm-10">-->
+					<!--						<input type="number" th:field="*{detailOrder}" class="form-control"></input>-->
+					<!--					</div>-->
+					<!--					<div class="form-group">-->
+					<!--						<label class="col-sm-2 control-label">調理過程イメージ</label>-->
+					<!--						<div class="col-sm-10 checkbox">-->
+					<!--							<input type="file" class="form-control" accept='image/*' onchange="previewImage(this)"-->
+					<!--								th:field="*{detailImageUrl}">-->
+					<!--						</div>-->
+					<!--					</div>-->
+					<!--					<div class="form-group">-->
+					<!--						<label class="col-sm-2 control-label">調理詳細</label>-->
+					<!--						<div class="col-sm-10">-->
+					<!--							<textarea type="text" th:field="*{postingDetailText}" 　class="form-control"></textarea>-->
+					<!--						</div>-->
+					<!--					</div>-->
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
 							<button class="btn btn-primary mt-3">送信</button>
@@ -149,12 +177,49 @@
 			ele.appendChild(input);
 			document.getElementById("materialQuantity").appendChild(ele);
 		};
+		function addDetailImageUrl() {
+			var inputCount = document.getElementsByClassName("detailImageUrl form-control").length;
+			var input = document.createElement("input");
+			input.setAttribute("type", "file");
+			input.setAttribute("accept", "image/*");
+			input.setAttribute("onchange", "previewImage(this)");
+			input.setAttribute("id", "detailLists" + inputCount + ".detailImageUrl");
+			input.setAttribute("class", "detailImageUrl form-control");
+			input.setAttribute("name", "detailLists[" + inputCount + "].detailImageUrl")
+			input.setAttribute("value", "");
+			var el = document.createElement("td");
+			var ele = document.createElement("div");
+			ele.appendChild(input);
+			document.getElementById("detailImageUrl").appendChild(ele).appendChild(el);
+		};
+		function addPostingDetailText() {
+			var inputCount = document.getElementsByClassName("postingDetailText form-control").length;
+			var textarea = document.createElement("textarea");
+			textarea.setAttribute("type", "text");
+			textarea.setAttribute("rows", "10");
+			textarea.setAttribute("cols", "50");
+			textarea.setAttribute("id", "detailLists" + inputCount + ".postingDetailText");
+			textarea.setAttribute("class", "detailImageUrl form-control");
+			textarea.setAttribute("name", "detailLists[" + inputCount + "].postingDetailText")
+			textarea.setAttribute("value", "");
+			var el = document.createElement("td");
+			var ele = document.createElement("div");
+			ele.appendChild(textarea);
+			document.getElementById("postingDetailText").appendChild(ele).appendChild(el);
+		};
+
 
 		document.getElementById("addInput").addEventListener("click", function (e) {
 			addmaterialName();
 		}, false);
 		document.getElementById("addInput").addEventListener("click", function (e) {
 			addMaterilQuantity();
+		}, false);
+		document.getElementById("addDetail").addEventListener("click", function (e) {
+			addDetailImageUrl();
+		}, false);
+		document.getElementById("addDetail").addEventListener("click", function (e) {
+			addPostingDetailText();
 		}, false);
 
 	</script>

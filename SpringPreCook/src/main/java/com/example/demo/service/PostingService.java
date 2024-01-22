@@ -19,9 +19,9 @@ public interface PostingService {
 	 */
 	public Optional<PostingInfo> findPostingInfos(Integer id);
 	
-	public Optional<PostingDetail> findPostingDetail(PostingInfo postingInfo);
+	public List<PostingDetail> findPostingDetail(PostingInfo postingInfo);
 	
-	public Optional<PostingMaterial> findPostingMaterial(PostingInfo postingInfo);
+	public List<PostingMaterial> findPostingMaterial(PostingInfo postingInfo);
 
 	public List<PostingInfo> findPost(UserInfo userInfo);
 
@@ -29,7 +29,7 @@ public interface PostingService {
 
 	public void createPostMaterial(PostingForm postingForm, PostingInfo postingInfo);
 
-	public Optional<PostingDetail> createPostDetail(PostingForm postingForm, PostingInfo postingInfo);
+	public void createPostDetail(PostingForm postingForm, PostingInfo postingInfo);
 	
 	public void createPostingResult(PostingForm postingForm,UserInfo userInfo);
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -55,12 +56,12 @@ public class PostingServiceImpl implements PostingService {
 	}
 
 	@Override
-	public Optional<PostingDetail> findPostingDetail(PostingInfo postingInfo) {
+	public List<PostingDetail> findPostingDetail(PostingInfo postingInfo) {
 		return postingDetailRepository.findByPostingInfo(postingInfo);
 	}
 
 	@Override
-	public Optional<PostingMaterial> findPostingMaterial(PostingInfo postingInfo) {
+	public List<PostingMaterial> findPostingMaterial(PostingInfo postingInfo) {
 		return postingMaterialRepository.findByPostingInfo(postingInfo);
 	}
 
@@ -71,13 +72,17 @@ public class PostingServiceImpl implements PostingService {
 
 	@Override
 	public Optional<PostingInfo> createPostInfo(PostingForm postingForm, UserInfo userInfo) {
-		UUID uuid = UUID.randomUUID();
-		String saveImageUrl = uuid + imgExtract;
-		Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
-		try {
-			Files.copy(postingForm.getImageUrl().getInputStream(), imageUrlPath);
-		} catch (IOException e) {
-			e.printStackTrace();
+		String saveImageUrl = null;
+		if (!postingForm.getImageUrl().isEmpty()) {
+			UUID uuid = UUID.randomUUID();
+			saveImageUrl = uuid + imgExtract;
+			Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
+			try {
+				Files.copy(postingForm.getImageUrl().getInputStream(), imageUrlPath);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			;
 		}
 
 		PostingInfo postingInfo = mapper.map(postingForm, PostingInfo.class);
@@ -98,37 +103,51 @@ public class PostingServiceImpl implements PostingService {
 	@Override
 	public void createPostMaterial(PostingForm postingForm, PostingInfo postingInfo) {
 
-		PostingMaterial postingMaterial = mapper.map(postingForm, PostingMaterial.class);
+		List<PostingMaterial> postingMaterialList = new ArrayList<PostingMaterial>();
 		for (int n = 0; n <= postingForm.getMaterialList().size() - 1; n++) {
-			postingMaterial.setPostingInfo(postingInfo);
-			postingMaterial.setMaterialName(postingForm.getMaterialList().get(n).getMaterialName());
-			postingMaterial.setMaterialOrder(n + 1);
-			this.em.persist(postingMaterial);
-			System.out.println(postingMaterial);
+			PostingMaterial postingMaterial = mapper.map(postingForm,PostingMaterial.class);
+			((PostingMaterial) postingMaterial).setPostingInfo(postingInfo);
+			((PostingMaterial) postingMaterial).setMaterialName(postingForm.getMaterialList().get(n).getMaterialName());
+			((PostingMaterial) postingMaterial)
+					.setMaterialQuantity(postingForm.getMaterialList().get(n).getMaterialQuantity());
+			((PostingMaterial) postingMaterial).setMaterialOrder(n + 1);
+			postingMaterialList.add(postingMaterial);
 		}
+		postingMaterialRepository.saveAll(postingMaterialList);
 
 	}
 
 	@Override
-	public Optional<PostingDetail> createPostDetail(PostingForm postingForm, PostingInfo postingInfo) {
+	public void createPostDetail(PostingForm postingForm, PostingInfo postingInfo) {
 
-		UUID uuid = UUID.randomUUID();
-		String saveImageUrl = uuid + imgExtract;
-		Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
-		try {
-			Files.copy(postingForm.getDetailImageUrl().getInputStream(), imageUrlPath);
-		} catch (IOException e) {
-			e.printStackTrace();
+		
+		List<PostingDetail> postingDetailList = new ArrayList<PostingDetail>();
+		
+		for (int n = 0; n <= postingForm.getDetailLists().size() - 1; n++) {
+			PostingDetail postingDetail = mapper.map(postingForm, PostingDetail.class);
+			((PostingDetail) postingDetail).setPostingInfo(postingInfo);
+			((PostingDetail) postingDetail).setDetailOrder(n + 1);
+			String saveImageUrl = null;
+			if (!postingForm.getDetailLists().get(n).getDetailImageUrl().isEmpty()) {
+				UUID uuid = UUID.randomUUID();
+				saveImageUrl = uuid + imgExtract;
+				Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
+				try {
+					Files.copy(postingForm.getDetailLists().get(n).getDetailImageUrl().getInputStream(), imageUrlPath);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				;
+			}
+			((PostingDetail) postingDetail)
+					.setImageUrl(saveImageUrl);
+			((PostingDetail) postingDetail).setPostingDetailText(postingForm.getDetailLists().get(n).getPostingDetailText());
+			postingDetailList.add(postingDetail);
 		}
-
-		PostingDetail postingDetail = mapper.map(postingForm, PostingDetail.class);
-		postingDetail.setId(null);
-		postingDetail.setPostingInfo(postingInfo);
-		postingDetail.setDetailOrder(postingForm.getDetailOrder());
-		postingDetail.setImageUrl(saveImageUrl);
-		postingDetail.setPostingDetailText(postingForm.getPostingDetailText());
-
-		return Optional.of(postingDetailRepository.save(postingDetail));
+		System.out.println(postingDetailList);
+		postingDetailRepository.saveAll(postingDetailList);
+		
+		
 	}
 
 	@Override

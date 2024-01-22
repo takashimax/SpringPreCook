@@ -32,53 +32,56 @@
 				</div>
 				<div class="form-group">
 					<table>
-						<tr>
-							<td><label for="loginId">材料：</label></td>
-							<td>
-								<div class="row g-3 align-items-center">
-									<div class="col-auto">
-										<span th:text="${postingMaterilOpt.materialName}"></span>
+						<thead>
+							<tr>
+								<th>材料</th>
+								<th>分量</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr id="testNo_input">
+								<td>
+									<div class="row g-3 align-items-center" th:each="material : ${postingMaterilOpt}">
+										<div class="col-auto">
+											<span th:text="${material.materialName}"></span>
+										</div>
 									</div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td><label for="loginId">分量：</label></td>
-							<td>
-								<div class="row g-3 align-items-center">
-									<div class="col-auto">
-										<span th:text="${postingMaterilOpt.materialQuantity}"></span>
+								</td>
+								<td>
+									<div class="row g-3 align-items-center" th:each="material : ${postingMaterilOpt}">
+										<div class="col-auto">
+											<span th:text="${material.materialQuantity}"></span>
+										</div>
 									</div>
-								</div>
-							</td>
-						</tr>
+								</td>
+							</tr>
 					</table>
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">調理手順</label>
-					<div class="col-sm-10">
-						<spn th:text="${postingDetailOpt.detailOrder}"></spn>
+				<div th:each="detail : ${postingDetailOpt}">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">調理手順</label>
+						<div class="col-sm-10">
+							<spn th:text="${detail.detailOrder}"></spn>
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">調理過程イメージ</label>
-					<div class="col-sm-10 checkbox">
-						<img img th:src="@{/img/{imageUrl}  (imageUrl = ${postingDetailOpt.imageUrl})}">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">調理過程イメージ</label>
+						<div class="col-sm-10 checkbox">
+							<img img th:src="@{/img/{imageUrl}  (imageUrl = ${detail.imageUrl})}">
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">調理詳細</label>
-					<div class="col-sm-10">
-						<spn th:text="${postingDetailOpt.postingDetailText}"></spn>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
-						<button class="btn btn-primary mt-3">送信</button>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">調理詳細</label>
+						<div class="col-sm-10">
+							<spn th:text="${detail.postingDetailText}"></spn>
+						</div>
 					</div>
 				</div>
 				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 			</div>
+		</div>
+		<div class="mt-3">
+			<a th:href="@{/}">▶トップメニューへ戻る</a>
 		</div>
 	</div>
 
