@@ -41,4 +41,6 @@ public class PostingInfo {
 	@Column(name = "update_time")
 	private LocalDateTime updateTime;
 	
+//	@OneToMany(mappedBy = "postingInfo")
+//	private List<PostingMaterial> postingMaterials;
 }

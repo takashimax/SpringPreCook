@@ -32,4 +32,6 @@ public interface PostingService {
 	public Optional<PostingDetail> createPostDetail(PostingForm postingForm, PostingInfo postingInfo);
 	
 	public void createPostingResult(PostingForm postingForm,UserInfo userInfo);
+
+	List<PostingMaterial> findPostingMaterialLike(String postingName);
 }

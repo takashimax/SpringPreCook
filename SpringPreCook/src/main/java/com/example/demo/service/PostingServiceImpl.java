@@ -65,6 +65,11 @@ public class PostingServiceImpl implements PostingService {
 	}
 
 	@Override
+	public List<PostingMaterial> findPostingMaterialLike(String postingName) {
+		return postingMaterialRepository.findByMaterialNameLike(postingName);
+	}
+
+	@Override
 	public Optional<PostingInfo> createPostInfo(PostingForm postingForm, UserInfo userInfo) {
 		UUID uuid = UUID.randomUUID();
 		String saveImageUrl = uuid + imgExtract;

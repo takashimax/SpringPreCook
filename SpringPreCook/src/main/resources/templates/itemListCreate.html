@@ -40,8 +40,9 @@
 				<tr>
 					<td><span>画像ファイル：</span></td>
 					<td>
-						<input type="file" class="form-control" accept='image/*' onchange="previewImage(this)"
+						<input id="img" type="file" class="form-control" accept='image/*' onchange="previewImage(this)"
 							th:field="*{imageUrl}">
+						<div class="warning"></div>
 					</td>
 					<td>
 						<img id="preview"
@@ -63,7 +64,7 @@
 			}
 		</script>
 		<div>
-			<input type="submit" class="btn btn-primary" value="登録">
+			<input id="submit" type="submit" class="btn btn-primary" value="登録">
 			<a class="btn btn-secondary" th:href="@{/itemList}">戻る</a>
 		</div>
 

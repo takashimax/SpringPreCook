@@ -16,50 +16,58 @@
 		</div>
 	</div>
 	<p>
-		<a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button"
-			aria-expanded="false" aria-controls="multiCollapseExample1">野菜</a>
+		<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample1"
+			aria-expanded="false" aria-controls="multiCollapseExample1">野菜</button>
 		<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2"
 			aria-expanded="false" aria-controls="multiCollapseExample2">肉類</button>
 		<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample3"
 			aria-expanded="false" aria-controls="multiCollapseExample3">魚介類
 		</button>
 	</p>
-	<div class="row" th:each="item : ${itemCategories}">
-		<div>
-			<div class="collapse multi-collapse" id="multiCollapseExample1">
-				<div th:if="${item.itemCategoryKind.code}=='1'">
-					<div class="card text-bg-light mb-3" style="width: 12rem;">
-						<a th:href="@{/precook/__${item.itemName}__}">
-							<div class="card-header" th:text="${item.itemName}"></div>
-							<img th:src="@{/img/{imageUrl}  (imageUrl = *{item.imageUrl})}" class="thumbnail img-fluid">
-						</a>
+	<div class="container">
+		<div class="row">
+			<div class="col" th:each="item : ${itemCategories}">
+				<div>
+					<div class="collapse multi-collapse" id="multiCollapseExample1">
+						<div th:if="${item.itemCategoryKind.code}=='1'">
+							<div class="card text-bg-light mb-3" style="width: 12rem; height: 10rem;">
+								<a th:href="@{/precook/__${item.itemName}__}">
+									<div class="card-header" th:text="${item.itemName}"></div>
+									<img th:src="@{/img/{imageUrl}  (imageUrl = *{item.imageUrl})}"
+										class="thumbnail img-fluid">
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="collapse multi-collapse" id="multiCollapseExample2">
+						<div th:if="${item.itemCategoryKind.code}=='2'">
+							<div class="card text-bg-light mb-3" style="width: 12rem;">
+								<a th:href="@{/precook/__${item.itemName}__}">
+									<div class="card-header" th:text="${item.itemName}"></div>
+									<img th:src="@{/img/{imageUrl}  (imageUrl = *{item.imageUrl})}"
+										class="thumbnail img-fluid">
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="collapse multi-collapse" id="multiCollapseExample3">
+						<div th:if="${item.itemCategoryKind.code}=='3'">
+							<div class="card text-bg-light mb-3" style="width: 12rem;">
+								<a th:href="@{/precook/__${item.itemName}__}">
+									<div class="card-header" th:text="${item.itemName}"></div>
+									<img th:src="@{/img/{imageUrl}  (imageUrl = *{item.imageUrl})}"
+										class="thumbnail img-fluid">
+								</a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div>
-			<div class="collapse multi-collapse" id="multiCollapseExample2">
-				<div th:if="${item.itemCategoryKind.code}=='2'">
-					<div class="card text-bg-light mb-3" style="width: 12rem;">
-						<a th:href="@{/precook/__${item.itemName}__}">
-							<div class="card-header" th:text="${item.itemName}"></div>
-							<img th:src="@{/img/{imageUrl}  (imageUrl = *{item.imageUrl})}" class="thumbnail img-fluid">
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div>
-			<div class="collapse multi-collapse" id="multiCollapseExample3">
-				<div th:if="${item.itemCategoryKind.code}=='3'">
-					<div class="card text-bg-light mb-3" style="width: 12rem;">
-						<a th:href="@{/precook/__${item.itemName}__}">
-							<div class="card-header" th:text="${item.itemName}"></div>
-							<img th:src="@{/img/{imageUrl}  (imageUrl = *{item.imageUrl})}" class="thumbnail img-fluid">
-						</a>
-					</div>
-				</div>
-			</div>
+
 		</div>
 	</div>
 

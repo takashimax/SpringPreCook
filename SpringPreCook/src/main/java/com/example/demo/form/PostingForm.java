@@ -28,7 +28,7 @@ public class PostingForm {
 	@Data
 	public static class MaterialList {
 		private String materialName;
-		
-//		private String materialQuantity;
+
+		private String materialQuantity;
 	}
 }

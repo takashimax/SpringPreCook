@@ -14,23 +14,46 @@
 			<h1 th:text="${itemName} + 'のしたごしらえ'"></h1>
 		</div>
 	</div>
-	<div>
-		<div th:each="item : ${itemDetailList}" th:object="${item}">
-			<div class="d-flex">
-				<div class="row">
-					<h5 th:text="*{itineraryTitle}"></h5>
-					<div class="col-md-1">
-						<img th:src="@{/img/{imageUrl}  (imageUrl = *{imageUrl})}" style="max-width: 5rem;">
-					</div>
+	<div class="container ">
+		<div class="container-m" th:each="item : ${itemDetailList}" th:object="${item}">
+			<div class="row">
+				<div class="col-md-4  img-hidden">
+					<img th:src="@{/img/{imageUrl}  (imageUrl = *{imageUrl})}" style="max-width: 20rem;">
 				</div>
-				<p th:text="*{itemDetailText}"></p>
+				<div class="col-md-8">
+					<h2 th:text="*{itineraryTitle}"></h2>
+					<p th:text="*{itemDetailText}"></p>
+				</div>
 			</div>
 		</div>
-		<div th:object="${itemCategoryOpt}">
-			<a th:href="@{https://cookpad.com/search/{itemName}(itemName=${itemName})}"
-				th:text="${itemName} + 'のレシピを検索'"></a>
-		</div>
-		<a th:href="@{/}">▶ホームへ戻る</a>
+	</div>
+<!--	<div class="container" id="works">-->
+<!--		<h2>投稿一覧</h2>-->
+<!--		<th:block>-->
+<!--			<div class="card-deck">-->
+<!--				<div class="card">-->
+<!--					<div class="card-header">-->
+<!--						<h5 class="card-title" th:text="${postingOpt.postingTitle}"></h5>-->
+<!--					</div>-->
+<!--					<div class="card-body">-->
+<!--						<a th:href="@{/postingEdit/__${postingOpt.id}__}">-->
+<!--							<img th:src="@{/img/{imageUrl}  (imageUrl = *{postingOpt.imageUrl})}" class="card-img-top"-->
+<!--								alt="..." style="max-width: 12em;">-->
+<!--							<p class="card-text" th:text="${postingOpt.postingText}"></p>-->
+<!--							<p class="card-text"><small class="text-muted"-->
+<!--									th:text="|投稿日：${#temporals.format(postingOpt.createTime, 'yyyy/MM/dd')}|"></small></p>-->
+<!--						</a>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</th:block>-->
+<!--	</div>-->
+
+	<div th:object="${itemCategoryOpt}">
+		<a th:href="@{https://cookpad.com/search/{itemName}(itemName=${itemName})}"
+			th:text="${itemName} + 'のレシピを検索'"></a>
+	</div>
+	<a th:href="@{/}">▶ホームへ戻る</a>
 	</div>
 
 </body>
