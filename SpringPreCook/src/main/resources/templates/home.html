@@ -33,7 +33,7 @@
 							<div class="card text-bg-light mb-3" style="width: 12rem; height: 10rem;">
 								<a th:href="@{/precook/__${item.itemName}__}">
 									<div class="card-header" th:text="${item.itemName}"></div>
-									<img th:src="@{/img/{imageUrl}  (imageUrl = *{item.imageUrl})}"
+									<img th:src="@{/img/{imageUrl}  (imageUrl = ${item.imageUrl} != null ? ${item.imageUrl} : ${imgNotExist} )}"
 										class="thumbnail img-fluid">
 								</a>
 							</div>

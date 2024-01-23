@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,9 @@ public class PrecookController {
 	private final ItemCategoryRepository itemCategoryRepository;
 	private final ItemDetailRepository itemDetailRepository;
 	private final PostingInfoRepository postingInfoRepository;
+	
+	@Value("${image.notexist}")
+	private String imgNotExist;
 
 	@GetMapping(UrlConst.PRECOOK + "/{itemName}")
 	public String view(@PathVariable(name = "itemName") String itemName, Model model) {
@@ -45,7 +49,9 @@ public class PrecookController {
 		List<ItemDetail> itemDetailList = itemDetailRepository
 				.findByItemCategoryOrderByItineraryOrder(itemCategoryOpt);
 		model.addAttribute("itemDetailList", itemDetailList);
-
+		
+		model.addAttribute("imgNotExist", imgNotExist);
+		
 		List<PostingMaterial> postingMaterials = postingService.findPostingMaterialLike(itemName);
 		if (!postingMaterials.isEmpty()) {
 			List<PostingInfo> postingInfos = new ArrayList<PostingInfo>();

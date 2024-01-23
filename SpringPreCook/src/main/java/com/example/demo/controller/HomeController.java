@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -22,12 +23,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class HomeController {
 	private final ItemCategoryRepository itemCategoryRepository;
-
+	
+	@Value("${image.notexist}")
+	private String imgNotExist;
+	
 	@GetMapping(UrlConst.HOME)
 	public String view(@AuthenticationPrincipal User user, Model model) {
 		List<ItemCategory> itemCategories = itemCategoryRepository.findAll();
 		model.addAttribute("itemCategories", itemCategories);
 		model.addAttribute("ItemCategoryKinds", ItemCategoryKind.values());
+		model.addAttribute("imgNotExist", imgNotExist);
 		return ViewNameConst.HOME;
 	}
 	

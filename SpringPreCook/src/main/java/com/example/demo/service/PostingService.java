@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.constant.DeleteResult;
 import com.example.demo.entity.PostingDetail;
 import com.example.demo.entity.PostingInfo;
 import com.example.demo.entity.PostingMaterial;
@@ -34,4 +35,6 @@ public interface PostingService {
 	public void createPostingResult(PostingForm postingForm,UserInfo userInfo);
 
 	List<PostingMaterial> findPostingMaterialLike(String postingName);
+
+	DeleteResult deletePosting(Integer id) throws IOException;
 }

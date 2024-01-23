@@ -50,21 +50,4 @@ const $img = document.getElementById('img');
 const $warning = document.querySelector('.warning');
 const $submit = document.getElementById('submit');
 
-$img.onchange = (e) => {
-	if ($img.files.length > 0) {
-		/// ファイルサイズ取得
-		const fileSize = $img.files[0].size;
-		/// MB単位のファイルサイズ計算
-		const fileMib = fileSize / 1024 ** 2;
-		if (fileMib <= 5) {
-			/// アップロードファイルを処理。
-			/// 例えばサーバー側に保存したりとか...
-			$warning.innerText = '';
-			$submit.disabled = false;
-		} else {
-			/// 失敗。送信無効化・エラー表示
-			$warning.innerText = '最大サイズは5MBまで!!';
-			$submit.disabled = true;
-		}
-	}
-}
+

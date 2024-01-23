@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.constant.DeleteResult;
 import com.example.demo.entity.PostingDetail;
 import com.example.demo.entity.PostingInfo;
 import com.example.demo.entity.PostingMaterial;
@@ -105,7 +106,7 @@ public class PostingServiceImpl implements PostingService {
 
 		List<PostingMaterial> postingMaterialList = new ArrayList<PostingMaterial>();
 		for (int n = 0; n <= postingForm.getMaterialList().size() - 1; n++) {
-			PostingMaterial postingMaterial = mapper.map(postingForm,PostingMaterial.class);
+			PostingMaterial postingMaterial = mapper.map(postingForm, PostingMaterial.class);
 			((PostingMaterial) postingMaterial).setPostingInfo(postingInfo);
 			((PostingMaterial) postingMaterial).setMaterialName(postingForm.getMaterialList().get(n).getMaterialName());
 			((PostingMaterial) postingMaterial)
@@ -120,9 +121,8 @@ public class PostingServiceImpl implements PostingService {
 	@Override
 	public void createPostDetail(PostingForm postingForm, PostingInfo postingInfo) {
 
-		
 		List<PostingDetail> postingDetailList = new ArrayList<PostingDetail>();
-		
+
 		for (int n = 0; n <= postingForm.getDetailLists().size() - 1; n++) {
 			PostingDetail postingDetail = mapper.map(postingForm, PostingDetail.class);
 			((PostingDetail) postingDetail).setPostingInfo(postingInfo);
@@ -141,13 +141,13 @@ public class PostingServiceImpl implements PostingService {
 			}
 			((PostingDetail) postingDetail)
 					.setImageUrl(saveImageUrl);
-			((PostingDetail) postingDetail).setPostingDetailText(postingForm.getDetailLists().get(n).getPostingDetailText());
+			((PostingDetail) postingDetail)
+					.setPostingDetailText(postingForm.getDetailLists().get(n).getPostingDetailText());
 			postingDetailList.add(postingDetail);
 		}
 		System.out.println(postingDetailList);
 		postingDetailRepository.saveAll(postingDetailList);
-		
-		
+
 	}
 
 	@Override
@@ -156,6 +156,40 @@ public class PostingServiceImpl implements PostingService {
 		Optional<PostingInfo> postingInfo = createPostInfo(postingForm, userInfo);
 		createPostMaterial(postingForm, postingInfo.get());
 		createPostDetail(postingForm, postingInfo.get());
+	}
+
+	@Override
+	@Transactional
+	public DeleteResult deletePosting(Integer id) throws IOException {
+		Optional<PostingInfo> postingOpt = postingInfoRepository.findById(id);
+		if (postingOpt.isEmpty()) {
+			return DeleteResult.ITEM_ERROR;
+		}
+
+		List<PostingMaterial> postingMaterials = postingMaterialRepository.findByPostingInfo(postingOpt.get());
+		List<PostingDetail> postingDetails = postingDetailRepository.findByPostingInfo(postingOpt.get());
+		if (postingMaterials.isEmpty() && postingDetails.isEmpty()) {
+			postingInfoRepository.deleteById(id);
+		} else {
+			for (PostingMaterial material : postingMaterials) {
+				postingMaterialRepository.deleteByPostingInfo(material.getPostingInfo());
+			}
+			for (PostingDetail detail : postingDetails) {
+				postingDetailRepository.deleteByPostingInfo(detail.getPostingInfo());
+				if (!detail.getImageUrl().isEmpty()) {
+					Path imageUrlPath = Path.of(imgFolder, detail.getImageUrl());
+					Files.delete(imageUrlPath);
+				}
+			}
+
+			postingInfoRepository.deleteById(id);
+			if (!postingOpt.get().getImageUrl().isEmpty()) {
+				Path imageUrlPath = Path.of(imgFolder, postingOpt.get().getImageUrl());
+				Files.delete(imageUrlPath);
+			}
+		}
+
+		return DeleteResult.ITEM_SUCCEED;
 	}
 
 }

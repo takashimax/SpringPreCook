@@ -80,18 +80,27 @@ public class ItemListServiceImpl implements ItemListService {
 	}
 
 	@Override
-	public DeleteResult deleteCategoryByItemName(ItemListForm itemListForm) {
+	public DeleteResult deleteCategoryByItemName(ItemListForm itemListForm) throws IOException {
 		Optional<ItemCategory> itemCategoryOpt = itemCategoryRepository.findByItemName(itemListForm.getSelectedId());
 		if (itemCategoryOpt.isEmpty()) {
 			return DeleteResult.ITEM_ERROR;
 		}
 		List<ItemDetail> itemDetailOpt = itemDetailRepository.findByItemCategory(itemCategoryOpt.get());
-		System.out.println(itemDetailOpt);
 		if (itemDetailOpt.isEmpty()) {
 			itemCategoryRepository.deleteByItemName(itemCategoryOpt.get().getItemName());
+			if (!itemCategoryOpt.get().getImageUrl().isEmpty()) {
+				Path imageUrlPath = Path.of(imgFolder, itemCategoryOpt.get().getImageUrl());
+				Files.delete(imageUrlPath);
+			}
 		} else {
 			for (ItemDetail item : itemDetailOpt) {
 				itemDetailRepository.deleteByItemCategory(item.getItemCategory());
+				if (!item.getImageUrl().isEmpty()) {
+					Path imageUrlPath = Path.of(imgFolder, item.getImageUrl());
+					Files.delete(imageUrlPath);
+				}
+				Path imageUrlPath = Path.of(imgFolder, itemCategoryOpt.get().getImageUrl());
+				Files.delete(imageUrlPath);
 			}
 		}
 
@@ -284,7 +293,6 @@ public class ItemListServiceImpl implements ItemListService {
 			detailUpdateResult.setUpdateMessage(UserEditMessage.FAILED);
 			return detailUpdateResult;
 		}
-
 
 		// 画面の入力情報等をセット
 		var itemDetail = itemDetailOpt.get();

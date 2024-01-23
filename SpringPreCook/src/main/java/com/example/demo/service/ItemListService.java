@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public interface ItemListService {
 
 	public List<ItemList> editCategoryByPram(ItemSeachInfo itemSeachInfo);
 
-	public DeleteResult deleteCategoryByItemName(ItemListForm itemListForm);
+	public DeleteResult deleteCategoryByItemName(ItemListForm itemListForm) throws IOException;
 
 	public DeleteResult deleteDetailByItemCategory(ItemListEditForm itemListEditForm);
 

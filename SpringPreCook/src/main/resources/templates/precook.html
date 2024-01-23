@@ -18,7 +18,7 @@
 		<div class="container-m" th:each="item : ${itemDetailList}" th:object="${item}">
 			<div class="row">
 				<div class="col-md-4  img-hidden">
-					<img th:src="@{/img/{imageUrl}  (imageUrl = *{imageUrl})}" style="max-width: 20rem;">
+					<img th:src="@{/img/{imageUrl}  (imageUrl = *{imageUrl} != null ? *{imageUrl} : *{imgNotExist})}" style="max-width: 20rem;">
 				</div>
 				<div class="col-md-8">
 					<h2 th:text="*{itineraryTitle}"></h2>
@@ -37,7 +37,7 @@
 					</div>
 					<div class="card-body">
 						<a th:href="@{/postingEdit/__${info.id}__}">
-							<img th:src="@{/img/{imageUrl}  (imageUrl = *{info.imageUrl})}" class="card-img-top"
+							<img th:src="@{/img/{imageUrl}  (imageUrl = *{info.imageUrl} != null ? *{info.imageUrl} : *{imgNotExist})}" class="card-img-top"
 								alt="..." style="max-width: 12em;">
 							<p class="card-text" th:text="${info.postingText}"></p>
 							<p class="card-text"><small class="text-muted"

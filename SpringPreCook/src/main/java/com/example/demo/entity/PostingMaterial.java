@@ -21,7 +21,7 @@ public class PostingMaterial {
 	private Integer detailId;
 
 	@ManyToOne
-    @JoinColumn(name = "posting_id")
+    @JoinColumn(name = "posting_id",referencedColumnName = "id")
     private PostingInfo postingInfo;
 
 	@Column(name = "material_order")

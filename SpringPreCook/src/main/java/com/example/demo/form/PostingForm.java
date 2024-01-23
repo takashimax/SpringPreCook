@@ -9,6 +9,8 @@ import lombok.Data;
 @Data
 public class PostingForm {
 
+	private Integer id;
+
 	private String postingTitle;
 
 	private String postingText;
@@ -34,11 +36,19 @@ public class PostingForm {
 		private String materialQuantity;
 	}
 
+	private String selectedId;
+
 	@Data
 	public static class DetailList {
 
 		private MultipartFile detailImageUrl;
 
 		private String postingDetailText;
+	}
+
+	public PostingForm clearSelectedId() {
+		this.selectedId = null;
+
+		return this;
 	}
 }

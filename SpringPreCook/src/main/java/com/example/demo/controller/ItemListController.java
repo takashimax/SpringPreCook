@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.context.MessageSource;
@@ -83,7 +84,7 @@ public class ItemListController {
 
 	@PostMapping(value = UrlConst.ITEM_LIST, params = "delete")
 	@Transactional
-	public String deleteCategory(Model model, ItemListForm itemListForm) {
+	public String deleteCategory(Model model, ItemListForm itemListForm) throws IOException {
 		DeleteResult executeResult = itemListService.deleteCategoryByItemName(itemListForm);
 		model.addAttribute("isError", executeResult == DeleteResult.ITEM_ERROR);
 		model.addAttribute("message", AppUtil.getMessage(messageSource, executeResult.getMessageId()));

@@ -39,7 +39,8 @@ public class UrlConst {
 	public static final String ITEM_DETAIL_LIST_CREATE = "/itemDetailListCreate";
 
 	/** 認証不要画面 */
-	public static final String[] NO_AUTHENTICATION = { LOGIN, SIGNUP, HOME, PRECOOK + "/**", POSTING_EDIT + "/**",
+	public static final String[] NO_AUTHENTICATION = { LOGIN, SIGNUP, HOME, POSTING + "/**", PRECOOK + "/**",
+			POSTING_EDIT + "/**",
 			"/webjars/**",
 			"/css/**", "/img/**", "/js/**" };
 

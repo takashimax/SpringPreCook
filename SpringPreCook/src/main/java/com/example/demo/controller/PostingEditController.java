@@ -3,6 +3,9 @@ package com.example.demo.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +28,11 @@ public class PostingEditController {
 
 	private final PostingService postingService;
 
+	@Value("${image.notexist}")
+	private String imgNotExist;
 
 	@GetMapping(UrlConst.POSTING_EDIT + "/{id}")
-	public String view(@PathVariable(name = "id") Integer id, Model model) {
+	public String view(@PathVariable(name = "id") Integer id, @AuthenticationPrincipal User user, Model model) {
 		Optional<PostingInfo> postingInfoOpt = postingService.findPostingInfos(id);
 
 		if (postingInfoOpt.isEmpty()) {
@@ -39,6 +44,7 @@ public class PostingEditController {
 			model.addAttribute("postingInfoOpt", postingInfoOpt.get());
 			model.addAttribute("postingMaterilOpt", postingMaterilOpt);
 			model.addAttribute("postingDetailOpt", postingDetailOpt);
+			model.addAttribute("imgNotExist", imgNotExist);
 		}
 		return ViewNameConst.POSTING_EDIT;
 	}
