@@ -73,7 +73,7 @@ public class PostingServiceImpl implements PostingService {
 
 	@Override
 	public Optional<PostingInfo> createPostInfo(PostingForm postingForm, UserInfo userInfo) {
-		String saveImageUrl = null;
+		String saveImageUrl = "";
 		if (!postingForm.getImageUrl().isEmpty()) {
 			UUID uuid = UUID.randomUUID();
 			saveImageUrl = uuid + imgExtract;
@@ -127,7 +127,7 @@ public class PostingServiceImpl implements PostingService {
 			PostingDetail postingDetail = mapper.map(postingForm, PostingDetail.class);
 			((PostingDetail) postingDetail).setPostingInfo(postingInfo);
 			((PostingDetail) postingDetail).setDetailOrder(n + 1);
-			String saveImageUrl = null;
+			String saveImageUrl = "";
 			if (!postingForm.getDetailLists().get(n).getDetailImageUrl().isEmpty()) {
 				UUID uuid = UUID.randomUUID();
 				saveImageUrl = uuid + imgExtract;

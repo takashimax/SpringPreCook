@@ -135,36 +135,38 @@ public class ItemListServiceImpl implements ItemListService {
 		Optional<ItemCategory> itemOptional = itemCategoryRepository.findByItemName(itemListCreateForm.getItemName());
 		if (itemOptional.isPresent()) {
 			return Optional.empty();
-		}
-		String saveImageUrl = null;
-		if (!itemListCreateForm.getImageUrl().isEmpty()) {
-			UUID uuid = UUID.randomUUID();
-			saveImageUrl = uuid + imgExtract;
-			Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
-			try {
-				Files.copy(itemListCreateForm.getImageUrl().getInputStream(), imageUrlPath);
-			} catch (IOException e) {
-				e.printStackTrace();
+		} else {
+
+			String saveImageUrl = null;
+			if (!itemListCreateForm.getImageUrl().isEmpty()) {
+				UUID uuid = UUID.randomUUID();
+				saveImageUrl = uuid + imgExtract;
+				Path imageUrlPath = Path.of(imgFolder, saveImageUrl);
+				try {
+					Files.copy(itemListCreateForm.getImageUrl().getInputStream(), imageUrlPath);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				;
 			}
-			;
+
+			ItemCategory itemCategory = mapper.map(itemListCreateForm, ItemCategory.class);
+			((ItemCategory) itemCategory).setId(null);
+			((ItemCategory) itemCategory).setItemName(itemListCreateForm.getItemName());
+			((ItemCategory) itemCategory).setItemCategoryKind(itemListCreateForm.getItemCategoryKind());
+			((ItemCategory) itemCategory).setImageUrl(saveImageUrl);
+			((ItemCategory) itemCategory).setCreateTime(LocalDateTime.now());
+			((ItemCategory) itemCategory)
+					.setUpdateUser(SecurityContextHolder.getContext().getAuthentication().getName());
+
+			return Optional.of(itemCategoryRepository.save(itemCategory));
 		}
-
-		ItemCategory itemCategory = mapper.map(itemListCreateForm, ItemCategory.class);
-		((ItemCategory) itemCategory).setId(null);
-		((ItemCategory) itemCategory).setItemName(itemListCreateForm.getItemName());
-		((ItemCategory) itemCategory).setItemCategoryKind(itemListCreateForm.getItemCategoryKind());
-		((ItemCategory) itemCategory).setImageUrl(saveImageUrl);
-		((ItemCategory) itemCategory).setCreateTime(LocalDateTime.now());
-		((ItemCategory) itemCategory).setUpdateUser(SecurityContextHolder.getContext().getAuthentication().getName());
-
-		return Optional.of(itemCategoryRepository.save(itemCategory));
-
 	}
 
 	@Override
 	public Optional<ItemDetail> createItemDetailList(ItemDetailListCreateForm itemDetailListCreateForm) {
 
-		String saveImageUrl = null;
+		String saveImageUrl = "";
 		if (!itemDetailListCreateForm.getImageUrl().isEmpty()) {
 			UUID uuid = UUID.randomUUID();
 			saveImageUrl = uuid + imgExtract;
@@ -256,7 +258,7 @@ public class ItemListServiceImpl implements ItemListService {
 		itemCategory.setItemName(itemUpdateInfo.getItemName());
 		itemCategory.setItemCategoryKind(itemUpdateInfo.getItemCategoryKind());
 		itemCategory.setUpdateTime(LocalDateTime.now());
-		String saveImageUrl = null;
+		String saveImageUrl = "";
 		if (!itemUpdateInfo.getImageUrl().isEmpty()) {
 			UUID uuid = UUID.randomUUID();
 			saveImageUrl = uuid + imgExtract;
@@ -300,7 +302,7 @@ public class ItemListServiceImpl implements ItemListService {
 		itemDetail.setItineraryTitle(itemDetailUpdateInfo.getItineraryTitle());
 		itemDetail.setItemDetailText(itemDetailUpdateInfo.getItemDetailText());
 		;
-		String saveImageUrl = null;
+		String saveImageUrl = "";
 		if (!itemDetailUpdateInfo.getImageUrl().isEmpty()) {
 			UUID uuid = UUID.randomUUID();
 			saveImageUrl = uuid + imgExtract;

@@ -122,7 +122,7 @@
 									th:text="|投稿日：${#temporals.format(posting.createTime, 'yyyy/MM/dd')}|"></small>
 							</p>
 						</a>
-						<td>
+						<td sec:authorize="isAuthenticated()">
 							<form method="POST" th:action="@{/posting/__${posting.id}__}">
 								<input type="hidden" th:value="${posting.id}" name="id">
 								<button type="button" class="btn btn-danger" data-bs-toggle="modal"
@@ -193,7 +193,7 @@
 			var inputCount = document.getElementsByClassName("detailImageUrl form-control").length;
 			var input = document.createElement("input");
 			input.setAttribute("type", "file");
-			input.setAttribute("multiple");
+			input.setAttribute("multiple","");
 			input.setAttribute("accept", "image/*");
 			input.setAttribute("onchange", "previewImage(this)");
 			input.setAttribute("id", "detailLists" + inputCount + ".detailImageUrl");
