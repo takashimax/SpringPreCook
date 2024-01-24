@@ -8,7 +8,7 @@ import jakarta.persistence.Converter;
 /**
  * ユーザー情報 ユーザー状態種別フィールドConverterクラス
  * 
- * @author ys-fj
+ * @author 7d14
  *
  */
 @Converter

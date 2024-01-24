@@ -6,6 +6,10 @@ import com.example.demo.constant.db.ItemCategoryKind;
 
 import lombok.Data;
 
+/**
+ * カテゴリー登録画面Form
+ * @author 7d14
+ */
 @Data
 public class ItemListCreateForm {
 	

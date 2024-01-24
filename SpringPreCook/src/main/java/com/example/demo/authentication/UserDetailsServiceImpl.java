@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 /**
  * ユーザー情報の定義、生成クラス
  * 
- * @author ys-fj
+ * @author 7d14
  *
  */
 @Component

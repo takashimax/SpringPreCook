@@ -13,8 +13,6 @@ import com.example.demo.constant.db.AuthorityKind;
 /**
  * メニュー画面Controllerクラス
  * 
- * @author ys-fj
- *
  */
 @Controller
 public class MenuController {

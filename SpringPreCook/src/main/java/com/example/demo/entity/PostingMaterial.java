@@ -9,7 +9,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
-
+/**
+ * 材料Entity
+ * @author 7d14
+ */
 @Entity
 @Table(name = "posting_material")
 @Data

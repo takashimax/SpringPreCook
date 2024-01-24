@@ -6,6 +6,12 @@ import com.example.demo.entity.ItemCategory;
 
 import lombok.Data;
 
+/**
+ * 
+ * アイテム詳細情報登録画面Form
+ * @author 7d14
+ * 
+ */
 @Data
 public class ItemDetailListCreateForm {
 	

@@ -6,6 +6,9 @@
 		<div class="container-fluid">
 			<a class="navbar-brand" th:href="@{/}">食材したごしらえドットコム</a>
 			<div class="d-flex">
+				<div sec:authorize="hasAuthority('1')" class="px-2">
+					<a th:href="@{/menu}" class="btn btn-danger">管理画面へ</a>
+				</div>
 				<form th:action="@{/login}" class="px-2">
 					<input type="submit" class="btn btn-light" value="ログイン" />
 				</form>
@@ -17,8 +20,8 @@
 				</form>
 				<div sec:authorize="authenticated">
 					<form th:action="@{/logout}" method="post" class="px-2">
-					<input type="submit" class="btn btn-light" value="ログアウト" />
-				</form>
+						<input type="submit" class="btn btn-light" value="ログアウト" />
+					</form>
 				</div>
 			</div>
 

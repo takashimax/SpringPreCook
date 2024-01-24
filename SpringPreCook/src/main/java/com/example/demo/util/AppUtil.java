@@ -7,7 +7,7 @@ import org.springframework.context.MessageSource;
 /**
  * アプリケーション共通処理クラス
  * 
- * @author ys-fj
+ * @author 7d14
  *
  */
 public class AppUtil {

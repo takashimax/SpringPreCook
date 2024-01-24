@@ -20,7 +20,7 @@ import lombok.Data;
 /**
  * ユーザー情報テーブルEntityクラス
  * 
- * @author ys-fj
+ * @author 7d14
  *
  */
 @Entity
@@ -29,12 +29,13 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserInfo {
 
-	/** ログインID */
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
 	
+	/** ログインID */
 	@Column(name = "login_id")
 	private String loginId;
 

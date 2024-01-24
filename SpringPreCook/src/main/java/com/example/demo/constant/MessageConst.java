@@ -3,7 +3,7 @@ package com.example.demo.constant;
 /**
  * エラーメッセージID定数クラス
  * 
- * @author ys-fj
+ * @author 7d14
  *
  */
 public class MessageConst {
@@ -35,7 +35,9 @@ public class MessageConst {
 	/** ユーザー情報編集画面：ユーザー更新完了 */
 	public static final String USEREDIT_UPDATE_SUCCEED = "userEdit.updateSucceed";
 	
+	/** アイテム情報一覧画面：アイテム削除完了 */
 	public static final String ITEMLIST_DELETE_SUCCEED = "itemList.deleteSucceed";
 	
+	/** アイテム情報編集画面：存在しないアイテム名 */
 	public static final String ITEMLIST_NON_EXISTED_ITEM_NAME = "itemList.nonExistedItemName";
 }

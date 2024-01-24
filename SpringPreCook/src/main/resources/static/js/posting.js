@@ -29,22 +29,6 @@ $(function() {
 	});
 });
 
-$(function() {
-
-	$('button#add').click(function() {
-
-		var tr_form = '' +
-			'<tr>' +
-			'<td><input type="text" th:field="*{materialList[].materialName}" class="form-control"></td>' +
-			'<td><input type="text" th:field="*{materialList[].materialQuantity}" class="form-control"></td>' +
-			'</tr>';
-		$(tr_form).appendTo($('table > tbody'));
-
-	});
-
-
-});
-
 
 const $img = document.getElementById('img');
 const $warning = document.querySelector('.warning');

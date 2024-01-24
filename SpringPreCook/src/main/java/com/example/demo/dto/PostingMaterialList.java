@@ -4,6 +4,10 @@ import com.example.demo.entity.PostingInfo;
 
 import lombok.Data;
 
+/**
+ * 材料DTO
+ * @author 7d14
+ */
 @Data
 public class PostingMaterialList {
 	private Integer detailId;

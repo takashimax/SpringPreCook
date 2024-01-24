@@ -2,6 +2,9 @@ package com.example.demo.form;
 
 import lombok.Data;
 
+/**
+ * @author 7d14
+ */
 @Data
 public class ItemDetailListForm {
 	

@@ -10,7 +10,7 @@ import com.github.dozermapper.core.Mapper;
 /**
  * Bean定義クラス
  * 
- * @author ys-fj
+ * @author 7d14
  *
  */
 @Configuration

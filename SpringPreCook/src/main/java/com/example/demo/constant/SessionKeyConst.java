@@ -3,7 +3,7 @@ package com.example.demo.constant;
 /**
  * Sessionキー定数クラス
  * 
- * @author ys-fj
+ * @author 7d14
  *
  */
 public class SessionKeyConst {

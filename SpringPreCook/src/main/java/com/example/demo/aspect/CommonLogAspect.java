@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 /**
  * ログ出力共通クラス
  * 
- * @author ys-fj
+ * @author 7d14
  * 
  */
 @Aspect

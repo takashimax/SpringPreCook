@@ -8,8 +8,7 @@ import lombok.Data;
 /**
  * ユーザー編集結果DTOクラス
  * 
- * @author ys-fj
- *
+ * @author 7d14
  */
 @Data
 public class UserEditResult {

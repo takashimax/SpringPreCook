@@ -4,6 +4,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
+/**
+ * アイテム詳細情報編集画面Form
+ * @author 7d14
+ * 
+ */
 @Data
 public class ItemDetailListEditForm {
 	

@@ -26,9 +26,7 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * ユーザー一覧画面Controllerクラス
- * 
- * @author ys-fj
- *
+ * @author 7d14
  */
 @Controller
 @RequiredArgsConstructor
@@ -90,7 +88,7 @@ public class UserListController {
 
 		model.addAttribute(KEY_USER_STATUS_KIND_OPTIONS, UserStatusKind.values());
 		model.addAttribute(KEY_AUTHORITY_KIND_OPTIONS, AuthorityKind.values());
-		
+
 		return ViewNameConst.USER_LIST;
 	}
 

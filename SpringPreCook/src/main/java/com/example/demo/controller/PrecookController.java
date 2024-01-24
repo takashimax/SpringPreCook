@@ -24,18 +24,31 @@ import com.example.demo.service.PostingService;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 下ごしらえコントローラークラス
+ * @author 7d14
+ */
 @Controller
 @RequiredArgsConstructor
 public class PrecookController {
 
 	private final PostingService postingService;
+	
 	private final ItemCategoryRepository itemCategoryRepository;
+	
 	private final ItemDetailRepository itemDetailRepository;
+	
 	private final PostingInfoRepository postingInfoRepository;
 	
 	@Value("${image.notexist}")
 	private String imgNotExist;
-
+	
+	/**
+	 * home画面から選択されたアイテムの詳細情報を画面に表示
+	 * @param itemName
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(UrlConst.PRECOOK + "/{itemName}")
 	public String view(@PathVariable(name = "itemName") String itemName, Model model) {
 		/*
@@ -49,7 +62,6 @@ public class PrecookController {
 		List<ItemDetail> itemDetailList = itemDetailRepository
 				.findByItemCategoryOrderByItineraryOrder(itemCategoryOpt);
 		model.addAttribute("itemDetailList", itemDetailList);
-		
 		model.addAttribute("imgNotExist", imgNotExist);
 		
 		List<PostingMaterial> postingMaterials = postingService.findPostingMaterialLike(itemName);

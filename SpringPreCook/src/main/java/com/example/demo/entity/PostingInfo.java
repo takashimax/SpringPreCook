@@ -12,6 +12,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+/**
+ * 投稿概要Entity
+ * @author 7d14
+ * 
+ */
 @Entity
 @Data
 @Table(name = "posting_info")

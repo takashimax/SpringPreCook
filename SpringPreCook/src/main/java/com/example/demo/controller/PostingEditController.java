@@ -22,6 +22,10 @@ import com.example.demo.util.AppUtil;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 
+ * 投稿内容コントローラークラス
+ */
 @Controller
 @RequiredArgsConstructor
 public class PostingEditController {
@@ -30,7 +34,14 @@ public class PostingEditController {
 
 	@Value("${image.notexist}")
 	private String imgNotExist;
-
+	
+	/**
+	 * 選択された投稿内容の詳細を表示
+	 * @param id
+	 * @param user
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(UrlConst.POSTING_EDIT + "/{id}")
 	public String view(@PathVariable(name = "id") Integer id, @AuthenticationPrincipal User user, Model model) {
 		Optional<PostingInfo> postingInfoOpt = postingService.findPostingInfos(id);

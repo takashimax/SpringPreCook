@@ -8,8 +8,7 @@ import jakarta.persistence.Converter;
 /**
  * ユーザー情報 権限フィールドConverterクラス
  * 
- * @author ys-fj
- *
+ *@author 7d14
  */
 @Converter
 public class ItemCategoryConverter implements AttributeConverter<ItemCategoryKind, String> {

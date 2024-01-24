@@ -9,11 +9,14 @@
 <body>
 	<div th:insert="~{common/sourceList :: sourceList}"></div>
 	<div th:replace="~{common/header :: header}"></div>
-	<h2>食材の下ごしらえ</h2>
-	<div sec:authorize="hasAuthority('1')">
-		<div class="py-5">
-			<a th:href="@{/menu}" class="btn btn-danger">管理画面へ</a>
-		</div>
+	<div class="bg-image p-5 text-center shadow-1-strong rounded mb-5 text-black"
+		style="background-image: url(img/d7d7ccea4247296e7f786f159929dc0d_m.jpg);">
+		<h1 class="mb-3 h2">したごしらえ.com</h1>
+
+		<p>
+			したごしらえ一つで食材の活用方法が大きく広がります。下処理や切り方に茹で方まで様々な調理法を行うことで
+			食材のおいしさを最大限に引き出しましょう！！
+		</p>
 	</div>
 	<p>
 		<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample1"

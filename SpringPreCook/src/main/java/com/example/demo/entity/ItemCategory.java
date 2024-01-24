@@ -14,11 +14,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+/**
+ * 
+ * カテゴリー情報Entity
+ * 
+ * @author 7d14
+ * 
+ */
+
 @Entity
 @Table(name = "item_category")
 @Data
 public class ItemCategory {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;

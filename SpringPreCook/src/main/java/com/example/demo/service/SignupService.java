@@ -8,7 +8,7 @@ import com.example.demo.form.SignupForm;
 /**
  * ユーザー登録画面Serviceインターフェース
  * 
- * @author ys-fj
+ * @author 7d14
  *
  */
 public interface SignupService {

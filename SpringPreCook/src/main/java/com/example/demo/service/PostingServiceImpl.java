@@ -28,6 +28,11 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 投稿に関するServiceクラス
+ * 
+ * @author 7d14
+ */
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -47,30 +52,49 @@ public class PostingServiceImpl implements PostingService {
 
 	private final Mapper mapper;
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public List<PostingInfo> findPost(UserInfo userInfo) {
 		return postingInfoRepository.findByUserInfo(userInfo);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Optional<PostingInfo> findPostingInfos(Integer id) {
 		return postingInfoRepository.findById(id);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<PostingDetail> findPostingDetail(PostingInfo postingInfo) {
 		return postingDetailRepository.findByPostingInfo(postingInfo);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<PostingMaterial> findPostingMaterial(PostingInfo postingInfo) {
 		return postingMaterialRepository.findByPostingInfo(postingInfo);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<PostingMaterial> findPostingMaterialLike(String postingName) {
 		return postingMaterialRepository.findByMaterialNameLike(postingName);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Optional<PostingInfo> createPostInfo(PostingForm postingForm, UserInfo userInfo) {
 		String saveImageUrl = "";
@@ -98,9 +122,13 @@ public class PostingServiceImpl implements PostingService {
 
 	}
 
+	/* エンティティマネージャー */
 	@PersistenceContext
 	private EntityManager em;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void createPostMaterial(PostingForm postingForm, PostingInfo postingInfo) {
 
@@ -118,6 +146,9 @@ public class PostingServiceImpl implements PostingService {
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void createPostDetail(PostingForm postingForm, PostingInfo postingInfo) {
 
@@ -150,6 +181,9 @@ public class PostingServiceImpl implements PostingService {
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public void createPostingResult(PostingForm postingForm, UserInfo userInfo) {
@@ -158,6 +192,9 @@ public class PostingServiceImpl implements PostingService {
 		createPostDetail(postingForm, postingInfo.get());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public DeleteResult deletePosting(Integer id) throws IOException {

@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * ユーザー登録結果メッセージEnumクラス
  * 
- * @author ys-fj
+ * @author 7d14
  *
  */
 @Getter

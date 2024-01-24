@@ -6,6 +6,11 @@ import com.example.demo.constant.db.ItemCategoryKind;
 
 import lombok.Data;
 
+
+/**
+ * カテゴリー情報更新DTO
+ * @author 7d14
+ */
 @Data
 public class ItemUpdateInfo {
 

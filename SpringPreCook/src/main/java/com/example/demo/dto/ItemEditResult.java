@@ -5,6 +5,10 @@ import com.example.demo.entity.ItemCategory;
 
 import lombok.Data;
 
+/**
+ * アイテムカテゴリー編集DTO
+ * @author 7d14
+ */
 @Data
 public class ItemEditResult {
 	private UserEditMessage updateMessage;

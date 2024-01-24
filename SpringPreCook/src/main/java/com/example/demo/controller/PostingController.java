@@ -30,6 +30,11 @@ import com.example.demo.util.AppUtil;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 
+ * @author 7d14
+ * 投稿画面コントローラークラス
+ */
 @Controller
 @RequiredArgsConstructor
 public class PostingController {
@@ -65,6 +70,14 @@ public class PostingController {
 		}
 	}
 
+	/**
+	 * 
+	 * 投稿ページから入力された情報を受け取りサービスクラスへ受け渡しリダイレクトします。
+	 * @param id
+	 * @param model
+	 * @return
+	 * @throws IOException
+	 */
 	@PostMapping(value = UrlConst.POSTING + "/{id}")
 	@Transactional
 	public String postingDelete(@PathVariable(name = "id") Integer id, Model model) throws IOException {

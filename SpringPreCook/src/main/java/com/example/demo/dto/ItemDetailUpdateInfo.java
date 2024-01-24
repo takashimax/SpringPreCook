@@ -4,6 +4,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
+
+/**
+ * アイテム詳細情報更新DTO
+ * @author 7d14
+ */
 @Data
 public class ItemDetailUpdateInfo {
 	

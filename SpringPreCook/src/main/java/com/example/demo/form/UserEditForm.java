@@ -8,7 +8,7 @@ import lombok.Data;
 /**
  * ユーザー編集画面Formクラス
  * 
- * @author ys-fj
+ * @author 7d14
  *
  */
 @Data

@@ -4,13 +4,15 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class PostingForm {
 
 	private Integer id;
-
+	
+	@NotBlank(message = "件名を入力してください。")
 	private String postingTitle;
 
 	private String postingText;

@@ -6,8 +6,7 @@ import lombok.Data;
 
 /**
  * ユーザー編集情報DTOクラス
- * 
- * @author ys-fj
+ * @author 7d14
  *
  */
 @Data

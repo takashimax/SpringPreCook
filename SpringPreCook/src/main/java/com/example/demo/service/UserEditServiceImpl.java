@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 /**
  * ユーザー編集画面Service実装クラス
  * 
- * @author ys-fj
+ * @author 7d14
  *
  */
 @Service
@@ -41,14 +41,14 @@ public class UserEditServiceImpl implements UserEditService {
 	public UserEditResult updateUserInfo(UserUpdateInfo userUpdateInfo) {
 		var userUpdateResult = new UserEditResult();
 
-		// 現在の登録情報を取得
+		/* 現在の登録情報を取得 */
 		var updateInfoOpt = repository.findByLoginId(userUpdateInfo.getLoginId());
 		if (updateInfoOpt.isEmpty()) {
 			userUpdateResult.setUpdateMessage(UserEditMessage.FAILED);
 			return userUpdateResult;
 		}
 
-		// 画面の入力情報等をセット
+		/* 画面の入力情報等をセット*/
 		var updateInfo = updateInfoOpt.get();
 		updateInfo.setUserStatusKind(userUpdateInfo.getUserStatusKind());
 		updateInfo.setAuthorityKind(userUpdateInfo.getAuthorityKind());

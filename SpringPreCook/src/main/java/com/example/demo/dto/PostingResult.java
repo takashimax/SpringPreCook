@@ -2,6 +2,10 @@ package com.example.demo.dto;
 
 import lombok.Data;
 
+/**
+ * 投稿内容DTO
+ * @author 7d14
+ */
 @Data
 public class PostingResult {
 	
