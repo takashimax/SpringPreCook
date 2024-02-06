@@ -172,7 +172,7 @@ public class ItemListServiceImpl implements ItemListService {
 			return Optional.empty();
 		} else {
 
-			String saveImageUrl = null;
+			String saveImageUrl = "";
 			if (!itemListCreateForm.getImageUrl().isEmpty()) {
 				UUID uuid = UUID.randomUUID();
 				saveImageUrl = uuid + imgExtract;
