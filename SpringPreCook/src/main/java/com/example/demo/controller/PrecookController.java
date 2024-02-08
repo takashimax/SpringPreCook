@@ -50,7 +50,7 @@ public class PrecookController {
 	 * @return
 	 */
 	@GetMapping(UrlConst.PRECOOK + "/{itemName}")
-	public String view(@PathVariable(name = "itemName") String itemName, Model model) {
+	public String view(@PathVariable String itemName, Model model) {
 		/*
 		 * アイテムカテゴリーの品目名の取得
 		 */

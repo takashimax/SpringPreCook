@@ -80,7 +80,7 @@ public class PostingController {
 	 */
 	@PostMapping(value = UrlConst.POSTING + "/{id}")
 	@Transactional
-	public String postingDelete(@PathVariable(name = "id") Integer id, Model model) throws IOException {
+	public String postingDelete(@PathVariable Integer id, Model model) throws IOException {
 		DeleteResult executeResult = postingService.deletePosting(id);
 		model.addAttribute("isError", executeResult == DeleteResult.ITEM_ERROR);
 		model.addAttribute("message", AppUtil.getMessage(messageSource, executeResult.getMessageId()));

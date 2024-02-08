@@ -18,7 +18,7 @@ public class UrlConst {
 
 	public static final String USER_EDIT = "/userEdit";
 
-	public static final String HOME = "/";
+	public static final String HOME = "/home";
 
 	public static final String POSTING = "/posting";
 

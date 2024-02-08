@@ -43,7 +43,7 @@ public class PostingEditController {
 	 * @return
 	 */
 	@GetMapping(UrlConst.POSTING_EDIT + "/{id}")
-	public String view(@PathVariable(name = "id") Integer id, @AuthenticationPrincipal User user, Model model) {
+	public String view(@PathVariable Integer id, @AuthenticationPrincipal User user, Model model) {
 		Optional<PostingInfo> postingInfoOpt = postingService.findPostingInfos(id);
 
 		if (postingInfoOpt.isEmpty()) {

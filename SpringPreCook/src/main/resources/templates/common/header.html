@@ -4,7 +4,7 @@
 <body>
 	<nav class="navbar navbar-expand-lg bg-secondary text-white" th:fragment="header">
 		<div class="container-fluid">
-			<a class="navbar-brand" th:href="@{/}">食材したごしらえドットコム</a>
+			<a class="navbar-brand" th:href="@{/home}">食材したごしらえドットコム</a>
 			<div class="d-flex">
 				<div sec:authorize="hasAuthority('1')" class="px-2">
 					<a th:href="@{/menu}" class="btn btn-danger">管理画面へ</a>

@@ -51,7 +51,7 @@ public class ItemDetailListEditController {
 	}
 
 	@GetMapping(UrlConst.ITEM_DETAIL_LIST_CREATE + "/{id}")
-	public String viewCreate(@PathVariable(name = "id") Integer id,Model model, ItemDetailListCreateForm itemDetailListCreateForm) {
+	public String viewCreate(@PathVariable Integer id,Model model, ItemDetailListCreateForm itemDetailListCreateForm) {
 		model.addAttribute("id", id);
 		return ViewNameConst.ITEM_DETAIL_LIST_CREATE;
 	}
